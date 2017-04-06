@@ -1,0 +1,25 @@
+
+vardef base 
+
+	s_trinity = //S_Trnty/STORAGE//1MON//
+	s_shasta  = //S_Shsta/STORAGE//1MON//
+	s_folsom  = //S_Folsm/STORAGE//1MON//	
+	nod_storage	= s_trinity + s_shasta + s_folsom
+	s_oroville = //S_Orovl/STORAGE//1MON//	
+    cvp_sanLuis = //S_SLCVP/STORAGE//1MON//
+
+	@c_hood = //C_Hood/FLOW-CHANNEL//1MON// 
+	@c_yolobp = //C_YoloBP/FLOW-CHANNEL//1MON// 
+	@c_moklmnr = //C_MoklmnR/FLOW-CHANNEL//1MON//
+	@c_sjr = //C_SJR/FLOW-CHANNEL//1MON// 
+
+    delta_inflow = c_hood + c_moklmnr + c_yolobp + 2*c_sjr/2
+	
+end
+
+
+
+
+
+
+
