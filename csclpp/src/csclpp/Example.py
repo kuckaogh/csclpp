@@ -9,12 +9,28 @@ import dts.Workflow as W
 
 studyMap = W.setupReference('./example_data/sample.setting')
 
+
+# take a look at the var maps
+
 for k in studyMap:
-    print k, studyMap[k].data_src
+    print 'studyName:', k
+    for d in studyMap[k].data_src:
+        print 'dss data src:', d
+    for p in studyMap[k].varPathMap:
+        print '  var:  '+p+'= '+studyMap[k].varPathMap[p].path
+    for p in studyMap[k].varExprMap:
+        print '  dts:  '+p+'= '+studyMap[k].varExprMap[p].expr
 
 
 
-
+# read timeseries data  into Var() holder
+for k in studyMap:
+    for d in studyMap[k].data_src:
+        print 'dss data src:', d
+        
+    for p in studyMap[k].varPathMap:
+        print '  var:  '+p+'= '+studyMap[k].varPathMap[p].path
+ 
 
 # 
 # print T.varGroupMap

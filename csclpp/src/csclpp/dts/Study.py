@@ -11,6 +11,11 @@ class Study:
     metaData =''
 
     def __init__(self):
-        self.varMap={}
+        self.data_src=[]
+        self.varFile=''
+        self.varDef=''
+        self.varPathMap={}
+        self.varExprMap={}
+        self.metaData=''
 
 

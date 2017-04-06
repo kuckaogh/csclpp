@@ -363,7 +363,8 @@ class SettingParser ( Parser ):
         def __init__(self, parser, parent=None, invokingState=-1):
             super(SettingParser.DataContext, self).__init__(parent, invokingState)
             self.parser = parser
-            self.s = None # Token
+            self.s1 = None # Token
+            self.s2 = None # Token
 
         def DATA(self):
             return self.getToken(SettingParser.DATA, 0)
@@ -398,8 +399,8 @@ class SettingParser ( Parser ):
             self.state = 55
             self.match(SettingParser.T__0)
             self.state = 56
-            localctx.s = self.match(SettingParser.STRING)
-            s=(None if localctx.s is None else localctx.s.text);T.sty.data_src.append(s)
+            localctx.s1 = self.match(SettingParser.STRING)
+            s1=(None if localctx.s1 is None else localctx.s1.text);T.sty.data_src.append(s1)
             self.state = 63
             self._errHandler.sync(self)
             _la = self._input.LA(1)
@@ -407,8 +408,8 @@ class SettingParser ( Parser ):
                 self.state = 58
                 self.match(SettingParser.T__1)
                 self.state = 59
-                self.match(SettingParser.STRING)
-                s=(None if localctx.s is None else localctx.s.text);T.sty.data_src.append(s)
+                localctx.s2 = self.match(SettingParser.STRING)
+                s2=(None if localctx.s2 is None else localctx.s2.text);T.sty.data_src.append(s2)
                 self.state = 65
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
