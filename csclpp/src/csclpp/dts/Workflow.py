@@ -18,6 +18,19 @@ def setupReference(fs):
         varDef =sty.varDef
         #print varFile, varDef
         
+        # update data_src path
+        updated_data_src=[]
+        for u in sty.data_src:
+            d = os.path.dirname(u)
+            if d == '.' : 
+                ut = os.path.join(ds,os.path.basename(u)).replace('\\', '/')
+            else:
+                ut = os.path.join(ds,d,os.path.basename(u)).replace('\\', '/')
+            updated_data_src.append(str(ut))
+        sty.data_src = updated_data_src
+        print updated_data_src
+        
+        
         vf=os.path.join(ds,varFile+'.vardef')
         P.parseVarDef(vf)
 #         S.fileVarPathGroupMap[varFile]=T.varPathGroupMap

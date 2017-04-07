@@ -5,6 +5,9 @@ from dts.Var import Var
 import dts.Setting as S
 import dts.Temp as T
 import dts.Workflow as W
+from vtools.datastore.dss.api import *
+from vtools.functions.api import *
+from vtools.data.api import *
 
 
 studyMap = W.setupReference('./example_data/sample.setting')
@@ -26,24 +29,21 @@ for k in studyMap:
 # read timeseries data  into Var() holder
 for k in studyMap:
     for d in studyMap[k].data_src:
-        print 'dss data src:', d
-        
-    for p in studyMap[k].varPathMap:
-        print '  var:  '+p+'= '+studyMap[k].varPathMap[p].path
+        print 'open data src:', d
+        #file = "hist19902014_droughtstudy.dss"
+                     
+        for p in studyMap[k].varPathMap:
+            path =  studyMap[k].varPathMap[p].path
+            #print path
+            try:
+                ts = dss_retrieve_ts(d,selector=path,unique=True) 
+                print 'found  var:  '+p+'= '+studyMap[k].varPathMap[p].path
+            except:
+                print 'mssing! '+studyMap[k].varPathMap[p].path
+                #print 'Missing  var:  '+p+'= '+studyMap[k].varPathMap[p].path
  
 
-# 
-# print T.varGroupMap
-# 
-# print T.varGroupMap['base']['s_trinity'].metaData
-# 
-# m= T.varGroupMap['base']['s_trinity'].metaData
-# 
-# print m.keys()
-# 
-# m= S.studyMap['calsim2Name2'].varMap['delta_inflow'].expr
-# 
-# print m
+
 # 
 # for s in S.fileVarGroupMap:
 #     print s

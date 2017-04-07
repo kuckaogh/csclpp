@@ -25,8 +25,8 @@ sty
 
 field: (data | vardef | meta | wresl) NL+ ;
 
-data:  DATA '=' s1=STRING {s1=$s1.text;T.sty.data_src.append(s1)} 
-(',' s2=STRING {s2=$s2.text;T.sty.data_src.append(s2)} )* ;
+data:  DATA '=' s1=STRING {s1=$s1.text[1:-1];T.sty.data_src.append(s1)} 
+(',' s2=STRING {s2=$s2.text[1:-1];T.sty.data_src.append(s2)} )* ;
 
 vardef
 : VARDEF '=' f=ID '.' d=ID {f=$f.text;d=$d.text;T.sty.varFile=f;T.sty.varDef=d;}; 
