@@ -10,44 +10,35 @@ from vtools.functions.api import *
 from vtools.data.api import *
 
 
+
+# parse setting file and vardef
 studyMap = W.setupReference('./example_data/sample.setting')
 
 
-# take a look at the var maps
 
-for k in studyMap:
-    print 'studyName:', k
-    for d in studyMap[k].data_src:
-        print 'dss data src:', d
-    for p in studyMap[k].varPathMap:
-        print '  var:  '+p+'= '+studyMap[k].varPathMap[p].path
-    for p in studyMap[k].varExprMap:
-        print '  dts:  '+p+'= '+studyMap[k].varExprMap[p].expr
+studyVarData = {} # studyName, varName, timeseriesDataExample.py
 
+# read timeseries into studyVarData
+for studyName in studyMap:
+    varData = {}
+    for dssFile in studyMap[studyName].data_src:
+        print 'open data src:', dssFile
 
-
-# read timeseries data  into Var() holder
-for k in studyMap:
-    for d in studyMap[k].data_src:
-        print 'open data src:', d
-        #file = "hist19902014_droughtstudy.dss"
-                     
-        for p in studyMap[k].varPathMap:
-            path =  studyMap[k].varPathMap[p].path
-            #print path
+        for varName in studyMap[studyName].varPathMap:
+            dssPath =  studyMap[studyName].varPathMap[varName].path
             try:
-                ts = dss_retrieve_ts(d,selector=path,unique=True) 
-                print 'found  var:  '+p+'= '+studyMap[k].varPathMap[p].path
+                ts = dss_retrieve_ts(dssFile,selector=dssPath,unique=True)
+                print 'found  var:  '+varName+': '+dssPath
+                print ts.data
+                # put data into dictionary
+                varData[varName]=ts.data
+
             except:
-                print 'mssing! '+studyMap[k].varPathMap[p].path
-                #print 'Missing  var:  '+p+'= '+studyMap[k].varPathMap[p].path
+                # path not found in this file
+                pass
  
+    # put data into dictionary
+    studyVarData[studyName]=varData
 
 
-# 
-# for s in S.fileVarGroupMap:
-#     print s
-# 
-# m= S.fileVarGroupMap['calsim2']['xyz']['delta_inflow'].expr
-# 
-# print m
+#W.evaluateDTS(studyVarData)

@@ -99,7 +99,7 @@ PATH : '/'   ID?
        '/'   ID?
        '/'  ;
 
-MUL :   '*' ; // assigns token name to '*' used above in grammar
+MUL :   '*' ; 
 DIV :   '/' ;
 ADD :   '+' ;
 SUB :   '-' ;
