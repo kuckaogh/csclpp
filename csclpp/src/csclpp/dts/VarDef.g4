@@ -5,6 +5,7 @@ options {language=Python2;}
 from Study import Study
 from Var import Var
 import Temp as T
+from collections import defaultdict
 }
 
 //@members {
@@ -12,14 +13,18 @@ import Temp as T
 //}
 
 prog
-@init {T.varGroupMap={};T.dtsGroupMap={}}
+@init 
+{T.varGroupMap={};T.dtsGroupMap={};T.tempVarGroupList={}
+}
 :    NL* vardef+ ;
 
 vardef
-@init {T.varMap={};T.dtsMap={}}
+@init {T.varMap={};T.dtsMap={};T.tempVarList=[]}
 @after
-{vm=T.varPathMap.copy(); groupName=$name.text; T.varPathGroupMap[groupName]=vm;
-dm=T.varExprMap.copy(); groupName=$name.text; T.varExprGroupMap[groupName]=dm;	
+{groupName=$name.text;
+vm=T.varPathMap.copy(); T.varPathGroupMap[groupName]=vm;
+dm=T.varExprMap.copy(); T.varExprGroupMap[groupName]=dm;
+tm=list(T.tempVarList); T.tempVarGroupList[groupName]=tm;	
 }
 :   VARDEF name=ID  NL+ 
        field+
@@ -39,7 +44,8 @@ var_path
 @init{isTemp=False }
 :  (T {isTemp=True} )? i=ID  '=' p=PATH  
 {p =$p.text; t = Var(p);t.isTemp=isTemp; 
-name=$i.text; T.varPathMap[name]=t; 	
+name=str($i.text); T.varPathMap[name]=t;
+if isTemp: T.tempVarList.append(name); 	
 }   ;
 
        
@@ -51,37 +57,41 @@ else:
 	T.varExprMap[vn].metaData[pn]=$inf.text; 
 }; 
 
-info: number | STRING ;
+info: FLOAT | INT | STRING ;
 
 
 stat
 @init{isTemp=False }
-@after{v = Var('');v.isTemp=isTemp;e=$e.text;v.expr=e; 
-name=$i.text; T.varExprMap[name]=v; 	
+@after{v = Var('');e=str($e.text);v.expr=e; 
+name=str($i.text); T.varExprMap[name]=v; 
+if isTemp: T.tempVarList.append(name);	
 }
-:   (T {isTemp=True} )? i=ID '=' e=expr          # assign
+:   (T {isTemp=True} )? i=ID '=' e=ee     
+//{name=str($i.text);
+//
+//}
     ;
 
-expr:   expr op=('*'|'/') expr      # MulDiv
-    |   expr op=('+'|'-') expr      # AddSub
-    |   number                       # int
-    |   T?ID                          # id
-    |   '(' expr ')'                # parens
-    ;
-
-
-//expr:   expr '*' expr      # MulDiv
-//    |   expr '/' expr      # MulDiv
-//    |   expr '+' expr      # MulDiv
-//    |   expr '-' expr      # MulDiv                  
+//expr:   expr op=('*'|'/') expr      # MulDiv
+//    |   expr op=('+'|'-') expr      # AddSub
+//    |   number                       # int
 //    |   ID                          # id
 //    |   '(' expr ')'                # parens
 //    ;
 
+ee 
+    : a=ee op=('*'|'/') b=ee  
+    | a=ee op=('+'|'-') b=ee  
+    | INT                   
+    | FLOAT                    
+    | ID 
+    | '(' ee ')'             
+    ; 
 
 
 
-number : FLOAT | INT ;
+
+//number : FLOAT | INT ;
 
 
 LINE_COMMENT
@@ -106,12 +116,14 @@ SUB :   '-' ;
 ID  :   LETTER (LETTER|DIGIT|'_')* ;
 fragment LETTER  : [a-zA-Z] ;
 fragment DIGIT:  '0'..'9' ; 
+FLOAT : DIGIT+ '.' (DIGIT+|' '+) ;
+INT : DIGIT+ ;
 
 STRING
     :   '"' ( ~[\\"] )*? '"'
     |   '\'' ( ~[\\'] )*? '\''
     ;
-FLOAT : INT '.' (INT|' '+) ;
-INT :   [0-9]+ ;         // match integers
+//FLOAT : INT '.' (INT|' '+) ;
+//INT :   [0-9]+ ;         // match integers
 NL:('\r'? '\n') ;     // return newlines to parser (is end-statement signal)
 WS  :   [ \t]+ -> skip ; // toss out whitespace

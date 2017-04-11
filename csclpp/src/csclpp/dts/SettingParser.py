@@ -260,7 +260,7 @@ class SettingParser ( Parser ):
                     break
 
             self._ctx.stop = self._input.LT(-1)
-            stycopy=copy.deepcopy(T.sty);styName=(None if localctx.name is None else localctx.name.text); S.studyMap[styName]=stycopy;
+            stycopy=copy.deepcopy(T.sty);styName=str((None if localctx.name is None else localctx.name.text)); S.studyMap[styName]=stycopy;
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -400,7 +400,7 @@ class SettingParser ( Parser ):
             self.match(SettingParser.T__0)
             self.state = 56
             localctx.s1 = self.match(SettingParser.STRING)
-            s1=(None if localctx.s1 is None else localctx.s1.text)[1:-1];T.sty.data_src.append(s1)
+            s1=(None if localctx.s1 is None else localctx.s1.text)[1:-1];T.sty.data_src.append(str(s1))
             self.state = 63
             self._errHandler.sync(self)
             _la = self._input.LA(1)
@@ -409,7 +409,7 @@ class SettingParser ( Parser ):
                 self.match(SettingParser.T__1)
                 self.state = 59
                 localctx.s2 = self.match(SettingParser.STRING)
-                s2=(None if localctx.s2 is None else localctx.s2.text)[1:-1];T.sty.data_src.append(s2)
+                s2=(None if localctx.s2 is None else localctx.s2.text)[1:-1];T.sty.data_src.append(str(s2))
                 self.state = 65
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -467,7 +467,7 @@ class SettingParser ( Parser ):
             self.match(SettingParser.T__2)
             self.state = 70
             localctx.d = self.match(SettingParser.ID)
-            f=(None if localctx.f is None else localctx.f.text);d=(None if localctx.d is None else localctx.d.text);T.sty.varFile=f;T.sty.varDef=d;
+            f=str((None if localctx.f is None else localctx.f.text));d=str((None if localctx.d is None else localctx.d.text));T.sty.varFile=f;T.sty.varDef=d;
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

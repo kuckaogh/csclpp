@@ -6,11 +6,15 @@ import sys
 
 varPathGroupMap={} 
 varExprGroupMap={} 
+tempVarGroupList={}
 
 varPathMap={}
 varExprMap={}
+tempVarList=[]
+
 
 sty=None
 
 
-test = 0
+styVarTs={}
+varTs={}

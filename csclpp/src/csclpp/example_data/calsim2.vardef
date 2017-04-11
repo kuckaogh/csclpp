@@ -5,7 +5,7 @@ vardef base
 	s_trinity.capacity = 2447.6
 	s_shasta  = //S4/STORAGE//1MON//
 	s_folsom  = //S8/STORAGE//1MON//	
-	nod_storage	= trinity + shasta + folsom
+	nod_storage	= s_trinity + s_shasta + s_folsom
 	s_oroville = //S6/STORAGE//1MON//
     cvp_sanLuis = //S11/STORAGE//1MON//
 	# test = //C699/FLOW-CHANNEL//1MON// 

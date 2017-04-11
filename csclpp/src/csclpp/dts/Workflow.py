@@ -6,7 +6,7 @@ import Setting as S
 import Temp as T
 import os
 
-def setupReference(fs):
+def readReference(fs):
     
     ds = os.path.dirname(fs)
     
@@ -37,6 +37,7 @@ def setupReference(fs):
 #         S.fileVarExprGroupMap[varFile]=T.varExprGroupMap
         sty.varPathMap=T.varPathGroupMap[varDef]
         sty.varExprMap=T.varExprGroupMap[varDef]
+        sty.tempVarList = T.tempVarGroupList[varDef]
         
     return S.studyMap
 #     for s in S.studyMap:
@@ -54,6 +55,44 @@ def getPathReference():
             if c.path:
                 print name, c.path
         
+def evaluateDTS(studyVarTs):
+    
+    T.styVarTs=studyVarTs
+    
+    for s in T.styVarTs:
+        T.varTs = T.styVarTs[s]
+        
+        for vk in S.studyMap[s].varExprMap:
+            e = S.studyMap[s].varExprMap[vk].expr
+            #print vk, e
+            P.evaluateDTS(vk+'='+e+'\n')    
+        
+        #print T.styVarTs[s]
         
         
+#         for var in T.styVarTs[s]:
+#             print var, T.styVarTs[s][var]
+
+        
+def test_evaluateDTS(studyVarTs):
+    
+    T.styVarTs=studyVarTs
+    
+    for s in T.styVarTs:
+        varTs = T.styVarTs[s]
+        
+        k = varTs['s_folsom'] + varTs['s_shasta']
+        print 'fol:', varTs['s_folsom']
+        print 'sha:', varTs['s_shasta']
+        print '+:  ', k 
+        print '/:  ', varTs['s_folsom'] / varTs['s_shasta']
+        print '*:  ', varTs['s_folsom'] * varTs['s_shasta']        
+        
+        
+        
+        
+#         for var in T.styVarTs[s]:
+#             print var, T.styVarTs[s][var]
+    
+            
         

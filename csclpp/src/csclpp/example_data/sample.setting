@@ -1,10 +1,10 @@
 
-# study	calliteName1
+study	calliteName1
 
-	# data = './callite1.dss','./callite2.dss' 
-	# vardef = callite.base
+	data = './callite1.dss','./callite2.dss' 
+	vardef = callite.base
 
-# end
+end
 
 
 study calsim2Name2

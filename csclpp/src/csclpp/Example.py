@@ -12,7 +12,7 @@ from vtools.data.api import *
 
 
 # parse setting file and vardef
-studyMap = W.setupReference('./example_data/sample.setting')
+studyMap = W.readReference('./example_data/sample.setting')
 
 
 
@@ -41,4 +41,10 @@ for studyName in studyMap:
     studyVarData[studyName]=varData
 
 
-#W.evaluateDTS(studyVarData)
+W.evaluateDTS(studyVarData)
+
+
+print studyVarData
+
+for studyName in studyMap:
+    print studyName, studyMap[studyName].tempVarList

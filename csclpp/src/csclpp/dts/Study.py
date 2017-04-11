@@ -8,6 +8,8 @@ class Study:
     varDef=''
     varPathMap = {}
     varExprMap = {}
+    tempVarList = []
+
     metaData =''
 
     def __init__(self):

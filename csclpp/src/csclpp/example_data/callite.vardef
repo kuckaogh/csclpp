@@ -10,15 +10,22 @@ vardef base
 
 	@c_hood = //C_Hood/FLOW-CHANNEL//1MON// 
 	@c_yolobp = //C_YoloBP/FLOW-CHANNEL//1MON// 
-	@c_moklmnr = //C_MoklmnR/FLOW-CHANNEL//1MON//
-	@c_sjr = //C_SJR/FLOW-CHANNEL//1MON// 
-
-    delta_inflow = c_hood + c_moklmnr + c_yolobp + 2*c_sjr/2
+	@c_moklmnr = //C_MoklmnR/FLOW-ACCRDEPL//1MON//
+	@c_sjr = //C_SJR/FLOW-ACCRDEPL//1MON// 
+	
+    @temp1 = c_hood + c_moklmnr 
+	@temp2 = c_yolobp + 2*c_sjr/2
+	delta_inflow = temp1 + temp2
 	
 end
 
 
+vardef dummy 
 
+	@c_dummy = //C_Hood/FLOW-CHANNEL//1MON// 	
+    @temp_dummy = c_hood + c_moklmnr 
+
+end
 
 
 

@@ -5,8 +5,10 @@ from VarDefLexer import VarDefLexer
 from VarDefParser import VarDefParser
 from SettingLexer import SettingLexer
 from SettingParser import SettingParser
-from EvalLexer import EvalLexer
-from EvalParser import EvalParser
+from ExprLexer import ExprLexer
+from ExprParser import ExprParser
+# from EvalLexer import EvalLexer
+# from EvalParser import EvalParser
 #from DtsVisitor import DtsVisitor
 
 
@@ -30,11 +32,23 @@ def parseSetting(f):
     s=parser.prog()
 
 
-def evaluateDTS(f):
- 
-    input_stream = FileStream(f)
-    lexer = EvalLexer(input_stream)
+def evaluateDTS(line):
+    
+    istream = InputStream(line)
+    lexer = ExprLexer(istream)
     token_stream = CommonTokenStream(lexer)
-    parser = EvalParser(token_stream)
-    s=parser.prog()
+    parser = ExprParser(token_stream)
+    parser.prog()
+
+
+# def evaluateDTS(f):
+#  
+#     input_stream = FileStream(f)
+#     lexer = EvalLexer(input_stream)
+#     token_stream = CommonTokenStream(lexer)
+#     parser = EvalParser(token_stream)
+#     s=parser.prog()
+    
+    
+    
     
