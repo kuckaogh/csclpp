@@ -1,13 +1,13 @@
 
-study	calliteName1
+study	calliteName39
 
-	data = './callite1.dss','./callite2.dss' 
+	data = './callite2.dss','./callite1.dss'
 	vardef = callite.base
 
 end
 
 
-study calsim2Name2
+study calsim2Name77
 
 	data = './cs2.dss'
 	vardef = calsim2.xyz
