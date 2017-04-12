@@ -4,20 +4,20 @@ options {language=Python2;}
 from Study import Study
 from Var import Var
 import Setting as S
-import Temp as T
 import copy
 }
-//@parser::members{
-//global studyMap; studyMap={}	
-//}
+@parser::members {
+styobj=None
+}
+
 
 prog
 @init {S.studyMap={}}
 :   NL* sty+ ;
 
 sty
-@init {T.sty=Study()} 
-@after{stycopy=copy.deepcopy(T.sty);styName=str($name.text); S.studyMap[styName]=stycopy;}
+@init {self.styobj=Study()} 
+@after{stycopy=copy.deepcopy(self.styobj);styName=str($name.text); S.studyMap[styName]=stycopy;}
  :   STUDY name=ID  NL+ 
        field+
        END NL+
@@ -25,11 +25,11 @@ sty
 
 field: (data | vardef | meta | wresl) NL+ ;
 
-data:  DATA '=' s1=STRING {s1=$s1.text[1:-1];T.sty.data_src.append(str(s1))} 
-(',' s2=STRING {s2=$s2.text[1:-1];T.sty.data_src.append(str(s2))} )* ;
+data:  DATA '=' s1=STRING {s1=$s1.text[1:-1];self.styobj.data_src.append(str(s1))} 
+(',' s2=STRING {s2=$s2.text[1:-1];self.styobj.data_src.append(str(s2))} )* ;
 
 vardef
-: VARDEF '=' f=ID '.' d=ID {f=str($f.text);d=str($d.text);T.sty.varFile=f;T.sty.varDef=d;}; 
+: VARDEF '=' f=ID '.' d=ID {f=str($f.text);d=str($d.text);self.styobj.varFile=f;self.styobj.varDef=d;}; 
 meta : METADATA '=' STRING ;
 wresl: WRESL '=' STRING ; 
 
@@ -37,6 +37,12 @@ wresl: WRESL '=' STRING ;
 
 LINE_COMMENT
     : '#' ~[\r\n]* -> skip ;
+
+STRING
+    :   '"' ( ~[\\"] )*? '"'
+    |   '\'' ( ~[\\'] )*? '\''
+    ;
+
 
 END : 'end' ;
 STUDY : 'study' ;
@@ -48,16 +54,11 @@ WRESL : 'wresl' ;
 ID  :   LETTER (LETTER|DIGIT|'_')* ;
 fragment LETTER  : [a-zA-Z] ;
 fragment DIGIT:  '0'..'9' ; 
-
-STRING
-    :   '"' ( ~[\\"] )*? '"'
-    |   '\'' ( ~[\\'] )*? '\''
-    ;
+FLOAT : DIGIT+ '.' (DIGIT+|' '+) ;
+INT : DIGIT+ ;
 
 
-INT :   DIGIT+ ;
 
-//ID  :   LETTER (LETTER|DIGIT|'_')* ;
 
 
 

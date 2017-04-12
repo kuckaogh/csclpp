@@ -4,27 +4,30 @@ options {language=Python2;}
 @header {
 from Study import Study
 from Var import Var
-import Temp as T
 from collections import defaultdict
 }
 
-//@members {
-//varMap = {}
-//}
-
-prog
-@init 
-{T.varGroupMap={};T.dtsGroupMap={};T.tempVarGroupList={}
+@parser::members {
+varPathGroupMap={};
+varExprGroupMap={};
+tempVarGroupList={};
+varPathMap={};
+varExprMap={};
+tempVarList=[];
 }
+
+prog 
+@init 
+{self.varPathGroupMap={};self.varExprGroupMap={};self.tempVarGroupList={}}
 :    NL* vardef+ ;
 
 vardef
-@init {T.varMap={};T.dtsMap={};T.tempVarList=[]}
+@init {self.varPathMap={};self.varExprMap={};self.tempVarList=[]}
 @after
 {groupName=$name.text;
-vm=T.varPathMap.copy(); T.varPathGroupMap[groupName]=vm;
-dm=T.varExprMap.copy(); T.varExprGroupMap[groupName]=dm;
-tm=list(T.tempVarList); T.tempVarGroupList[groupName]=tm;	
+self.varPathGroupMap[groupName]=self.varPathMap;
+self.varExprGroupMap[groupName]=self.varExprMap;
+self.tempVarGroupList[groupName]=self.tempVarList;	
 }
 :   VARDEF name=ID  NL+ 
        field+
@@ -35,7 +38,9 @@ field: ( var_path | var_meta | stat | include ) NL+ ;
 
 include
 @after{gn=$g.text;
-if gn: T.varPathMap.update(T.varPathGroupMap[gn]); T.varExprMap.update(T.varExprGroupMap[gn]);
+if gn: 
+	self.varPathMap.update(self.varPathGroupMap[gn])
+	self.varExprMap.update(self.varExprGroupMap[gn])
 }
 : INCLUDE g=ID ;
 
@@ -43,18 +48,18 @@ if gn: T.varPathMap.update(T.varPathGroupMap[gn]); T.varExprMap.update(T.varExpr
 var_path
 @init{isTemp=False }
 :  (T {isTemp=True} )? i=ID  '=' p=PATH  
-{p =$p.text; t = Var(p);t.isTemp=isTemp; 
-name=str($i.text); T.varPathMap[name]=t;
-if isTemp: T.tempVarList.append(name); 	
+{p =str($p.text); t = Var(p); 
+name=str($i.text); self.varPathMap[name]=t;
+if isTemp: self.tempVarList.append(name); 	
 }   ;
 
        
 var_meta : v=ID '.' p=ID '=' inf=info 
 {vn=$v.text;pn=$p.text;
-if vn in T.varPathMap:
-	T.varPathMap[vn].metaData[pn]=$inf.text; 
+if vn in self.varPathMap:
+	self.varPathMap[vn].metaData[pn]=$inf.text; 
 else: 
-	T.varExprMap[vn].metaData[pn]=$inf.text; 
+	self.varExprMap[vn].metaData[pn]=$inf.text; 
 }; 
 
 info: FLOAT | INT | STRING ;
@@ -63,8 +68,9 @@ info: FLOAT | INT | STRING ;
 stat
 @init{isTemp=False }
 @after{v = Var('');e=str($e.text);v.expr=e; 
-name=str($i.text); T.varExprMap[name]=v; 
-if isTemp: T.tempVarList.append(name);	
+name=str($i.text); self.varExprMap[name]=v; 
+if isTemp: 
+	self.tempVarList.append(name);	
 }
 :   (T {isTemp=True} )? i=ID '=' e=ee     
 //{name=str($i.text);

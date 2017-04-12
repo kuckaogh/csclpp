@@ -3,7 +3,6 @@ import sys
 
 class Var:
 
-	isTemp = False;   # True if @ before name
 	path = ''
 	expr = ''
 	metaData = {}	

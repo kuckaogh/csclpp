@@ -7,7 +7,6 @@ from io import StringIO
 
 from Study import Study
 from Var import Var
-import Temp as T
 from collections import defaultdict
 
 

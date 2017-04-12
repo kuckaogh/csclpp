@@ -4,7 +4,6 @@ from antlr4 import *
 from Study import Study
 from Var import Var
 import Setting as S
-import Temp as T
 import copy
 
 

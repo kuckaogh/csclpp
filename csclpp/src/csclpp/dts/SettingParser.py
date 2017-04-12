@@ -8,13 +8,12 @@ from io import StringIO
 from Study import Study
 from Var import Var
 import Setting as S
-import Temp as T
 import copy
 
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
-        buf.write(u"\21T\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write(u"\22T\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write(u"\4\b\t\b\3\2\7\2\22\n\2\f\2\16\2\25\13\2\3\2\6\2\30\n")
         buf.write(u"\2\r\2\16\2\31\3\3\3\3\3\3\6\3\37\n\3\r\3\16\3 \3\3\6")
         buf.write(u"\3$\n\3\r\3\16\3%\3\3\3\3\6\3*\n\3\r\3\16\3+\3\4\3\4")
@@ -23,24 +22,24 @@ def serializedATN():
         buf.write(u"\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3")
         buf.write(u"\b\3\b\2\2\t\2\4\6\b\n\f\16\2\2V\2\23\3\2\2\2\4\33\3")
         buf.write(u"\2\2\2\6\61\3\2\2\2\b8\3\2\2\2\nD\3\2\2\2\fK\3\2\2\2")
-        buf.write(u"\16O\3\2\2\2\20\22\7\20\2\2\21\20\3\2\2\2\22\25\3\2\2")
+        buf.write(u"\16O\3\2\2\2\20\22\7\21\2\2\21\20\3\2\2\2\22\25\3\2\2")
         buf.write(u"\2\23\21\3\2\2\2\23\24\3\2\2\2\24\27\3\2\2\2\25\23\3")
         buf.write(u"\2\2\2\26\30\5\4\3\2\27\26\3\2\2\2\30\31\3\2\2\2\31\27")
-        buf.write(u"\3\2\2\2\31\32\3\2\2\2\32\3\3\2\2\2\33\34\7\b\2\2\34")
-        buf.write(u"\36\7\r\2\2\35\37\7\20\2\2\36\35\3\2\2\2\37 \3\2\2\2")
+        buf.write(u"\3\2\2\2\31\32\3\2\2\2\32\3\3\2\2\2\33\34\7\t\2\2\34")
+        buf.write(u"\36\7\16\2\2\35\37\7\21\2\2\36\35\3\2\2\2\37 \3\2\2\2")
         buf.write(u" \36\3\2\2\2 !\3\2\2\2!#\3\2\2\2\"$\5\6\4\2#\"\3\2\2")
-        buf.write(u"\2$%\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\'\3\2\2\2\')\7\7\2")
-        buf.write(u"\2(*\7\20\2\2)(\3\2\2\2*+\3\2\2\2+)\3\2\2\2+,\3\2\2\2")
+        buf.write(u"\2$%\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\'\3\2\2\2\')\7\b\2")
+        buf.write(u"\2(*\7\21\2\2)(\3\2\2\2*+\3\2\2\2+)\3\2\2\2+,\3\2\2\2")
         buf.write(u",\5\3\2\2\2-\62\5\b\5\2.\62\5\n\6\2/\62\5\f\7\2\60\62")
         buf.write(u"\5\16\b\2\61-\3\2\2\2\61.\3\2\2\2\61/\3\2\2\2\61\60\3")
-        buf.write(u"\2\2\2\62\64\3\2\2\2\63\65\7\20\2\2\64\63\3\2\2\2\65")
+        buf.write(u"\2\2\2\62\64\3\2\2\2\63\65\7\21\2\2\64\63\3\2\2\2\65")
         buf.write(u"\66\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67\7\3\2\2\2")
-        buf.write(u"89\7\t\2\29:\7\3\2\2:;\7\16\2\2;A\b\5\1\2<=\7\4\2\2=")
-        buf.write(u">\7\16\2\2>@\b\5\1\2?<\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB")
-        buf.write(u"\3\2\2\2B\t\3\2\2\2CA\3\2\2\2DE\7\n\2\2EF\7\3\2\2FG\7")
-        buf.write(u"\r\2\2GH\7\5\2\2HI\7\r\2\2IJ\b\6\1\2J\13\3\2\2\2KL\7")
-        buf.write(u"\13\2\2LM\7\3\2\2MN\7\16\2\2N\r\3\2\2\2OP\7\f\2\2PQ\7")
-        buf.write(u"\3\2\2QR\7\16\2\2R\17\3\2\2\2\n\23\31 %+\61\66A")
+        buf.write(u"89\7\n\2\29:\7\3\2\2:;\7\7\2\2;A\b\5\1\2<=\7\4\2\2=>")
+        buf.write(u"\7\7\2\2>@\b\5\1\2?<\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB\3")
+        buf.write(u"\2\2\2B\t\3\2\2\2CA\3\2\2\2DE\7\13\2\2EF\7\3\2\2FG\7")
+        buf.write(u"\16\2\2GH\7\5\2\2HI\7\16\2\2IJ\b\6\1\2J\13\3\2\2\2KL")
+        buf.write(u"\7\f\2\2LM\7\3\2\2MN\7\7\2\2N\r\3\2\2\2OP\7\r\2\2PQ\7")
+        buf.write(u"\3\2\2QR\7\7\2\2R\17\3\2\2\2\n\23\31 %+\61\66A")
         return buf.getvalue()
 
 
@@ -55,13 +54,13 @@ class SettingParser ( Parser ):
     sharedContextCache = PredictionContextCache()
 
     literalNames = [ u"<INVALID>", u"'='", u"','", u"'.'", u"<INVALID>", 
-                     u"'end'", u"'study'", u"'data'", u"'vardef'", u"'metadata'", 
-                     u"'wresl'" ]
+                     u"<INVALID>", u"'end'", u"'study'", u"'data'", u"'vardef'", 
+                     u"'metadata'", u"'wresl'" ]
 
     symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"LINE_COMMENT", u"END", u"STUDY", u"DATA", u"VARDEF", 
-                      u"METADATA", u"WRESL", u"ID", u"STRING", u"INT", u"NL", 
-                      u"WS" ]
+                      u"LINE_COMMENT", u"STRING", u"END", u"STUDY", u"DATA", 
+                      u"VARDEF", u"METADATA", u"WRESL", u"ID", u"FLOAT", 
+                      u"INT", u"NL", u"WS" ]
 
     RULE_prog = 0
     RULE_sty = 1
@@ -79,17 +78,18 @@ class SettingParser ( Parser ):
     T__1=2
     T__2=3
     LINE_COMMENT=4
-    END=5
-    STUDY=6
-    DATA=7
-    VARDEF=8
-    METADATA=9
-    WRESL=10
-    ID=11
-    STRING=12
-    INT=13
-    NL=14
-    WS=15
+    STRING=5
+    END=6
+    STUDY=7
+    DATA=8
+    VARDEF=9
+    METADATA=10
+    WRESL=11
+    ID=12
+    FLOAT=13
+    INT=14
+    NL=15
+    WS=16
 
     def __init__(self, input):
         super(SettingParser, self).__init__(input)
@@ -97,6 +97,9 @@ class SettingParser ( Parser ):
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
+
+
+    styobj=None
 
 
     class ProgContext(ParserRuleContext):
@@ -213,7 +216,7 @@ class SettingParser ( Parser ):
 
         localctx = SettingParser.StyContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_sty)
-        T.sty=Study()
+        self.styobj=Study()
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
@@ -260,7 +263,7 @@ class SettingParser ( Parser ):
                     break
 
             self._ctx.stop = self._input.LT(-1)
-            stycopy=copy.deepcopy(T.sty);styName=str((None if localctx.name is None else localctx.name.text)); S.studyMap[styName]=stycopy;
+            stycopy=copy.deepcopy(self.styobj);styName=str((None if localctx.name is None else localctx.name.text)); S.studyMap[styName]=stycopy;
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -400,7 +403,7 @@ class SettingParser ( Parser ):
             self.match(SettingParser.T__0)
             self.state = 56
             localctx.s1 = self.match(SettingParser.STRING)
-            s1=(None if localctx.s1 is None else localctx.s1.text)[1:-1];T.sty.data_src.append(str(s1))
+            s1=(None if localctx.s1 is None else localctx.s1.text)[1:-1];self.styobj.data_src.append(str(s1))
             self.state = 63
             self._errHandler.sync(self)
             _la = self._input.LA(1)
@@ -409,7 +412,7 @@ class SettingParser ( Parser ):
                 self.match(SettingParser.T__1)
                 self.state = 59
                 localctx.s2 = self.match(SettingParser.STRING)
-                s2=(None if localctx.s2 is None else localctx.s2.text)[1:-1];T.sty.data_src.append(str(s2))
+                s2=(None if localctx.s2 is None else localctx.s2.text)[1:-1];self.styobj.data_src.append(str(s2))
                 self.state = 65
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -467,7 +470,7 @@ class SettingParser ( Parser ):
             self.match(SettingParser.T__2)
             self.state = 70
             localctx.d = self.match(SettingParser.ID)
-            f=str((None if localctx.f is None else localctx.f.text));d=str((None if localctx.d is None else localctx.d.text));T.sty.varFile=f;T.sty.varDef=d;
+            f=str((None if localctx.f is None else localctx.f.text));d=str((None if localctx.d is None else localctx.d.text));self.styobj.varFile=f;self.styobj.varDef=d;
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

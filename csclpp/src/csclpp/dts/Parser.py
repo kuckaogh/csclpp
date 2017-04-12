@@ -17,8 +17,10 @@ def parseVarDef(f):
     input_stream = FileStream(f)
     lexer = VarDefLexer(input_stream)
     token_stream = CommonTokenStream(lexer)
-    parser = VarDefParser(token_stream)
-    tree = parser.prog()
+    p = VarDefParser(token_stream)
+    tree = p.prog()
+    return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList
+    
 #     visitor = DtsVisitor()
 #     visitor.visit(tree)
 
@@ -32,12 +34,13 @@ def parseSetting(f):
     s=parser.prog()
 
 
-def evaluateDTS(line):
+def evaluateDTS(varTs, line):
     
     istream = InputStream(line)
     lexer = ExprLexer(istream)
     token_stream = CommonTokenStream(lexer)
     parser = ExprParser(token_stream)
+    parser.varTs = varTs
     parser.prog()
 
 

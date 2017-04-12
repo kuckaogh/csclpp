@@ -7,7 +7,6 @@ from io import StringIO
 
 from Study import Study
 from Var import Var
-import Temp as T
 from collections import defaultdict
 
 def serializedATN():
@@ -114,6 +113,14 @@ class VarDefParser ( Parser ):
 
 
 
+    varPathGroupMap={};
+    varExprGroupMap={};
+    tempVarGroupList={};
+    varPathMap={};
+    varExprMap={};
+    tempVarList=[];
+
+
     class ProgContext(ParserRuleContext):
 
         def __init__(self, parser, parent=None, invokingState=-1):
@@ -149,8 +156,7 @@ class VarDefParser ( Parser ):
 
         localctx = VarDefParser.ProgContext(self, self._ctx, self.state)
         self.enterRule(localctx, 0, self.RULE_prog)
-        T.varGroupMap={};T.dtsGroupMap={};T.tempVarGroupList={}
-
+        self.varPathGroupMap={};self.varExprGroupMap={};self.tempVarGroupList={}
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
@@ -229,7 +235,7 @@ class VarDefParser ( Parser ):
 
         localctx = VarDefParser.VardefContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_vardef)
-        T.varMap={};T.dtsMap={};T.tempVarList=[]
+        self.varPathMap={};self.varExprMap={};self.tempVarList=[]
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
@@ -277,9 +283,9 @@ class VarDefParser ( Parser ):
 
             self._ctx.stop = self._input.LT(-1)
             groupName=(None if localctx.name is None else localctx.name.text);
-            vm=T.varPathMap.copy(); T.varPathGroupMap[groupName]=vm;
-            dm=T.varExprMap.copy(); T.varExprGroupMap[groupName]=dm;
-            tm=list(T.tempVarList); T.tempVarGroupList[groupName]=tm;	
+            self.varPathGroupMap[groupName]=self.varPathMap;
+            self.varExprGroupMap[groupName]=self.varExprMap;
+            self.tempVarGroupList[groupName]=self.tempVarList;	
 
         except RecognitionException as re:
             localctx.exception = re
@@ -417,7 +423,9 @@ class VarDefParser ( Parser ):
             localctx.g = self.match(VarDefParser.ID)
             self._ctx.stop = self._input.LT(-1)
             gn=(None if localctx.g is None else localctx.g.text);
-            if gn: T.varPathMap.update(T.varPathGroupMap[gn]); T.varExprMap.update(T.varExprGroupMap[gn]);
+            if gn: 
+            	self.varPathMap.update(self.varPathGroupMap[gn])
+            	self.varExprMap.update(self.varExprGroupMap[gn])
 
         except RecognitionException as re:
             localctx.exception = re
@@ -479,9 +487,9 @@ class VarDefParser ( Parser ):
             self.match(VarDefParser.T__0)
             self.state = 67
             localctx.p = self.match(VarDefParser.PATH)
-            p =(None if localctx.p is None else localctx.p.text); t = Var(p);t.isTemp=isTemp; 
-            name=str((None if localctx.i is None else localctx.i.text)); T.varPathMap[name]=t;
-            if isTemp: T.tempVarList.append(name); 	
+            p =str((None if localctx.p is None else localctx.p.text)); t = Var(p); 
+            name=str((None if localctx.i is None else localctx.i.text)); self.varPathMap[name]=t;
+            if isTemp: self.tempVarList.append(name); 	
 
         except RecognitionException as re:
             localctx.exception = re
@@ -539,10 +547,10 @@ class VarDefParser ( Parser ):
             self.state = 74
             localctx.inf = self.info()
             vn=(None if localctx.v is None else localctx.v.text);pn=(None if localctx.p is None else localctx.p.text);
-            if vn in T.varPathMap:
-            	T.varPathMap[vn].metaData[pn]=(None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))); 
+            if vn in self.varPathMap:
+            	self.varPathMap[vn].metaData[pn]=(None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))); 
             else: 
-            	T.varExprMap[vn].metaData[pn]=(None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))); 
+            	self.varExprMap[vn].metaData[pn]=(None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))); 
 
         except RecognitionException as re:
             localctx.exception = re
@@ -656,8 +664,9 @@ class VarDefParser ( Parser ):
             localctx.e = self.ee(0)
             self._ctx.stop = self._input.LT(-1)
             v = Var('');e=str((None if localctx.e is None else self._input.getText((localctx.e.start,localctx.e.stop))));v.expr=e; 
-            name=str((None if localctx.i is None else localctx.i.text)); T.varExprMap[name]=v; 
-            if isTemp: T.tempVarList.append(name);	
+            name=str((None if localctx.i is None else localctx.i.text)); self.varExprMap[name]=v; 
+            if isTemp: 
+            	self.tempVarList.append(name);	
 
         except RecognitionException as re:
             localctx.exception = re
