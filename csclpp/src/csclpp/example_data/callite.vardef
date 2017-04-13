@@ -16,6 +16,7 @@ vardef base
     @temp1 = c_hood + c_moklmnr 
 	@temp2 = c_yolobp + 2*c_sjr/2
 	delta_inflow = temp1 + temp2
+	x.capacity = 99
 	
 end
 

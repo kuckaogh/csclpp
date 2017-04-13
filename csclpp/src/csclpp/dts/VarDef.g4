@@ -55,11 +55,13 @@ if isTemp: self.tempVarList.append(name);
 
        
 var_meta : v=ID '.' p=ID '=' inf=info 
-{vn=$v.text;pn=$p.text;
+{vn=str($v.text);pn=str($p.text);c=str($inf.text);
 if vn in self.varPathMap:
-	self.varPathMap[vn].metaData[pn]=$inf.text; 
-else: 
-	self.varExprMap[vn].metaData[pn]=$inf.text; 
+	self.varPathMap[vn].metaData[pn]=c; 
+elif vn in self.varExprMap:
+	self.varExprMap[vn].metaData[pn]=c; 
+else:
+	print ('#Error: '+vn+'.'+pn+'='+c+' variable \"'+vn+'\" not found!')
 }; 
 
 info: FLOAT | INT | STRING ;

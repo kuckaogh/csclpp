@@ -546,11 +546,13 @@ class VarDefParser ( Parser ):
             self.match(VarDefParser.T__0)
             self.state = 74
             localctx.inf = self.info()
-            vn=(None if localctx.v is None else localctx.v.text);pn=(None if localctx.p is None else localctx.p.text);
+            vn=str((None if localctx.v is None else localctx.v.text));pn=str((None if localctx.p is None else localctx.p.text));c=str((None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))));
             if vn in self.varPathMap:
-            	self.varPathMap[vn].metaData[pn]=(None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))); 
-            else: 
-            	self.varExprMap[vn].metaData[pn]=(None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))); 
+            	self.varPathMap[vn].metaData[pn]=c; 
+            elif vn in self.varExprMap:
+            	self.varExprMap[vn].metaData[pn]=c; 
+            else:
+            	print ('#Error: '+vn+'.'+pn+'='+c+' variable \"'+vn+'\" not found!')
 
         except RecognitionException as re:
             localctx.exception = re
