@@ -4,6 +4,7 @@ from antlr4 import *
 from Study import Study
 from Var import Var
 from collections import defaultdict
+import collections
 
 
 # This class defines a complete generic visitor for a parse tree produced by VarDefParser.
@@ -22,6 +23,11 @@ class VarDefVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by VarDefParser#field.
     def visitField(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#new_var.
+    def visitNew_var(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -52,6 +58,21 @@ class VarDefVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by VarDefParser#ee.
     def visitEe(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#compare.
+    def visitCompare(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#assign.
+    def visitAssign(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#if_stat.
+    def visitIf_stat(self, ctx):
         return self.visitChildren(ctx)
 
 

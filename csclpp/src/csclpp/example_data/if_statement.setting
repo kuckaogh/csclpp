@@ -1,0 +1,9 @@
+
+study calsim2StudyName
+
+	data = './cs2.dss'
+	vardef = calsim2.test_if
+
+end
+
+

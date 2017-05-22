@@ -25,7 +25,53 @@ vardef xyz
 
 end
 
+vardef release_control
+
+	array Min_Exports   # introduce an array, default values are zeros
+	array x
+	array y, z, kk
+
+	D418       = //D418/FLOW-DELIVERY//1MON//
+	S4         = //S4/STORAGE//1MON//
+	S4LEVEL5DV = //S4LEVEL5DV/STORAGE-LEVEL//1MON//
+	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
+	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
+
+	if D418<0.1 { 
+		Min_Exports = 1 
+	}
+
+	
+	if D418>10 and (S4 >100 or S4 <= 10) { 
+		x = 2
+		y = 3 }
+		
+	elseif C129_EXC<1000 {
+		z=512 } 
+		
+	elseif C129_EXC>1000 {
+		z=1024 } 
+	else { 
+		kk = -3 }
 
 
+
+
+
+	
+	# for idx, d in enumerate(D418):
+		# if d<0.1:
+			# Min_Exports[idx]=1
+	
+	
+
+end
+
+vardef test_if
+	
+	#include xyz
+	include release_control
+
+end
 
 

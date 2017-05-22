@@ -8,46 +8,135 @@ from io import StringIO
 from Study import Study
 from Var import Var
 from collections import defaultdict
+import collections
 
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
-        buf.write(u"\26o\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
-        buf.write(u"\4\b\t\b\4\t\t\t\4\n\t\n\3\2\7\2\26\n\2\f\2\16\2\31\13")
-        buf.write(u"\2\3\2\6\2\34\n\2\r\2\16\2\35\3\3\3\3\3\3\6\3#\n\3\r")
-        buf.write(u"\3\16\3$\3\3\6\3(\n\3\r\3\16\3)\3\3\3\3\6\3.\n\3\r\3")
-        buf.write(u"\16\3/\3\4\3\4\3\4\3\4\5\4\66\n\4\3\4\6\49\n\4\r\4\16")
-        buf.write(u"\4:\3\5\3\5\3\5\3\6\3\6\5\6B\n\6\3\6\3\6\3\6\3\6\3\6")
-        buf.write(u"\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\t\3\t\5\tT\n\t")
-        buf.write(u"\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n")
-        buf.write(u"b\n\n\3\n\3\n\3\n\3\n\3\n\3\n\7\nj\n\n\f\n\16\nm\13\n")
-        buf.write(u"\3\n\2\3\22\13\2\4\6\b\n\f\16\20\22\2\5\3\2\22\24\3\2")
-        buf.write(u"\r\16\3\2\17\20u\2\27\3\2\2\2\4\37\3\2\2\2\6\65\3\2\2")
-        buf.write(u"\2\b<\3\2\2\2\nA\3\2\2\2\fH\3\2\2\2\16O\3\2\2\2\20S\3")
-        buf.write(u"\2\2\2\22a\3\2\2\2\24\26\7\25\2\2\25\24\3\2\2\2\26\31")
-        buf.write(u"\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\33\3\2\2\2\31")
-        buf.write(u"\27\3\2\2\2\32\34\5\4\3\2\33\32\3\2\2\2\34\35\3\2\2\2")
-        buf.write(u"\35\33\3\2\2\2\35\36\3\2\2\2\36\3\3\2\2\2\37 \7\n\2\2")
-        buf.write(u" \"\7\21\2\2!#\7\25\2\2\"!\3\2\2\2#$\3\2\2\2$\"\3\2\2")
-        buf.write(u"\2$%\3\2\2\2%\'\3\2\2\2&(\5\6\4\2\'&\3\2\2\2()\3\2\2")
-        buf.write(u"\2)\'\3\2\2\2)*\3\2\2\2*+\3\2\2\2+-\7\13\2\2,.\7\25\2")
-        buf.write(u"\2-,\3\2\2\2./\3\2\2\2/-\3\2\2\2/\60\3\2\2\2\60\5\3\2")
-        buf.write(u"\2\2\61\66\5\n\6\2\62\66\5\f\7\2\63\66\5\20\t\2\64\66")
-        buf.write(u"\5\b\5\2\65\61\3\2\2\2\65\62\3\2\2\2\65\63\3\2\2\2\65")
-        buf.write(u"\64\3\2\2\2\668\3\2\2\2\679\7\25\2\28\67\3\2\2\29:\3")
-        buf.write(u"\2\2\2:8\3\2\2\2:;\3\2\2\2;\7\3\2\2\2<=\7\t\2\2=>\7\21")
-        buf.write(u"\2\2>\t\3\2\2\2?@\7\b\2\2@B\b\6\1\2A?\3\2\2\2AB\3\2\2")
-        buf.write(u"\2BC\3\2\2\2CD\7\21\2\2DE\7\3\2\2EF\7\f\2\2FG\b\6\1\2")
-        buf.write(u"G\13\3\2\2\2HI\7\21\2\2IJ\7\4\2\2JK\7\21\2\2KL\7\3\2")
-        buf.write(u"\2LM\5\16\b\2MN\b\7\1\2N\r\3\2\2\2OP\t\2\2\2P\17\3\2")
-        buf.write(u"\2\2QR\7\b\2\2RT\b\t\1\2SQ\3\2\2\2ST\3\2\2\2TU\3\2\2")
-        buf.write(u"\2UV\7\21\2\2VW\7\3\2\2WX\5\22\n\2X\21\3\2\2\2YZ\b\n")
-        buf.write(u"\1\2Zb\7\23\2\2[b\7\22\2\2\\b\7\21\2\2]^\7\5\2\2^_\5")
-        buf.write(u"\22\n\2_`\7\6\2\2`b\3\2\2\2aY\3\2\2\2a[\3\2\2\2a\\\3")
-        buf.write(u"\2\2\2a]\3\2\2\2bk\3\2\2\2cd\f\b\2\2de\t\3\2\2ej\5\22")
-        buf.write(u"\n\tfg\f\7\2\2gh\t\4\2\2hj\5\22\n\bic\3\2\2\2if\3\2\2")
-        buf.write(u"\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\23\3\2\2\2mk\3\2\2")
-        buf.write(u"\2\16\27\35$)/\65:ASaik")
+        buf.write(u"%\u0113\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
+        buf.write(u"\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r")
+        buf.write(u"\4\16\t\16\3\2\7\2\36\n\2\f\2\16\2!\13\2\3\2\6\2$\n\2")
+        buf.write(u"\r\2\16\2%\3\3\3\3\3\3\6\3+\n\3\r\3\16\3,\3\3\6\3\60")
+        buf.write(u"\n\3\r\3\16\3\61\3\3\3\3\6\3\66\n\3\r\3\16\3\67\3\4\3")
+        buf.write(u"\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4B\n\4\3\4\6\4E\n\4\r\4")
+        buf.write(u"\16\4F\3\5\3\5\3\5\3\5\3\5\3\5\7\5O\n\5\f\5\16\5R\13")
+        buf.write(u"\5\3\6\3\6\3\6\3\7\3\7\5\7Y\n\7\3\7\3\7\3\7\3\7\3\7\3")
+        buf.write(u"\b\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\n\3\n\5\nk\n\n\3")
+        buf.write(u"\n\3\n\3\n\3\n\3\13\3\13\5\13s\n\13\3\13\3\13\5\13w\n")
+        buf.write(u"\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13\177\n\13\3\13")
+        buf.write(u"\3\13\3\13\3\13\3\13\3\13\7\13\u0087\n\13\f\13\16\13")
+        buf.write(u"\u008a\13\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\f")
+        buf.write(u"\u0095\n\f\3\f\3\f\3\f\7\f\u009a\n\f\f\f\16\f\u009d\13")
+        buf.write(u"\f\3\r\3\r\3\r\3\r\3\16\3\16\3\16\7\16\u00a6\n\16\f\16")
+        buf.write(u"\16\16\u00a9\13\16\3\16\3\16\7\16\u00ad\n\16\f\16\16")
+        buf.write(u"\16\u00b0\13\16\3\16\3\16\3\16\7\16\u00b5\n\16\f\16\16")
+        buf.write(u"\16\u00b8\13\16\6\16\u00ba\n\16\r\16\16\16\u00bb\3\16")
+        buf.write(u"\3\16\7\16\u00c0\n\16\f\16\16\16\u00c3\13\16\3\16\3\16")
+        buf.write(u"\3\16\3\16\7\16\u00c9\n\16\f\16\16\16\u00cc\13\16\3\16")
+        buf.write(u"\3\16\7\16\u00d0\n\16\f\16\16\16\u00d3\13\16\3\16\3\16")
+        buf.write(u"\3\16\7\16\u00d8\n\16\f\16\16\16\u00db\13\16\6\16\u00dd")
+        buf.write(u"\n\16\r\16\16\16\u00de\3\16\3\16\7\16\u00e3\n\16\f\16")
+        buf.write(u"\16\16\u00e6\13\16\3\16\3\16\7\16\u00ea\n\16\f\16\16")
+        buf.write(u"\16\u00ed\13\16\3\16\3\16\7\16\u00f1\n\16\f\16\16\16")
+        buf.write(u"\u00f4\13\16\3\16\3\16\7\16\u00f8\n\16\f\16\16\16\u00fb")
+        buf.write(u"\13\16\3\16\3\16\3\16\7\16\u0100\n\16\f\16\16\16\u0103")
+        buf.write(u"\13\16\6\16\u0105\n\16\r\16\16\16\u0106\3\16\3\16\6\16")
+        buf.write(u"\u010b\n\16\r\16\16\16\u010c\3\16\3\16\5\16\u0111\n\16")
+        buf.write(u"\3\16\2\4\24\26\17\2\4\6\b\n\f\16\20\22\24\26\30\32\2")
+        buf.write(u"\7\3\2!#\3\2\23\24\3\2\25\26\3\2\b\r\3\2\27\30\u012d")
+        buf.write(u"\2\37\3\2\2\2\4\'\3\2\2\2\6A\3\2\2\2\bH\3\2\2\2\nS\3")
+        buf.write(u"\2\2\2\fX\3\2\2\2\16_\3\2\2\2\20f\3\2\2\2\22j\3\2\2\2")
+        buf.write(u"\24~\3\2\2\2\26\u0094\3\2\2\2\30\u009e\3\2\2\2\32\u00a2")
+        buf.write(u"\3\2\2\2\34\36\7$\2\2\35\34\3\2\2\2\36!\3\2\2\2\37\35")
+        buf.write(u"\3\2\2\2\37 \3\2\2\2 #\3\2\2\2!\37\3\2\2\2\"$\5\4\3\2")
+        buf.write(u"#\"\3\2\2\2$%\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\3\3\2\2\2")
+        buf.write(u"\'(\7\32\2\2(*\7 \2\2)+\7$\2\2*)\3\2\2\2+,\3\2\2\2,*")
+        buf.write(u"\3\2\2\2,-\3\2\2\2-/\3\2\2\2.\60\5\6\4\2/.\3\2\2\2\60")
+        buf.write(u"\61\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\63")
+        buf.write(u"\65\7\33\2\2\64\66\7$\2\2\65\64\3\2\2\2\66\67\3\2\2\2")
+        buf.write(u"\67\65\3\2\2\2\678\3\2\2\28\5\3\2\2\29B\5\f\7\2:B\5\16")
+        buf.write(u"\b\2;B\5\22\n\2<=\5\32\16\2=>\b\4\1\2>B\3\2\2\2?B\5\b")
+        buf.write(u"\5\2@B\5\n\6\2A9\3\2\2\2A:\3\2\2\2A;\3\2\2\2A<\3\2\2")
+        buf.write(u"\2A?\3\2\2\2A@\3\2\2\2BD\3\2\2\2CE\7$\2\2DC\3\2\2\2E")
+        buf.write(u"F\3\2\2\2FD\3\2\2\2FG\3\2\2\2G\7\3\2\2\2HI\7\34\2\2I")
+        buf.write(u"J\7 \2\2JP\b\5\1\2KL\7\3\2\2LM\7 \2\2MO\b\5\1\2NK\3\2")
+        buf.write(u"\2\2OR\3\2\2\2PN\3\2\2\2PQ\3\2\2\2Q\t\3\2\2\2RP\3\2\2")
+        buf.write(u"\2ST\7\31\2\2TU\7 \2\2U\13\3\2\2\2VW\7\21\2\2WY\b\7\1")
+        buf.write(u"\2XV\3\2\2\2XY\3\2\2\2YZ\3\2\2\2Z[\7 \2\2[\\\7\4\2\2")
+        buf.write(u"\\]\7\22\2\2]^\b\7\1\2^\r\3\2\2\2_`\7 \2\2`a\7\5\2\2")
+        buf.write(u"ab\7 \2\2bc\7\4\2\2cd\5\20\t\2de\b\b\1\2e\17\3\2\2\2")
+        buf.write(u"fg\t\2\2\2g\21\3\2\2\2hi\7\21\2\2ik\b\n\1\2jh\3\2\2\2")
+        buf.write(u"jk\3\2\2\2kl\3\2\2\2lm\7 \2\2mn\7\4\2\2no\5\24\13\2o")
+        buf.write(u"\23\3\2\2\2pr\b\13\1\2qs\7\26\2\2rq\3\2\2\2rs\3\2\2\2")
+        buf.write(u"st\3\2\2\2t\177\7\"\2\2uw\7\26\2\2vu\3\2\2\2vw\3\2\2")
+        buf.write(u"\2wx\3\2\2\2x\177\7!\2\2y\177\7 \2\2z{\7\6\2\2{|\5\24")
+        buf.write(u"\13\2|}\7\7\2\2}\177\3\2\2\2~p\3\2\2\2~v\3\2\2\2~y\3")
+        buf.write(u"\2\2\2~z\3\2\2\2\177\u0088\3\2\2\2\u0080\u0081\f\b\2")
+        buf.write(u"\2\u0081\u0082\t\3\2\2\u0082\u0087\5\24\13\t\u0083\u0084")
+        buf.write(u"\f\7\2\2\u0084\u0085\t\4\2\2\u0085\u0087\5\24\13\b\u0086")
+        buf.write(u"\u0080\3\2\2\2\u0086\u0083\3\2\2\2\u0087\u008a\3\2\2")
+        buf.write(u"\2\u0088\u0086\3\2\2\2\u0088\u0089\3\2\2\2\u0089\25\3")
+        buf.write(u"\2\2\2\u008a\u0088\3\2\2\2\u008b\u008c\b\f\1\2\u008c")
+        buf.write(u"\u008d\5\24\13\2\u008d\u008e\t\5\2\2\u008e\u008f\5\24")
+        buf.write(u"\13\2\u008f\u0095\3\2\2\2\u0090\u0091\7\6\2\2\u0091\u0092")
+        buf.write(u"\5\26\f\2\u0092\u0093\7\7\2\2\u0093\u0095\3\2\2\2\u0094")
+        buf.write(u"\u008b\3\2\2\2\u0094\u0090\3\2\2\2\u0095\u009b\3\2\2")
+        buf.write(u"\2\u0096\u0097\f\3\2\2\u0097\u0098\t\6\2\2\u0098\u009a")
+        buf.write(u"\5\26\f\4\u0099\u0096\3\2\2\2\u009a\u009d\3\2\2\2\u009b")
+        buf.write(u"\u0099\3\2\2\2\u009b\u009c\3\2\2\2\u009c\27\3\2\2\2\u009d")
+        buf.write(u"\u009b\3\2\2\2\u009e\u009f\7 \2\2\u009f\u00a0\7\4\2\2")
+        buf.write(u"\u00a0\u00a1\5\24\13\2\u00a1\31\3\2\2\2\u00a2\u00a3\7")
+        buf.write(u"\35\2\2\u00a3\u00a7\5\26\f\2\u00a4\u00a6\7$\2\2\u00a5")
+        buf.write(u"\u00a4\3\2\2\2\u00a6\u00a9\3\2\2\2\u00a7\u00a5\3\2\2")
+        buf.write(u"\2\u00a7\u00a8\3\2\2\2\u00a8\u00aa\3\2\2\2\u00a9\u00a7")
+        buf.write(u"\3\2\2\2\u00aa\u00ae\7\16\2\2\u00ab\u00ad\7$\2\2\u00ac")
+        buf.write(u"\u00ab\3\2\2\2\u00ad\u00b0\3\2\2\2\u00ae\u00ac\3\2\2")
+        buf.write(u"\2\u00ae\u00af\3\2\2\2\u00af\u00b9\3\2\2\2\u00b0\u00ae")
+        buf.write(u"\3\2\2\2\u00b1\u00b2\5\30\r\2\u00b2\u00b6\b\16\1\2\u00b3")
+        buf.write(u"\u00b5\7$\2\2\u00b4\u00b3\3\2\2\2\u00b5\u00b8\3\2\2\2")
+        buf.write(u"\u00b6\u00b4\3\2\2\2\u00b6\u00b7\3\2\2\2\u00b7\u00ba")
+        buf.write(u"\3\2\2\2\u00b8\u00b6\3\2\2\2\u00b9\u00b1\3\2\2\2\u00ba")
+        buf.write(u"\u00bb\3\2\2\2\u00bb\u00b9\3\2\2\2\u00bb\u00bc\3\2\2")
+        buf.write(u"\2\u00bc\u00bd\3\2\2\2\u00bd\u00c1\7\17\2\2\u00be\u00c0")
+        buf.write(u"\7$\2\2\u00bf\u00be\3\2\2\2\u00c0\u00c3\3\2\2\2\u00c1")
+        buf.write(u"\u00bf\3\2\2\2\u00c1\u00c2\3\2\2\2\u00c2\u00c4\3\2\2")
+        buf.write(u"\2\u00c3\u00c1\3\2\2\2\u00c4\u00eb\b\16\1\2\u00c5\u00c6")
+        buf.write(u"\7\36\2\2\u00c6\u00ca\5\26\f\2\u00c7\u00c9\7$\2\2\u00c8")
+        buf.write(u"\u00c7\3\2\2\2\u00c9\u00cc\3\2\2\2\u00ca\u00c8\3\2\2")
+        buf.write(u"\2\u00ca\u00cb\3\2\2\2\u00cb\u00cd\3\2\2\2\u00cc\u00ca")
+        buf.write(u"\3\2\2\2\u00cd\u00d1\7\16\2\2\u00ce\u00d0\7$\2\2\u00cf")
+        buf.write(u"\u00ce\3\2\2\2\u00d0\u00d3\3\2\2\2\u00d1\u00cf\3\2\2")
+        buf.write(u"\2\u00d1\u00d2\3\2\2\2\u00d2\u00dc\3\2\2\2\u00d3\u00d1")
+        buf.write(u"\3\2\2\2\u00d4\u00d5\5\30\r\2\u00d5\u00d9\b\16\1\2\u00d6")
+        buf.write(u"\u00d8\7$\2\2\u00d7\u00d6\3\2\2\2\u00d8\u00db\3\2\2\2")
+        buf.write(u"\u00d9\u00d7\3\2\2\2\u00d9\u00da\3\2\2\2\u00da\u00dd")
+        buf.write(u"\3\2\2\2\u00db\u00d9\3\2\2\2\u00dc\u00d4\3\2\2\2\u00dd")
+        buf.write(u"\u00de\3\2\2\2\u00de\u00dc\3\2\2\2\u00de\u00df\3\2\2")
+        buf.write(u"\2\u00df\u00e0\3\2\2\2\u00e0\u00e4\7\17\2\2\u00e1\u00e3")
+        buf.write(u"\7$\2\2\u00e2\u00e1\3\2\2\2\u00e3\u00e6\3\2\2\2\u00e4")
+        buf.write(u"\u00e2\3\2\2\2\u00e4\u00e5\3\2\2\2\u00e5\u00e7\3\2\2")
+        buf.write(u"\2\u00e6\u00e4\3\2\2\2\u00e7\u00e8\b\16\1\2\u00e8\u00ea")
+        buf.write(u"\3\2\2\2\u00e9\u00c5\3\2\2\2\u00ea\u00ed\3\2\2\2\u00eb")
+        buf.write(u"\u00e9\3\2\2\2\u00eb\u00ec\3\2\2\2\u00ec\u0110\3\2\2")
+        buf.write(u"\2\u00ed\u00eb\3\2\2\2\u00ee\u00f2\7\37\2\2\u00ef\u00f1")
+        buf.write(u"\7$\2\2\u00f0\u00ef\3\2\2\2\u00f1\u00f4\3\2\2\2\u00f2")
+        buf.write(u"\u00f0\3\2\2\2\u00f2\u00f3\3\2\2\2\u00f3\u00f5\3\2\2")
+        buf.write(u"\2\u00f4\u00f2\3\2\2\2\u00f5\u00f9\7\16\2\2\u00f6\u00f8")
+        buf.write(u"\7$\2\2\u00f7\u00f6\3\2\2\2\u00f8\u00fb\3\2\2\2\u00f9")
+        buf.write(u"\u00f7\3\2\2\2\u00f9\u00fa\3\2\2\2\u00fa\u0104\3\2\2")
+        buf.write(u"\2\u00fb\u00f9\3\2\2\2\u00fc\u00fd\5\30\r\2\u00fd\u0101")
+        buf.write(u"\b\16\1\2\u00fe\u0100\7$\2\2\u00ff\u00fe\3\2\2\2\u0100")
+        buf.write(u"\u0103\3\2\2\2\u0101\u00ff\3\2\2\2\u0101\u0102\3\2\2")
+        buf.write(u"\2\u0102\u0105\3\2\2\2\u0103\u0101\3\2\2\2\u0104\u00fc")
+        buf.write(u"\3\2\2\2\u0105\u0106\3\2\2\2\u0106\u0104\3\2\2\2\u0106")
+        buf.write(u"\u0107\3\2\2\2\u0107\u0108\3\2\2\2\u0108\u010a\7\17\2")
+        buf.write(u"\2\u0109\u010b\7$\2\2\u010a\u0109\3\2\2\2\u010b\u010c")
+        buf.write(u"\3\2\2\2\u010c\u010a\3\2\2\2\u010c\u010d\3\2\2\2\u010d")
+        buf.write(u"\u010e\3\2\2\2\u010e\u010f\b\16\1\2\u010f\u0111\3\2\2")
+        buf.write(u"\2\u0110\u00ee\3\2\2\2\u0110\u0111\3\2\2\2\u0111\33\3")
+        buf.write(u"\2\2\2$\37%,\61\67AFPXjrv~\u0086\u0088\u0094\u009b\u00a7")
+        buf.write(u"\u00ae\u00b6\u00bb\u00c1\u00ca\u00d1\u00d9\u00de\u00e4")
+        buf.write(u"\u00eb\u00f2\u00f9\u0101\u0106\u010c\u0110")
         return buf.getvalue()
 
 
@@ -61,49 +150,76 @@ class VarDefParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ u"<INVALID>", u"'='", u"'.'", u"'('", u"')'", u"<INVALID>", 
-                     u"'@'", u"'include'", u"'vardef'", u"'end'", u"<INVALID>", 
-                     u"'*'", u"'/'", u"'+'", u"'-'" ]
+    literalNames = [ u"<INVALID>", u"','", u"'='", u"'.'", u"'('", u"')'", 
+                     u"'>'", u"'>='", u"'<'", u"'<='", u"'=='", u"'!='", 
+                     u"'{'", u"'}'", u"<INVALID>", u"'@'", u"<INVALID>", 
+                     u"'*'", u"'/'", u"'+'", u"'-'", u"' and '", u"' or '", 
+                     u"'include'", u"'vardef'", u"'end'", u"'array'", u"'if'", 
+                     u"'elseif'", u"'else'" ]
 
     symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"LINE_COMMENT", u"T", u"INCLUDE", u"VARDEF", 
-                      u"END", u"PATH", u"MUL", u"DIV", u"ADD", u"SUB", u"ID", 
-                      u"FLOAT", u"INT", u"STRING", u"NL", u"WS" ]
+                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
+                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
+                      u"<INVALID>", u"<INVALID>", u"LINE_COMMENT", u"T", 
+                      u"PATH", u"MUL", u"DIV", u"ADD", u"SUB", u"AND", u"OR", 
+                      u"INCLUDE", u"VARDEF", u"END", u"ARRAY", u"IF", u"ELSEIF", 
+                      u"ELSE", u"ID", u"FLOAT", u"INT", u"STRING", u"NL", 
+                      u"WS" ]
 
     RULE_prog = 0
     RULE_vardef = 1
     RULE_field = 2
-    RULE_include = 3
-    RULE_var_path = 4
-    RULE_var_meta = 5
-    RULE_info = 6
-    RULE_stat = 7
-    RULE_ee = 8
+    RULE_new_var = 3
+    RULE_include = 4
+    RULE_var_path = 5
+    RULE_var_meta = 6
+    RULE_info = 7
+    RULE_stat = 8
+    RULE_ee = 9
+    RULE_compare = 10
+    RULE_assign = 11
+    RULE_if_stat = 12
 
-    ruleNames =  [ u"prog", u"vardef", u"field", u"include", u"var_path", 
-                   u"var_meta", u"info", u"stat", u"ee" ]
+    ruleNames =  [ u"prog", u"vardef", u"field", u"new_var", u"include", 
+                   u"var_path", u"var_meta", u"info", u"stat", u"ee", u"compare", 
+                   u"assign", u"if_stat" ]
 
     EOF = Token.EOF
     T__0=1
     T__1=2
     T__2=3
     T__3=4
-    LINE_COMMENT=5
-    T=6
-    INCLUDE=7
-    VARDEF=8
-    END=9
-    PATH=10
-    MUL=11
-    DIV=12
-    ADD=13
-    SUB=14
-    ID=15
-    FLOAT=16
-    INT=17
-    STRING=18
-    NL=19
-    WS=20
+    T__4=5
+    T__5=6
+    T__6=7
+    T__7=8
+    T__8=9
+    T__9=10
+    T__10=11
+    T__11=12
+    T__12=13
+    LINE_COMMENT=14
+    T=15
+    PATH=16
+    MUL=17
+    DIV=18
+    ADD=19
+    SUB=20
+    AND=21
+    OR=22
+    INCLUDE=23
+    VARDEF=24
+    END=25
+    ARRAY=26
+    IF=27
+    ELSEIF=28
+    ELSE=29
+    ID=30
+    FLOAT=31
+    INT=32
+    STRING=33
+    NL=34
+    WS=35
 
     def __init__(self, input):
         super(VarDefParser, self).__init__(input)
@@ -116,9 +232,13 @@ class VarDefParser ( Parser ):
     varPathGroupMap={};
     varExprGroupMap={};
     tempVarGroupList={};
+    ifsMapGroupMap={};
+    newArrayGroupList={};
     varPathMap={};
     varExprMap={};
     tempVarList=[];
+    newArrayList=[];
+    ifsMap=collections.OrderedDict(); # (if statement ID, (condition, assignments)) 
 
 
     class ProgContext(ParserRuleContext):
@@ -156,27 +276,29 @@ class VarDefParser ( Parser ):
 
         localctx = VarDefParser.ProgContext(self, self._ctx, self.state)
         self.enterRule(localctx, 0, self.RULE_prog)
-        self.varPathGroupMap={};self.varExprGroupMap={};self.tempVarGroupList={}
+        self.varPathGroupMap={};self.varExprGroupMap={};self.tempVarGroupList={};
+        ifsMapGroupMap={};newArrayGroupList={};
+
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 21
+            self.state = 29
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==VarDefParser.NL:
-                self.state = 18
+                self.state = 26
                 self.match(VarDefParser.NL)
-                self.state = 23
+                self.state = 31
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 25 
+            self.state = 33 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 24
+                self.state = 32
                 self.vardef()
-                self.state = 27 
+                self.state = 35 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not (_la==VarDefParser.VARDEF):
@@ -235,47 +357,51 @@ class VarDefParser ( Parser ):
 
         localctx = VarDefParser.VardefContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_vardef)
-        self.varPathMap={};self.varExprMap={};self.tempVarList=[]
+
+        self.varPathMap={};self.varExprMap={};self.tempVarList=[];
+        self.ifsMap=collections.OrderedDict();self.newArrayList=[];
+        self.ifid=0;
+
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 29
+            self.state = 37
             self.match(VarDefParser.VARDEF)
-            self.state = 30
+            self.state = 38
             localctx.name = self.match(VarDefParser.ID)
-            self.state = 32 
+            self.state = 40 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 31
+                self.state = 39
                 self.match(VarDefParser.NL)
-                self.state = 34 
+                self.state = 42 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not (_la==VarDefParser.NL):
                     break
 
-            self.state = 37 
+            self.state = 45 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 36
+                self.state = 44
                 self.field()
-                self.state = 39 
+                self.state = 47 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << VarDefParser.T) | (1 << VarDefParser.INCLUDE) | (1 << VarDefParser.ID))) != 0)):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << VarDefParser.T) | (1 << VarDefParser.INCLUDE) | (1 << VarDefParser.ARRAY) | (1 << VarDefParser.IF) | (1 << VarDefParser.ID))) != 0)):
                     break
 
-            self.state = 41
+            self.state = 49
             self.match(VarDefParser.END)
-            self.state = 43 
+            self.state = 51 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 42
+                self.state = 50
                 self.match(VarDefParser.NL)
-                self.state = 45 
+                self.state = 53 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not (_la==VarDefParser.NL):
@@ -286,6 +412,8 @@ class VarDefParser ( Parser ):
             self.varPathGroupMap[groupName]=self.varPathMap;
             self.varExprGroupMap[groupName]=self.varExprMap;
             self.tempVarGroupList[groupName]=self.tempVarList;	
+            self.ifsMapGroupMap[groupName]=self.ifsMap;
+            self.newArrayGroupList[groupName]=self.newArrayList;
 
         except RecognitionException as re:
             localctx.exception = re
@@ -311,6 +439,14 @@ class VarDefParser ( Parser ):
 
         def stat(self):
             return self.getTypedRuleContext(VarDefParser.StatContext,0)
+
+
+        def if_stat(self):
+            return self.getTypedRuleContext(VarDefParser.If_statContext,0)
+
+
+        def new_var(self):
+            return self.getTypedRuleContext(VarDefParser.New_varContext,0)
 
 
         def include(self):
@@ -342,41 +478,113 @@ class VarDefParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 51
+            self.state = 63
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,5,self._ctx)
             if la_ == 1:
-                self.state = 47
+                self.state = 55
                 self.var_path()
                 pass
 
             elif la_ == 2:
-                self.state = 48
+                self.state = 56
                 self.var_meta()
                 pass
 
             elif la_ == 3:
-                self.state = 49
+                self.state = 57
                 self.stat()
                 pass
 
             elif la_ == 4:
-                self.state = 50
+                self.state = 58
+                self.if_stat()
+                self.ifid=self.ifid+1;
+                pass
+
+            elif la_ == 5:
+                self.state = 61
+                self.new_var()
+                pass
+
+            elif la_ == 6:
+                self.state = 62
                 self.include()
                 pass
 
 
-            self.state = 54 
+            self.state = 66 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 53
+                self.state = 65
                 self.match(VarDefParser.NL)
-                self.state = 56 
+                self.state = 68 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not (_la==VarDefParser.NL):
                     break
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+    class New_varContext(ParserRuleContext):
+
+        def __init__(self, parser, parent=None, invokingState=-1):
+            super(VarDefParser.New_varContext, self).__init__(parent, invokingState)
+            self.parser = parser
+            self.i = None # Token
+
+        def ARRAY(self):
+            return self.getToken(VarDefParser.ARRAY, 0)
+
+        def ID(self, i=None):
+            if i is None:
+                return self.getTokens(VarDefParser.ID)
+            else:
+                return self.getToken(VarDefParser.ID, i)
+
+        def getRuleIndex(self):
+            return VarDefParser.RULE_new_var
+
+        def accept(self, visitor):
+            if hasattr(visitor, "visitNew_var"):
+                return visitor.visitNew_var(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def new_var(self):
+
+        localctx = VarDefParser.New_varContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 6, self.RULE_new_var)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 70
+            self.match(VarDefParser.ARRAY)
+            self.state = 71
+            localctx.i = self.match(VarDefParser.ID)
+            name=str((None if localctx.i is None else localctx.i.text)); self.newArrayList.append(name);
+            self.state = 78
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==VarDefParser.T__0:
+                self.state = 73
+                self.match(VarDefParser.T__0)
+                self.state = 74
+                localctx.i = self.match(VarDefParser.ID)
+                name=str((None if localctx.i is None else localctx.i.text)); self.newArrayList.append(name);
+                self.state = 80
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -414,18 +622,21 @@ class VarDefParser ( Parser ):
     def include(self):
 
         localctx = VarDefParser.IncludeContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 6, self.RULE_include)
+        self.enterRule(localctx, 8, self.RULE_include)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 58
+            self.state = 81
             self.match(VarDefParser.INCLUDE)
-            self.state = 59
+            self.state = 82
             localctx.g = self.match(VarDefParser.ID)
             self._ctx.stop = self._input.LT(-1)
             gn=(None if localctx.g is None else localctx.g.text);
             if gn: 
             	self.varPathMap.update(self.varPathGroupMap[gn])
             	self.varExprMap.update(self.varExprGroupMap[gn])
+            	self.tempVarList.extend(self.tempVarGroupList[gn])
+            	self.ifsMap.update(self.ifsMapGroupMap[gn])
+            	self.newArrayList.extend(self.newArrayGroupList[gn])
 
         except RecognitionException as re:
             localctx.exception = re
@@ -467,25 +678,25 @@ class VarDefParser ( Parser ):
     def var_path(self):
 
         localctx = VarDefParser.Var_pathContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 8, self.RULE_var_path)
+        self.enterRule(localctx, 10, self.RULE_var_path)
         isTemp=False 
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 63
+            self.state = 86
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==VarDefParser.T:
-                self.state = 61
+                self.state = 84
                 self.match(VarDefParser.T)
                 isTemp=True
 
 
-            self.state = 65
+            self.state = 88
             localctx.i = self.match(VarDefParser.ID)
-            self.state = 66
-            self.match(VarDefParser.T__0)
-            self.state = 67
+            self.state = 89
+            self.match(VarDefParser.T__1)
+            self.state = 90
             localctx.p = self.match(VarDefParser.PATH)
             p =str((None if localctx.p is None else localctx.p.text)); t = Var(p); 
             name=str((None if localctx.i is None else localctx.i.text)); self.varPathMap[name]=t;
@@ -533,18 +744,18 @@ class VarDefParser ( Parser ):
     def var_meta(self):
 
         localctx = VarDefParser.Var_metaContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 10, self.RULE_var_meta)
+        self.enterRule(localctx, 12, self.RULE_var_meta)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 70
+            self.state = 93
             localctx.v = self.match(VarDefParser.ID)
-            self.state = 71
-            self.match(VarDefParser.T__1)
-            self.state = 72
+            self.state = 94
+            self.match(VarDefParser.T__2)
+            self.state = 95
             localctx.p = self.match(VarDefParser.ID)
-            self.state = 73
-            self.match(VarDefParser.T__0)
-            self.state = 74
+            self.state = 96
+            self.match(VarDefParser.T__1)
+            self.state = 97
             localctx.inf = self.info()
             vn=str((None if localctx.v is None else localctx.v.text));pn=str((None if localctx.p is None else localctx.p.text));c=str((None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))));
             if vn in self.varPathMap:
@@ -592,11 +803,11 @@ class VarDefParser ( Parser ):
     def info(self):
 
         localctx = VarDefParser.InfoContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 12, self.RULE_info)
+        self.enterRule(localctx, 14, self.RULE_info)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 77
+            self.state = 100
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << VarDefParser.FLOAT) | (1 << VarDefParser.INT) | (1 << VarDefParser.STRING))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -644,25 +855,25 @@ class VarDefParser ( Parser ):
     def stat(self):
 
         localctx = VarDefParser.StatContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 14, self.RULE_stat)
+        self.enterRule(localctx, 16, self.RULE_stat)
         isTemp=False 
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 81
+            self.state = 104
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==VarDefParser.T:
-                self.state = 79
+                self.state = 102
                 self.match(VarDefParser.T)
                 isTemp=True
 
 
-            self.state = 83
+            self.state = 106
             localctx.i = self.match(VarDefParser.ID)
-            self.state = 84
-            self.match(VarDefParser.T__0)
-            self.state = 85
+            self.state = 107
+            self.match(VarDefParser.T__1)
+            self.state = 108
             localctx.e = self.ee(0)
             self._ctx.stop = self._input.LT(-1)
             v = Var('');e=str((None if localctx.e is None else self._input.getText((localctx.e.start,localctx.e.stop))));v.expr=e; 
@@ -719,58 +930,76 @@ class VarDefParser ( Parser ):
         _parentState = self.state
         localctx = VarDefParser.EeContext(self, self._ctx, _parentState)
         _prevctx = localctx
-        _startState = 16
-        self.enterRecursionRule(localctx, 16, self.RULE_ee, _p)
+        _startState = 18
+        self.enterRecursionRule(localctx, 18, self.RULE_ee, _p)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 95
+            self.state = 124
             self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [VarDefParser.INT]:
-                self.state = 88
+            la_ = self._interp.adaptivePredict(self._input,12,self._ctx)
+            if la_ == 1:
+                self.state = 112
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if _la==VarDefParser.SUB:
+                    self.state = 111
+                    self.match(VarDefParser.SUB)
+
+
+                self.state = 114
                 self.match(VarDefParser.INT)
                 pass
-            elif token in [VarDefParser.FLOAT]:
-                self.state = 89
+
+            elif la_ == 2:
+                self.state = 116
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if _la==VarDefParser.SUB:
+                    self.state = 115
+                    self.match(VarDefParser.SUB)
+
+
+                self.state = 118
                 self.match(VarDefParser.FLOAT)
                 pass
-            elif token in [VarDefParser.ID]:
-                self.state = 90
+
+            elif la_ == 3:
+                self.state = 119
                 self.match(VarDefParser.ID)
                 pass
-            elif token in [VarDefParser.T__2]:
-                self.state = 91
-                self.match(VarDefParser.T__2)
-                self.state = 92
-                self.ee(0)
-                self.state = 93
+
+            elif la_ == 4:
+                self.state = 120
                 self.match(VarDefParser.T__3)
+                self.state = 121
+                self.ee(0)
+                self.state = 122
+                self.match(VarDefParser.T__4)
                 pass
-            else:
-                raise NoViableAltException(self)
+
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 105
+            self.state = 134
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,11,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,14,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 103
+                    self.state = 132
                     self._errHandler.sync(self)
-                    la_ = self._interp.adaptivePredict(self._input,10,self._ctx)
+                    la_ = self._interp.adaptivePredict(self._input,13,self._ctx)
                     if la_ == 1:
                         localctx = VarDefParser.EeContext(self, _parentctx, _parentState)
                         localctx.a = _prevctx
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_ee)
-                        self.state = 97
+                        self.state = 126
                         if not self.precpred(self._ctx, 6):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
-                        self.state = 98
+                        self.state = 127
                         localctx.op = self._input.LT(1)
                         _la = self._input.LA(1)
                         if not(_la==VarDefParser.MUL or _la==VarDefParser.DIV):
@@ -778,7 +1007,7 @@ class VarDefParser ( Parser ):
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 99
+                        self.state = 128
                         localctx.b = self.ee(7)
                         pass
 
@@ -786,11 +1015,11 @@ class VarDefParser ( Parser ):
                         localctx = VarDefParser.EeContext(self, _parentctx, _parentState)
                         localctx.a = _prevctx
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_ee)
-                        self.state = 100
+                        self.state = 129
                         if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
-                        self.state = 101
+                        self.state = 130
                         localctx.op = self._input.LT(1)
                         _la = self._input.LA(1)
                         if not(_la==VarDefParser.ADD or _la==VarDefParser.SUB):
@@ -798,14 +1027,14 @@ class VarDefParser ( Parser ):
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 102
+                        self.state = 131
                         localctx.b = self.ee(6)
                         pass
 
              
-                self.state = 107
+                self.state = 136
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,11,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,14,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -815,12 +1044,448 @@ class VarDefParser ( Parser ):
             self.unrollRecursionContexts(_parentctx)
         return localctx
 
+    class CompareContext(ParserRuleContext):
+
+        def __init__(self, parser, parent=None, invokingState=-1):
+            super(VarDefParser.CompareContext, self).__init__(parent, invokingState)
+            self.parser = parser
+            self.a = None # EeContext
+            self.op = None # Token
+            self.b = None # EeContext
+
+        def ee(self, i=None):
+            if i is None:
+                return self.getTypedRuleContexts(VarDefParser.EeContext)
+            else:
+                return self.getTypedRuleContext(VarDefParser.EeContext,i)
+
+
+        def compare(self, i=None):
+            if i is None:
+                return self.getTypedRuleContexts(VarDefParser.CompareContext)
+            else:
+                return self.getTypedRuleContext(VarDefParser.CompareContext,i)
+
+
+        def AND(self):
+            return self.getToken(VarDefParser.AND, 0)
+
+        def OR(self):
+            return self.getToken(VarDefParser.OR, 0)
+
+        def getRuleIndex(self):
+            return VarDefParser.RULE_compare
+
+        def accept(self, visitor):
+            if hasattr(visitor, "visitCompare"):
+                return visitor.visitCompare(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+    def compare(self, _p=0):
+        _parentctx = self._ctx
+        _parentState = self.state
+        localctx = VarDefParser.CompareContext(self, self._ctx, _parentState)
+        _prevctx = localctx
+        _startState = 20
+        self.enterRecursionRule(localctx, 20, self.RULE_compare, _p)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 146
+            self._errHandler.sync(self)
+            la_ = self._interp.adaptivePredict(self._input,15,self._ctx)
+            if la_ == 1:
+                self.state = 138
+                localctx.a = self.ee(0)
+                self.state = 139
+                localctx.op = self._input.LT(1)
+                _la = self._input.LA(1)
+                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << VarDefParser.T__5) | (1 << VarDefParser.T__6) | (1 << VarDefParser.T__7) | (1 << VarDefParser.T__8) | (1 << VarDefParser.T__9) | (1 << VarDefParser.T__10))) != 0)):
+                    localctx.op = self._errHandler.recoverInline(self)
+                else:
+                    self._errHandler.reportMatch(self)
+                    self.consume()
+                self.state = 140
+                localctx.b = self.ee(0)
+                pass
+
+            elif la_ == 2:
+                self.state = 142
+                self.match(VarDefParser.T__3)
+                self.state = 143
+                self.compare(0)
+                self.state = 144
+                self.match(VarDefParser.T__4)
+                pass
+
+
+            self._ctx.stop = self._input.LT(-1)
+            self.state = 153
+            self._errHandler.sync(self)
+            _alt = self._interp.adaptivePredict(self._input,16,self._ctx)
+            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                if _alt==1:
+                    if self._parseListeners is not None:
+                        self.triggerExitRuleEvent()
+                    _prevctx = localctx
+                    localctx = VarDefParser.CompareContext(self, _parentctx, _parentState)
+                    self.pushNewRecursionContext(localctx, _startState, self.RULE_compare)
+                    self.state = 148
+                    if not self.precpred(self._ctx, 1):
+                        from antlr4.error.Errors import FailedPredicateException
+                        raise FailedPredicateException(self, "self.precpred(self._ctx, 1)")
+                    self.state = 149
+                    _la = self._input.LA(1)
+                    if not(_la==VarDefParser.AND or _la==VarDefParser.OR):
+                        self._errHandler.recoverInline(self)
+                    else:
+                        self._errHandler.reportMatch(self)
+                        self.consume()
+                    self.state = 150
+                    self.compare(2) 
+                self.state = 155
+                self._errHandler.sync(self)
+                _alt = self._interp.adaptivePredict(self._input,16,self._ctx)
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.unrollRecursionContexts(_parentctx)
+        return localctx
+
+    class AssignContext(ParserRuleContext):
+
+        def __init__(self, parser, parent=None, invokingState=-1):
+            super(VarDefParser.AssignContext, self).__init__(parent, invokingState)
+            self.parser = parser
+
+        def ID(self):
+            return self.getToken(VarDefParser.ID, 0)
+
+        def ee(self):
+            return self.getTypedRuleContext(VarDefParser.EeContext,0)
+
+
+        def getRuleIndex(self):
+            return VarDefParser.RULE_assign
+
+        def accept(self, visitor):
+            if hasattr(visitor, "visitAssign"):
+                return visitor.visitAssign(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def assign(self):
+
+        localctx = VarDefParser.AssignContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 22, self.RULE_assign)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 156
+            self.match(VarDefParser.ID)
+            self.state = 157
+            self.match(VarDefParser.T__1)
+            self.state = 158
+            self.ee(0)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+    class If_statContext(ParserRuleContext):
+
+        def __init__(self, parser, parent=None, invokingState=-1):
+            super(VarDefParser.If_statContext, self).__init__(parent, invokingState)
+            self.parser = parser
+            self.c = None # CompareContext
+            self.a = None # AssignContext
+
+        def IF(self):
+            return self.getToken(VarDefParser.IF, 0)
+
+        def compare(self, i=None):
+            if i is None:
+                return self.getTypedRuleContexts(VarDefParser.CompareContext)
+            else:
+                return self.getTypedRuleContext(VarDefParser.CompareContext,i)
+
+
+        def NL(self, i=None):
+            if i is None:
+                return self.getTokens(VarDefParser.NL)
+            else:
+                return self.getToken(VarDefParser.NL, i)
+
+        def ELSEIF(self, i=None):
+            if i is None:
+                return self.getTokens(VarDefParser.ELSEIF)
+            else:
+                return self.getToken(VarDefParser.ELSEIF, i)
+
+        def ELSE(self):
+            return self.getToken(VarDefParser.ELSE, 0)
+
+        def assign(self, i=None):
+            if i is None:
+                return self.getTypedRuleContexts(VarDefParser.AssignContext)
+            else:
+                return self.getTypedRuleContext(VarDefParser.AssignContext,i)
+
+
+        def getRuleIndex(self):
+            return VarDefParser.RULE_if_stat
+
+        def accept(self, visitor):
+            if hasattr(visitor, "visitIf_stat"):
+                return visitor.visitIf_stat(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def if_stat(self):
+
+        localctx = VarDefParser.If_statContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 24, self.RULE_if_stat)
+        ifs=collections.OrderedDict();al=[];
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 160
+            self.match(VarDefParser.IF)
+            self.state = 161
+            localctx.c = self.compare(0)
+            self.state = 165
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==VarDefParser.NL:
+                self.state = 162
+                self.match(VarDefParser.NL)
+                self.state = 167
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 168
+            self.match(VarDefParser.T__11)
+            self.state = 172
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==VarDefParser.NL:
+                self.state = 169
+                self.match(VarDefParser.NL)
+                self.state = 174
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 183 
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while True:
+                self.state = 175
+                localctx.a = self.assign()
+                t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
+                self.state = 180
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while _la==VarDefParser.NL:
+                    self.state = 177
+                    self.match(VarDefParser.NL)
+                    self.state = 182
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                self.state = 185 
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if not (_la==VarDefParser.ID):
+                    break
+
+            self.state = 187
+            self.match(VarDefParser.T__12)
+            self.state = 191
+            self._errHandler.sync(self)
+            _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
+            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                if _alt==1:
+                    self.state = 188
+                    self.match(VarDefParser.NL) 
+                self.state = 193
+                self._errHandler.sync(self)
+                _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
+
+            k=str((None if localctx.c is None else self._input.getText((localctx.c.start,localctx.c.stop)))); ifs[k]=al;al=[]
+            self.state = 233
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==VarDefParser.ELSEIF:
+                self.state = 195
+                self.match(VarDefParser.ELSEIF)
+                self.state = 196
+                localctx.c = self.compare(0)
+                self.state = 200
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while _la==VarDefParser.NL:
+                    self.state = 197
+                    self.match(VarDefParser.NL)
+                    self.state = 202
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                self.state = 203
+                self.match(VarDefParser.T__11)
+                self.state = 207
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while _la==VarDefParser.NL:
+                    self.state = 204
+                    self.match(VarDefParser.NL)
+                    self.state = 209
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                self.state = 218 
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while True:
+                    self.state = 210
+                    localctx.a = self.assign()
+                    t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
+                    self.state = 215
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+                    while _la==VarDefParser.NL:
+                        self.state = 212
+                        self.match(VarDefParser.NL)
+                        self.state = 217
+                        self._errHandler.sync(self)
+                        _la = self._input.LA(1)
+
+                    self.state = 220 
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+                    if not (_la==VarDefParser.ID):
+                        break
+
+                self.state = 222
+                self.match(VarDefParser.T__12)
+                self.state = 226
+                self._errHandler.sync(self)
+                _alt = self._interp.adaptivePredict(self._input,26,self._ctx)
+                while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                    if _alt==1:
+                        self.state = 223
+                        self.match(VarDefParser.NL) 
+                    self.state = 228
+                    self._errHandler.sync(self)
+                    _alt = self._interp.adaptivePredict(self._input,26,self._ctx)
+
+                k=str((None if localctx.c is None else self._input.getText((localctx.c.start,localctx.c.stop)))); ifs[k]=al;al=[]
+                self.state = 235
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 270
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==VarDefParser.ELSE:
+                self.state = 236
+                self.match(VarDefParser.ELSE)
+                self.state = 240
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while _la==VarDefParser.NL:
+                    self.state = 237
+                    self.match(VarDefParser.NL)
+                    self.state = 242
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                self.state = 243
+                self.match(VarDefParser.T__11)
+                self.state = 247
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while _la==VarDefParser.NL:
+                    self.state = 244
+                    self.match(VarDefParser.NL)
+                    self.state = 249
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                self.state = 258 
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while True:
+                    self.state = 250
+                    localctx.a = self.assign()
+                    t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
+                    self.state = 255
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+                    while _la==VarDefParser.NL:
+                        self.state = 252
+                        self.match(VarDefParser.NL)
+                        self.state = 257
+                        self._errHandler.sync(self)
+                        _la = self._input.LA(1)
+
+                    self.state = 260 
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+                    if not (_la==VarDefParser.ID):
+                        break
+
+                self.state = 262
+                self.match(VarDefParser.T__12)
+                self.state = 264 
+                self._errHandler.sync(self)
+                _alt = 1
+                while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                    if _alt == 1:
+                        self.state = 263
+                        self.match(VarDefParser.NL)
+
+                    else:
+                        raise NoViableAltException(self)
+                    self.state = 266 
+                    self._errHandler.sync(self)
+                    _alt = self._interp.adaptivePredict(self._input,32,self._ctx)
+
+                ifs['1']=al
+
+
+            self._ctx.stop = self._input.LT(-1)
+            self.ifsMap[self.ifid]=ifs;
+            for s in ifs: print(s,ifs[s]);
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
 
 
     def sempred(self, localctx, ruleIndex, predIndex):
         if self._predicates == None:
             self._predicates = dict()
-        self._predicates[8] = self.ee_sempred
+        self._predicates[9] = self.ee_sempred
+        self._predicates[10] = self.compare_sempred
         pred = self._predicates.get(ruleIndex, None)
         if pred is None:
             raise Exception("No predicate with index:" + str(ruleIndex))
@@ -834,6 +1499,11 @@ class VarDefParser ( Parser ):
 
             if predIndex == 1:
                 return self.precpred(self._ctx, 5)
+         
+
+    def compare_sempred(self, localctx, predIndex):
+            if predIndex == 2:
+                return self.precpred(self._ctx, 1)
          
 
 
