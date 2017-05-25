@@ -1469,7 +1469,7 @@ class VarDefParser ( Parser ):
 
             self._ctx.stop = self._input.LT(-1)
             self.ifsMap[self.ifid]=ifs;
-            for s in ifs: print(s,ifs[s]);
+            #for s in ifs: print(s,ifs[s]);
 
         except RecognitionException as re:
             localctx.exception = re

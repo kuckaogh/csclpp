@@ -24,7 +24,8 @@ def evaluate(self, left, op, right):
         return 0
 }
 
-prog: (i=ID '=' ee NEWLINE {id = str($i.text);self.varTs[id] = $ee.v}  )+           
+
+expression: (i=ID '=' ee NEWLINE {id = str($i.text);self.varTs[id] = $ee.v}  )+           
     ;
 
 ee returns [int v]

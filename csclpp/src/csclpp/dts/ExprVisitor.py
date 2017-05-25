@@ -10,8 +10,8 @@ import ParserTools as P
 
 class ExprVisitor(ParseTreeVisitor):
 
-    # Visit a parse tree produced by ExprParser#prog.
-    def visitProg(self, ctx):
+    # Visit a parse tree produced by ExprParser#expression.
+    def visitExpression(self, ctx):
         return self.visitChildren(ctx)
 
 

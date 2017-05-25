@@ -48,10 +48,10 @@ class ExprParser ( Parser ):
                       u"MUL", u"DIV", u"ADD", u"SUB", u"ID", u"FLOAT", u"INT", 
                       u"NEWLINE", u"WS" ]
 
-    RULE_prog = 0
+    RULE_expression = 0
     RULE_ee = 1
 
-    ruleNames =  [ u"prog", u"ee" ]
+    ruleNames =  [ u"expression", u"ee" ]
 
     EOF = Token.EOF
     T__0=1
@@ -91,10 +91,10 @@ class ExprParser ( Parser ):
             return 0
 
 
-    class ProgContext(ParserRuleContext):
+    class ExpressionContext(ParserRuleContext):
 
         def __init__(self, parser, parent=None, invokingState=-1):
-            super(ExprParser.ProgContext, self).__init__(parent, invokingState)
+            super(ExprParser.ExpressionContext, self).__init__(parent, invokingState)
             self.parser = parser
             self.i = None # Token
             self._ee = None # EeContext
@@ -119,21 +119,21 @@ class ExprParser ( Parser ):
                 return self.getToken(ExprParser.ID, i)
 
         def getRuleIndex(self):
-            return ExprParser.RULE_prog
+            return ExprParser.RULE_expression
 
         def accept(self, visitor):
-            if hasattr(visitor, "visitProg"):
-                return visitor.visitProg(self)
+            if hasattr(visitor, "visitExpression"):
+                return visitor.visitExpression(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def prog(self):
+    def expression(self):
 
-        localctx = ExprParser.ProgContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 0, self.RULE_prog)
+        localctx = ExprParser.ExpressionContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 0, self.RULE_expression)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)

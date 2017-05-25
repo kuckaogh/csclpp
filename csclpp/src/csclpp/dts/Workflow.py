@@ -31,12 +31,13 @@ def readReference(fs):
         
         
         vf=os.path.join(ds,varFile+'.vardef')
-        varPathGroupMap, varExprGroupMap, tempVarGroupList, newArrayGroupList =P.parseVarDef(vf)
+        varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, newArrayGroupList, =P.parseVarDef(vf)
 #         S.fileVarPathGroupMap[varFile]=T.varPathGroupMap
 #         S.fileVarExprGroupMap[varFile]=T.varExprGroupMap
         sty.varPathMap=varPathGroupMap[varDef]
         sty.varExprMap=varExprGroupMap[varDef]
         sty.tempVarList = tempVarGroupList[varDef]
+        sty.ifsMap = ifsMapGroupMap[varDef]
         sty.newArrayList = newArrayGroupList[varDef]
         
     return S.studyMap
@@ -67,6 +68,20 @@ def evaluateDTS(studyVarTs):
         
 #         for var in T.styVarTs[s]:
 #             print var, T.styVarTs[s][var]
+
+
+def evaluateIFS(studyVarTs):
+    
+    for s in studyVarTs:
+
+        for p in S.studyMap[s].ifsMap:
+            ifs = S.studyMap[s].ifsMap[p]
+            print 'if statement ID: '+ str(p)
+            for condition in ifs:
+                print ' ', condition,':',ifs[condition]
+        
+
+
 
         
 def test_evaluateDTS(studyVarTs):

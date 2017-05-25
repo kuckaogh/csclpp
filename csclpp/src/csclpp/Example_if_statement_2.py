@@ -37,10 +37,17 @@ for studyName in studyMap:
     studyVarData[studyName]=varData
 
 
+print 'evaluate DTS'
 # compute derived timeseries and then store them in studyVarData
 Workflow.evaluateDTS(studyVarData)
 
-print studyVarData
+print 'evaluate If Statements'
+
+Workflow.evaluateIFS(studyVarData)
+
+print 'print results'
+
+#print studyVarData
 
 
 

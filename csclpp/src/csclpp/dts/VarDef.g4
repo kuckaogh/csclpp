@@ -125,7 +125,7 @@ assign
 if_stat
 @init{ifs=collections.OrderedDict();al=[];}
 @after{self.ifsMap[self.ifid]=ifs;
-for s in ifs: print(s,ifs[s]);
+#for s in ifs: print(s,ifs[s]);
 }
 	: IF c=compare NL* '{' NL* (a=assign {t=str($a.text);al.append(t)} NL*  )+ '}' NL*
 	{k=str($c.text); ifs[k]=al;al=[]}

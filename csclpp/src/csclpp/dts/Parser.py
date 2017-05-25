@@ -19,7 +19,7 @@ def parseVarDef(f):
     token_stream = CommonTokenStream(lexer)
     p = VarDefParser(token_stream)
     tree = p.prog()
-    return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.newArrayGroupList
+    return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupList
     
 #     visitor = DtsVisitor()
 #     visitor.visit(tree)
@@ -41,7 +41,7 @@ def evaluateDTS(varTs, line):
     token_stream = CommonTokenStream(lexer)
     parser = ExprParser(token_stream)
     parser.varTs = varTs
-    parser.prog()
+    parser.expression()
 
 
 # def evaluateDTS(f):

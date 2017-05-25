@@ -25,4 +25,10 @@ for k in studyMap:
     for p in studyMap[k].newArrayList:
         print '  new arrays: '+p
     print '  temp vars:', studyMap[k].tempVarList,'\n'
+    
+    for p in studyMap[k].ifsMap:
+        ifs = studyMap[k].ifsMap[p]
+        print 'if statement ID: '+ str(p)
+        for condition in ifs:
+            print ' ', condition,':',ifs[condition]
 

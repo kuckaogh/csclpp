@@ -9,6 +9,7 @@ class Study:
     varPathMap = {}
     varExprMap = {}
     tempVarList = []
+    ifsMap = {}
     newArrayList = []
 
     metaData =''
@@ -19,6 +20,7 @@ class Study:
         self.varDef=''
         self.varPathMap={}
         self.varExprMap={}
+        self.ifsMap={}
         self.newArrayList=[]
         self.metaData=''
 
