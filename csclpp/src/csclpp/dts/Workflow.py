@@ -71,16 +71,30 @@ def evaluateDTS(studyVarTs):
 
 
 def evaluateIFS(studyVarTs):
-    
+    es=''
+    results={}
     for s in studyVarTs:
 
         for p in S.studyMap[s].ifsMap:
             ifs = S.studyMap[s].ifsMap[p]
-            print 'if statement ID: '+ str(p)
-            for condition in ifs:
-                print ' ', condition,':',ifs[condition]
+            #print 'if statement ID: '+ str(p)
+            for idx, condition in enumerate(ifs):
+                if idx<1:
+                    es =es + 'if ' + condition + ":\n"
+                    for a in ifs[condition]:
+                        es = es + '    '+a+'\n'
+                else:
+                    if condition=='always':
+                        es =es + 'else:\n'
+                    else:
+                        es =es + 'elif ' + condition + ":\n"
+                    for a in ifs[condition]:
+                        es = es + '    '+a+'\n'                   
+            es =es+'\n'
         
-
+    print es
+    eval("if 3> 1: print 'yes'")
+    eval(es)
 
 
         

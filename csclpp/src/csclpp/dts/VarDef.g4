@@ -134,7 +134,7 @@ if_stat
 	{k=str($c.text); ifs[k]=al;al=[]})*
      
      (ELSE NL* '{' NL* (a=assign {t=str($a.text);al.append(t)} NL*  )+ '}' NL+
-	{ifs['1']=al})?
+	{ifs['always']=al})?
 	; 
 
 

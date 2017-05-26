@@ -1464,7 +1464,7 @@ class VarDefParser ( Parser ):
                     self._errHandler.sync(self)
                     _alt = self._interp.adaptivePredict(self._input,32,self._ctx)
 
-                ifs['1']=al
+                ifs['always']=al
 
 
             self._ctx.stop = self._input.LT(-1)
