@@ -69,12 +69,35 @@ def evaluateDTS(studyVarTs):
 #         for var in T.styVarTs[s]:
 #             print var, T.styVarTs[s][var]
 
-
 def evaluateIFS(studyVarTs):
     es=''
     results={}
     for s in studyVarTs:
+        ts = studyVarTs[s]
+        print ts
 
+        for p in S.studyMap[s].ifsMap:
+            ifs = S.studyMap[s].ifsMap[p]
+            es=es+'if statement ID: '+ str(p)+'\n'
+            for idx, condition in enumerate(ifs):
+                es=es+condition+':\n'  
+                for a in ifs[condition]:
+                        es = es +a+'\n'               
+            es =es+'\n'
+        
+    text_file = open("es_printout.txt", "w")
+    text_file.write(es)
+    text_file.close()
+
+    
+def evaluateIFS0(studyVarTs):
+    es=''
+    results={}
+    for s in studyVarTs:
+        ts = studyVarTs[s]
+        print ts
+        es=es+'locals().update(ts)\n'
+        es=es+'print D418\n'
         for p in S.studyMap[s].ifsMap:
             ifs = S.studyMap[s].ifsMap[p]
             #print 'if statement ID: '+ str(p)
@@ -93,8 +116,11 @@ def evaluateIFS(studyVarTs):
             es =es+'\n'
         
     print es
-    eval("if 3> 1: print 'yes'")
-    eval(es)
+    text_file = open("es.py", "w")
+    text_file.write(es)
+    text_file.close()
+    #exec("if 3> 1: print 'yes'")
+    exec(es)
 
 
         
