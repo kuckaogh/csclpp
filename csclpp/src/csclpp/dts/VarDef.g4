@@ -101,19 +101,19 @@ if isTemp:
 //}
     ;
 
-ee 
-    : a=ee op=('*'|'/') b=ee  
-    | a=ee op=('+'|'-') b=ee  
-    | '-'? INT                   
-    | '-'? FLOAT                    
-    | ID 
-    | '(' ee ')'             
+ee returns [String text]
+    : a=ee o=('*'|'/') b=ee {$text=str($a.text)+str($o.text)+str($b.text);}   
+    | a=ee o=('+'|'-') b=ee {$text=str($a.text)+str($o.text)+str($b.text);} 
+    | {s=''} ('-'{s='-'})? i=INT      {$text=s+str($i.text)}             
+    | {s=''} ('-'{s='-'})? i=FLOAT    {$text=s+str($i.text)}              
+    | i=ID                            {$text=str($i.text)}  
+    | '(' a=ee ')'                    {$text="("+str($a.text)+")"}       
     ; 
 
-compare
-    : a=ee op=('>'|'>='|'<'|'<='|'=='|'!=') b=ee     
-    | '(' compare ')'
-    |    compare (AND|OR) compare      
+compare returns [String text]
+    : a=ee o=('>'|'>='|'<'|'<='|'=='|'!=') b=ee    {$text=str($a.text)+str($o.text)+str($b.text)}  
+    | '(' c=compare ')'                            {$text="("+str($c.text)+")"}    
+    |    c1=compare op=(AND|OR) c2=compare         {$text=str($c1.text)+str($op.text)+str($c2.text)}  
     ; 
 
 
