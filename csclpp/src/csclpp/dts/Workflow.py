@@ -5,6 +5,7 @@ from Var import Var
 import Setting as S
 import os
 
+
 def readReference(fs):
     
     ds = os.path.dirname(fs)
@@ -73,28 +74,41 @@ def evaluateIFS(studyVarTs):
     es=''
     results={}
     for s in studyVarTs:
-        ts = studyVarTs[s]
-        print ts
-
+        global _ts
+        _ts = studyVarTs[s]
+        #print ts
+        #es=es+'print globals()\n'
+        iend=len(_ts.values()[0])
+        es=es+'for i in range(0,'+str(iend)+'):\n'
         for p in S.studyMap[s].ifsMap:
             ifs = S.studyMap[s].ifsMap[p]
-            es=es+'if statement ID: '+ str(p)+'\n'
+            #print 'if statement ID: '+ str(p)
             for idx, condition in enumerate(ifs):
-                es=es+condition+':\n'  
-                for a in ifs[condition]:
-                        es = es +a+'\n'               
+                if idx<1:
+                    es =es + '\tif ' + condition + ":\n"
+                    for a in ifs[condition]:
+                        es = es + '\t\t'+a+'\n'
+                else:
+                    if condition=='always':
+                        es =es + '\telse:\n'
+                    else:
+                        es =es + '\telif ' + condition + ":\n"
+                    for a in ifs[condition]:
+                        es = es + '\t\t'+a+'\n'                   
             es =es+'\n'
-        
+    
     text_file = open("es_printout.txt", "w")
     text_file.write(es)
     text_file.close()
-
+    exec(es, {'_ts':_ts})    
     
 def evaluateIFS0(studyVarTs):
     es=''
     results={}
     for s in studyVarTs:
         ts = studyVarTs[s]
+        new = {}
+        #for studyVarTs[s].
         print ts
         es=es+'locals().update(ts)\n'
         es=es+'print D418\n'

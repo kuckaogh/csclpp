@@ -9,6 +9,8 @@ import collections
 }
 
 @parser::members {
+ifsAppend='';
+ifsNewAppend='';
 varPathGroupMap={};
 varExprGroupMap={};
 tempVarGroupList={};
@@ -102,11 +104,11 @@ if isTemp:
     ;
 
 ee returns [String text]
-    : a=ee o=('*'|'/') b=ee {$text=str($a.text)+str($o.text)+str($b.text);}   
-    | a=ee o=('+'|'-') b=ee {$text=str($a.text)+str($o.text)+str($b.text);} 
+    : a=ee o=('*'|'/') b=ee           {$text=str($a.text)+str($o.text)+str($b.text);}   
+    | a=ee o=('+'|'-') b=ee           {$text=str($a.text)+str($o.text)+str($b.text);} 
     | {s=''} ('-'{s='-'})? i=INT      {$text=s+str($i.text)}             
     | {s=''} ('-'{s='-'})? i=FLOAT    {$text=s+str($i.text)}              
-    | i=ID                            {$text=str($i.text)}  
+    | i=ID                            {$text=self.ifsAppend+"['"+str($i.text)+"']"+"[i]"}  
     | '(' a=ee ')'                    {$text="("+str($a.text)+")"}       
     ; 
 
@@ -117,8 +119,8 @@ compare returns [String text]
     ; 
 
 
-assign
-	: ID '=' ee 
+assign returns [String text]
+	: i=ID '=' a=ee {$text=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.text}  
 	;
 
 

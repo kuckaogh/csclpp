@@ -10,7 +10,8 @@ from ExprParser import ExprParser
 # from EvalLexer import EvalLexer
 # from EvalParser import EvalParser
 #from DtsVisitor import DtsVisitor
-
+ifsTsDictName='_ts'
+ifsNewDictName=ifsTsDictName
 
 def parseVarDef(f):
 
@@ -18,6 +19,8 @@ def parseVarDef(f):
     lexer = VarDefLexer(input_stream)
     token_stream = CommonTokenStream(lexer)
     p = VarDefParser(token_stream)
+    p.ifsAppend=ifsTsDictName
+    p.ifsNewAppend=ifsNewDictName
     tree = p.prog()
     return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupList
     
