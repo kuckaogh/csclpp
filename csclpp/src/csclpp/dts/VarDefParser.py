@@ -887,7 +887,10 @@ class VarDefParser ( Parser ):
             self.state = 108
             localctx.e = self.ee(0)
             self._ctx.stop = self._input.LT(-1)
-            v = Var('');e=str(localctx.e.text);v.expr=e; 
+
+            v = Var('');
+            e=str((None if localctx.e is None else self._input.getText((localctx.e.start,localctx.e.stop))));v.expr=e;
+            e_mod=str(localctx.e.x);v.expr_mod=e_mod; 
             name=str((None if localctx.i is None else localctx.i.text)); self.varExprMap[name]=v; 
             if isTemp: 
             	self.tempVarList.append(name);	
@@ -905,7 +908,7 @@ class VarDefParser ( Parser ):
         def __init__(self, parser, parent=None, invokingState=-1):
             super(VarDefParser.EeContext, self).__init__(parent, invokingState)
             self.parser = parser
-            self.text = None
+            self.x = None
             self.a = None # EeContext
             self.i = None # Token
             self.o = None # Token
@@ -964,7 +967,7 @@ class VarDefParser ( Parser ):
 
                 self.state = 116
                 localctx.i = self.match(VarDefParser.INT)
-                localctx.text=s+str((None if localctx.i is None else localctx.i.text))
+                localctx.x=s+str((None if localctx.i is None else localctx.i.text))
                 pass
 
             elif la_ == 2:
@@ -980,13 +983,13 @@ class VarDefParser ( Parser ):
 
                 self.state = 123
                 localctx.i = self.match(VarDefParser.FLOAT)
-                localctx.text=s+str((None if localctx.i is None else localctx.i.text))
+                localctx.x=s+str((None if localctx.i is None else localctx.i.text))
                 pass
 
             elif la_ == 3:
                 self.state = 125
                 localctx.i = self.match(VarDefParser.ID)
-                localctx.text=self.ifsAppend+"['"+str((None if localctx.i is None else localctx.i.text))+"']"+"[i]"
+                localctx.x=self.ifsAppend+"['"+str((None if localctx.i is None else localctx.i.text))+"']"+"[i]"
                 pass
 
             elif la_ == 4:
@@ -996,7 +999,7 @@ class VarDefParser ( Parser ):
                 localctx.a = self.ee(0)
                 self.state = 129
                 self.match(VarDefParser.T__4)
-                localctx.text="("+str(localctx.a.text)+")"
+                localctx.x="("+str(localctx.a.x)+")"
                 pass
 
 
@@ -1030,7 +1033,7 @@ class VarDefParser ( Parser ):
                             self.consume()
                         self.state = 136
                         localctx.b = self.ee(7)
-                        localctx.text = str(localctx.a.text)+str((None if localctx.o is None else localctx.o.text))+str(localctx.b.text)
+                        localctx.x = str(localctx.a.x)+str((None if localctx.o is None else localctx.o.text))+str(localctx.b.x)
                         pass
 
                     elif la_ == 2:
@@ -1051,7 +1054,7 @@ class VarDefParser ( Parser ):
                             self.consume()
                         self.state = 141
                         localctx.b = self.ee(6)
-                        localctx.text = str(localctx.a.text)+str((None if localctx.o is None else localctx.o.text))+str(localctx.b.text)
+                        localctx.x = str(localctx.a.x)+str((None if localctx.o is None else localctx.o.text))+str(localctx.b.x)
                         pass
 
              
@@ -1072,7 +1075,7 @@ class VarDefParser ( Parser ):
         def __init__(self, parser, parent=None, invokingState=-1):
             super(VarDefParser.CompareContext, self).__init__(parent, invokingState)
             self.parser = parser
-            self.text = None
+            self.x = None
             self.c1 = None # CompareContext
             self.a = None # EeContext
             self.o = None # Token
@@ -1138,7 +1141,7 @@ class VarDefParser ( Parser ):
                     self.consume()
                 self.state = 152
                 localctx.b = self.ee(0)
-                localctx.text=str(localctx.a.text)+str((None if localctx.o is None else localctx.o.text))+str(localctx.b.text)
+                localctx.x=str(localctx.a.x)+str((None if localctx.o is None else localctx.o.text))+str(localctx.b.x)
                 pass
 
             elif la_ == 2:
@@ -1148,7 +1151,7 @@ class VarDefParser ( Parser ):
                 localctx.c = self.compare(0)
                 self.state = 157
                 self.match(VarDefParser.T__4)
-                localctx.text="("+str(localctx.c.text)+")"
+                localctx.x="("+str(localctx.c.x)+")"
                 pass
 
 
@@ -1178,7 +1181,7 @@ class VarDefParser ( Parser ):
                         self.consume()
                     self.state = 164
                     localctx.c2 = self.compare(2)
-                    localctx.text=str(localctx.c1.text)+str((None if localctx.op is None else localctx.op.text))+str(localctx.c2.text) 
+                    localctx.x=str(localctx.c1.x)+str((None if localctx.op is None else localctx.op.text))+str(localctx.c2.x) 
                 self.state = 171
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,16,self._ctx)
@@ -1196,7 +1199,7 @@ class VarDefParser ( Parser ):
         def __init__(self, parser, parent=None, invokingState=-1):
             super(VarDefParser.AssignContext, self).__init__(parent, invokingState)
             self.parser = parser
-            self.text = None
+            self.x = None
             self.i = None # Token
             self.a = None # EeContext
 
@@ -1231,7 +1234,7 @@ class VarDefParser ( Parser ):
             self.match(VarDefParser.T__1)
             self.state = 174
             localctx.a = self.ee(0)
-            localctx.text=self.ifsNewAppend+"['"+str((None if localctx.i is None else localctx.i.text))+"'][i]="+localctx.a.text
+            localctx.x=self.ifsNewAppend+"['"+str((None if localctx.i is None else localctx.i.text))+"'][i]="+localctx.a.x
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1332,7 +1335,7 @@ class VarDefParser ( Parser ):
             while True:
                 self.state = 192
                 localctx.a = self.assign()
-                t=str(localctx.a.text);al.append(t)
+                t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
                 self.state = 197
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -1362,7 +1365,7 @@ class VarDefParser ( Parser ):
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
 
-            k=str(localctx.c.text); ifs[k]=al;al=[]
+            k=str((None if localctx.c is None else self._input.getText((localctx.c.start,localctx.c.stop)))); ifs[k]=al;al=[]
             self.state = 250
             self._errHandler.sync(self)
             _la = self._input.LA(1)
@@ -1399,7 +1402,7 @@ class VarDefParser ( Parser ):
                 while True:
                     self.state = 227
                     localctx.a = self.assign()
-                    t=str(localctx.a.text);al.append(t)
+                    t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
                     self.state = 232
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
@@ -1429,7 +1432,7 @@ class VarDefParser ( Parser ):
                     self._errHandler.sync(self)
                     _alt = self._interp.adaptivePredict(self._input,26,self._ctx)
 
-                k=str(localctx.c.text); ifs[k]=al;al=[]
+                k=str((None if localctx.c is None else self._input.getText((localctx.c.start,localctx.c.stop)))); ifs[k]=al;al=[]
                 self.state = 252
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -1468,7 +1471,7 @@ class VarDefParser ( Parser ):
                 while True:
                     self.state = 267
                     localctx.a = self.assign()
-                    t=str(localctx.a.text);al.append(t)
+                    t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
                     self.state = 272
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)

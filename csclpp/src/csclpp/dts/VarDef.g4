@@ -92,7 +92,11 @@ info: FLOAT | INT | STRING ;
 
 stat
 @init{isTemp=False }
-@after{v = Var('');e=str($e.text);v.expr=e; 
+@after
+{
+v = Var('');
+e=str($e.text);v.expr=e;
+e_mod=str($e.x);v.expr_mod=e_mod; 
 name=str($i.text); self.varExprMap[name]=v; 
 if isTemp: 
 	self.tempVarList.append(name);	
@@ -103,24 +107,24 @@ if isTemp:
 //}
     ;
 
-ee returns [String text]
-    : a=ee o=('*'|'/') b=ee           {$text=str($a.text)+str($o.text)+str($b.text);}   
-    | a=ee o=('+'|'-') b=ee           {$text=str($a.text)+str($o.text)+str($b.text);} 
-    | {s=''} ('-'{s='-'})? i=INT      {$text=s+str($i.text)}             
-    | {s=''} ('-'{s='-'})? i=FLOAT    {$text=s+str($i.text)}              
-    | i=ID                            {$text=self.ifsAppend+"['"+str($i.text)+"']"+"[i]"}  
-    | '(' a=ee ')'                    {$text="("+str($a.text)+")"}       
+ee returns [String x]
+    : a=ee o=('*'|'/') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);}   
+    | a=ee o=('+'|'-') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);} 
+    | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
+    | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
+    | i=ID                            {$x=self.ifsAppend+"['"+str($i.text)+"']"+"[i]"}  
+    | '(' a=ee ')'                    {$x="("+str($a.x)+")"}       
     ; 
 
-compare returns [String text]
-    : a=ee o=('>'|'>='|'<'|'<='|'=='|'!=') b=ee    {$text=str($a.text)+str($o.text)+str($b.text)}  
-    | '(' c=compare ')'                            {$text="("+str($c.text)+")"}    
-    |    c1=compare op=(AND|OR) c2=compare         {$text=str($c1.text)+str($op.text)+str($c2.text)}  
+compare returns [String x]
+    : a=ee o=('>'|'>='|'<'|'<='|'=='|'!=') b=ee    {$x=str($a.x)+str($o.text)+str($b.x)}  
+    | '(' c=compare ')'                            {$x="("+str($c.x)+")"}    
+    |    c1=compare op=(AND|OR) c2=compare         {$x=str($c1.x)+str($op.text)+str($c2.x)}  
     ; 
 
 
-assign returns [String text]
-	: i=ID '=' a=ee {$text=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.text}  
+assign returns [String x]
+	: i=ID '=' a=ee {$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x}  
 	;
 
 

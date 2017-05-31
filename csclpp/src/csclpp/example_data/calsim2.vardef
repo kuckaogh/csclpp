@@ -37,14 +37,14 @@ vardef release_control
 	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
 	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
 
-	if D418<0.1 { 
+	if D418<-0.1 { 
 		Min_Exports = 1 
 	}
 
 	
-	if D418>10 and (S4 >100 or S4 <= 10) { 
+	if D418+C5_EXC>4000  { 
 		x = 2
-		y = 3 }
+		y = 3*D418 }
 		
 	elseif C129_EXC<1000 {
 		z=512 } 
@@ -53,16 +53,6 @@ vardef release_control
 		z=1024 } 
 	else { 
 		kk = -3 }
-
-
-
-
-
-	
-	# for idx, d in enumerate(D418):
-		# if d<0.1:
-			# Min_Exports[idx]=1
-	
 	
 
 end
@@ -74,4 +64,10 @@ vardef test_if
 
 end
 
+vardef all
+	
+	include xyz
+	include release_control
+
+end
 
