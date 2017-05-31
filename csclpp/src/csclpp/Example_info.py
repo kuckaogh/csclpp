@@ -18,10 +18,16 @@ for k in studyMap:
     print 'studyName:', k
     for d in studyMap[k].data_src:
         print 'dss data src:', d
+        
     for p in studyMap[k].varPathMap:
-        print '  var:  '+p+'= '+studyMap[k].varPathMap[p].path
+        v=studyMap[k].varPathMap[p]
+        print '  var:  '+p+'= '+v.path
+        if v.metaData: print v.metaData   #print units, capacity
+        
     for p in studyMap[k].varExprMap:
-        print '  dts:  '+p+'= '+studyMap[k].varExprMap[p].expr 
+        v=studyMap[k].varExprMap[p]
+        print '  dts:  '+p+'= '+v.expr
+        if v.metaData: print v.metaData   #print units, capacity
 #     for p in studyMap[k].ifsMap:
 #         print '  if statement id:  '+str(p)
 #         print studyMap[k].ifsMap[p] 

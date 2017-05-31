@@ -3,6 +3,7 @@ vardef base
 
 	s_trinity = //S1/STORAGE//1MON//
 	s_trinity.capacity = 2447.6
+	s_trinity.units = 'TAF'
 	s_shasta  = //S4/STORAGE//1MON//
 	s_folsom  = //S8/STORAGE//1MON//	
 	nod_storage	= s_trinity + s_shasta + s_folsom

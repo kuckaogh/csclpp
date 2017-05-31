@@ -9,6 +9,7 @@ import collections
 }
 
 @parser::members {
+varMetaKeys=[];
 ifsAppend='';
 ifsNewAppend='';
 varPathGroupMap={};
@@ -78,16 +79,21 @@ if isTemp: self.tempVarList.append(name);
 
        
 var_meta : v=ID '.' p=ID '=' inf=info 
-{vn=str($v.text);pn=str($p.text);c=str($inf.text);
-if vn in self.varPathMap:
-	self.varPathMap[vn].metaData[pn]=c; 
-elif vn in self.varExprMap:
-	self.varExprMap[vn].metaData[pn]=c; 
+{vn=str($v.text);pn=str($p.text);c=str($inf.x);
+	
+if pn in self.varMetaKeys:
+	if vn in self.varPathMap:
+		self.varPathMap[vn].metaData[pn]=c; 
+	elif vn in self.varExprMap:
+		self.varExprMap[vn].metaData[pn]=c; 
+	else:
+		print ('#Error: '+vn+'.'+pn+'='+c+' variable \"'+vn+'\" not found!')
 else:
-	print ('#Error: '+vn+'.'+pn+'='+c+' variable \"'+vn+'\" not found!')
+	print ('#Error: '+vn+'.'+pn+'='+c+' metadata keyword \"'+pn+'\" not recognized!')
 }; 
 
-info: FLOAT | INT | STRING ;
+info returns[String x]
+: i=FLOAT {$x=$i.text}| i=INT {$x=$i.text}| i=STRING {$x=$i.text[1:-1]};
 
 
 stat

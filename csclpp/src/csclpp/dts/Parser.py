@@ -12,6 +12,7 @@ from ExprParser import ExprParser
 #from DtsVisitor import DtsVisitor
 ifsTsDictName='_ts'
 ifsNewDictName=ifsTsDictName
+varMetaKeys=['units','capacity']
 
 def parseVarDef(f):
 
@@ -21,6 +22,7 @@ def parseVarDef(f):
     p = VarDefParser(token_stream)
     p.ifsAppend=ifsTsDictName
     p.ifsNewAppend=ifsNewDictName
+    p.varMetaKeys=varMetaKeys
     tree = p.prog()
     return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupList
     
