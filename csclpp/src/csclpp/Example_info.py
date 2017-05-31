@@ -22,7 +22,9 @@ for k in studyMap:
         print '  var:  '+p+'= '+studyMap[k].varPathMap[p].path
     for p in studyMap[k].varExprMap:
         print '  dts:  '+p+'= '+studyMap[k].varExprMap[p].expr 
-        #print '  dts:  '+p+'= '+studyMap[k].varExprMap[p].expr_mod 
+    for p in studyMap[k].ifsMap:
+        print '  if statement id:  '+str(p)
+        print studyMap[k].ifsMap[p] 
     print '  temp vars:', studyMap[k].tempVarList
     print '  new vars:', studyMap[k].newArrayList
 

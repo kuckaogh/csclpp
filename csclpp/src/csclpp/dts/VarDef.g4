@@ -96,7 +96,6 @@ stat
 {
 v = Var('');
 e=str($e.text);v.expr=e;
-e_mod=str($e.x);v.expr_mod=e_mod; 
 name=str($i.text); self.varExprMap[name]=v; 
 if isTemp: 
 	self.tempVarList.append(name);	
@@ -133,13 +132,13 @@ if_stat
 @after{self.ifsMap[self.ifid]=ifs;
 #for s in ifs: print(s,ifs[s]);
 }
-	: IF c=compare NL* '{' NL* (a=assign {t=str($a.text);al.append(t)} NL*  )+ '}' NL*
-	{k=str($c.text); ifs[k]=al;al=[]}
+	: IF c=compare NL* '{' NL* (a=assign {t=str($a.x);al.append(t)} NL*  )+ '}' NL*
+	{k=str($c.x); ifs[k]=al;al=[]}
 	 
-	 (ELSEIF c=compare NL* '{' NL* (a=assign {t=str($a.text);al.append(t)} NL*  )+ '}' NL*
-	{k=str($c.text); ifs[k]=al;al=[]})*
+	 (ELSEIF c=compare NL* '{' NL* (a=assign {t=str($a.x);al.append(t)} NL*  )+ '}' NL*
+	{k=str($c.x); ifs[k]=al;al=[]})*
      
-     (ELSE NL* '{' NL* (a=assign {t=str($a.text);al.append(t)} NL*  )+ '}' NL+
+     (ELSE NL* '{' NL* (a=assign {t=str($a.x);al.append(t)} NL*  )+ '}' NL+
 	{ifs['always']=al})?
 	; 
 

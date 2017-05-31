@@ -890,7 +890,6 @@ class VarDefParser ( Parser ):
 
             v = Var('');
             e=str((None if localctx.e is None else self._input.getText((localctx.e.start,localctx.e.stop))));v.expr=e;
-            e_mod=str(localctx.e.x);v.expr_mod=e_mod; 
             name=str((None if localctx.i is None else localctx.i.text)); self.varExprMap[name]=v; 
             if isTemp: 
             	self.tempVarList.append(name);	
@@ -1335,7 +1334,7 @@ class VarDefParser ( Parser ):
             while True:
                 self.state = 192
                 localctx.a = self.assign()
-                t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
+                t=str(localctx.a.x);al.append(t)
                 self.state = 197
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -1365,7 +1364,7 @@ class VarDefParser ( Parser ):
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
 
-            k=str((None if localctx.c is None else self._input.getText((localctx.c.start,localctx.c.stop)))); ifs[k]=al;al=[]
+            k=str(localctx.c.x); ifs[k]=al;al=[]
             self.state = 250
             self._errHandler.sync(self)
             _la = self._input.LA(1)
@@ -1402,7 +1401,7 @@ class VarDefParser ( Parser ):
                 while True:
                     self.state = 227
                     localctx.a = self.assign()
-                    t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
+                    t=str(localctx.a.x);al.append(t)
                     self.state = 232
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
@@ -1432,7 +1431,7 @@ class VarDefParser ( Parser ):
                     self._errHandler.sync(self)
                     _alt = self._interp.adaptivePredict(self._input,26,self._ctx)
 
-                k=str((None if localctx.c is None else self._input.getText((localctx.c.start,localctx.c.stop)))); ifs[k]=al;al=[]
+                k=str(localctx.c.x); ifs[k]=al;al=[]
                 self.state = 252
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -1471,7 +1470,7 @@ class VarDefParser ( Parser ):
                 while True:
                     self.state = 267
                     localctx.a = self.assign()
-                    t=str((None if localctx.a is None else self._input.getText((localctx.a.start,localctx.a.stop))));al.append(t)
+                    t=str(localctx.a.x);al.append(t)
                     self.state = 272
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
