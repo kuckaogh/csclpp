@@ -56,7 +56,7 @@ Workflow.evaluateIFS(studyVarData)
 
 Debug.printCSV(studyVarData)
 
-
+print studyVarData
 
 
 

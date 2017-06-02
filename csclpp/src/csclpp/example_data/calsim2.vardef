@@ -7,7 +7,7 @@ vardef base
 	s_folsom  = //S8/STORAGE//1MON//	
 	nod_storage	= s_trinity + s_shasta + s_folsom
 	nod_storage.units = TAF
-	nod_storage.capacity = 8000
+	Nod_storage.capacity = 8000
 	s_oroville = //S6/STORAGE//1MON//
     cvp_sanLuis = //S11/STORAGE//1MON//
 	# test = //C699/FLOW-CHANNEL//1MON// 
@@ -23,7 +23,7 @@ vardef xyz
 	@c3 = //C504/FLOW-CHANNEL//1MON//
 	@c4 = //C644/FLOW-CHANNEL//1MON// 
 	# @ means temp variables to construct delta inflow 
-	delta_inflow = c1 + c2 + c3 + 2*c4/2
+	Delta_Inflow = c1 + C2 + c3 + 2*c4/2
 	delta_inflow.units = CFS
 
 end
@@ -32,7 +32,7 @@ vardef release_control
  
 	# introduce an array, default values are zeros
 	array x, y, z
-	array shasta_ctrl{min_exports, flood, keswick_mif, ncp_mif}
+	array Shasta_Ctrl{min_exports, Flood, keswick_mif, ncp_mif}
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
 	S4         = //S4/STORAGE//1MON//
@@ -63,7 +63,7 @@ end
 vardef test_if
 	
 	#include xyz
-	include release_control
+	include Release_Control
 
 end
 

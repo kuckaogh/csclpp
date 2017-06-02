@@ -454,7 +454,7 @@ class VarDefParser ( Parser ):
                     break
 
             self._ctx.stop = self._input.LT(-1)
-            groupName=(None if localctx.name is None else localctx.name.text);
+            groupName=str((None if localctx.name is None else localctx.name.text)).lower();
             self.varPathGroupMap[groupName]=self.varPathMap;
             self.varExprGroupMap[groupName]=self.varExprMap;
             self.tempVarGroupList[groupName]=self.tempVarList;	
@@ -723,7 +723,7 @@ class VarDefParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 93
             localctx.i = self.match(VarDefParser.ID)
-            v = Var('');name=str((None if localctx.i is None else localctx.i.text));
+            v = Var('');name=str((None if localctx.i is None else localctx.i.text)).lower();
             self.newArrayMap[name]=v;
 
         except RecognitionException as re:
@@ -799,7 +799,7 @@ class VarDefParser ( Parser ):
 
             for v in subvar:
             	o = Var('')
-            	self.newArrayMap[header+'.'+v]=o;
+            	self.newArrayMap[header.lower()+'.'+v.lower()]=o;
 
         except RecognitionException as re:
             localctx.exception = re
@@ -845,7 +845,7 @@ class VarDefParser ( Parser ):
             self.state = 113
             localctx.g = self.match(VarDefParser.ID)
             self._ctx.stop = self._input.LT(-1)
-            gn=(None if localctx.g is None else localctx.g.text);
+            gn=str((None if localctx.g is None else localctx.g.text)).lower();
             if gn: 
             	self.varPathMap.update(self.varPathGroupMap[gn])
             	self.varExprMap.update(self.varExprGroupMap[gn])
@@ -914,7 +914,7 @@ class VarDefParser ( Parser ):
             self.state = 121
             localctx.p = self.match(VarDefParser.PATH)
             p =str((None if localctx.p is None else localctx.p.text)); t = Var(p); 
-            name=str((None if localctx.i is None else localctx.i.text)); self.varPathMap[name]=t;
+            name=str((None if localctx.i is None else localctx.i.text)).lower(); self.varPathMap[name]=t;
             if isTemp: self.tempVarList.append(name); 	
 
         except RecognitionException as re:
@@ -974,7 +974,7 @@ class VarDefParser ( Parser ):
             self.match(VarDefParser.T__3)
             self.state = 128
             localctx.inf = self.metaValue()
-            name=str((None if localctx.i is None else self._input.getText((localctx.i.start,localctx.i.stop))));mk=str((None if localctx.m is None else self._input.getText((localctx.m.start,localctx.m.stop))));c=str((None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))));
+            name=str((None if localctx.i is None else self._input.getText((localctx.i.start,localctx.i.stop)))).lower();mk=str((None if localctx.m is None else self._input.getText((localctx.m.start,localctx.m.stop))));c=str((None if localctx.inf is None else self._input.getText((localctx.inf.start,localctx.inf.stop))));
             if name in self.varPathMap:
             	self.varPathMap[name].metaData[mk]=c; 
             elif name in self.varExprMap:
@@ -1156,8 +1156,8 @@ class VarDefParser ( Parser ):
             self._ctx.stop = self._input.LT(-1)
 
             v = Var('');
-            e=str((None if localctx.e is None else self._input.getText((localctx.e.start,localctx.e.stop))));v.expr=e;
-            name=str((None if localctx.i is None else localctx.i.text)); self.varExprMap[name]=v; 
+            e=str((None if localctx.e is None else self._input.getText((localctx.e.start,localctx.e.stop))));v.expr=e.lower();
+            name=str((None if localctx.i is None else localctx.i.text)).lower(); self.varExprMap[name]=v; 
             if isTemp: 
             	self.tempVarList.append(name);	
 
@@ -1652,7 +1652,7 @@ class VarDefParser ( Parser ):
             while True:
                 self.state = 233
                 localctx.a = self.assign()
-                t=str(localctx.a.x);al.append(t)
+                t=str(localctx.a.x).lower();al.append(t)
                 self.state = 238
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -1682,7 +1682,7 @@ class VarDefParser ( Parser ):
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,25,self._ctx)
 
-            k=str(localctx.c.x); ifs[k]=al;al=[]
+            k=str(localctx.c.x).lower(); ifs[k]=al;al=[]
             self.state = 291
             self._errHandler.sync(self)
             _la = self._input.LA(1)
@@ -1719,7 +1719,7 @@ class VarDefParser ( Parser ):
                 while True:
                     self.state = 268
                     localctx.a = self.assign()
-                    t=str(localctx.a.x);al.append(t)
+                    t=str(localctx.a.x).lower();al.append(t)
                     self.state = 273
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
@@ -1749,7 +1749,7 @@ class VarDefParser ( Parser ):
                     self._errHandler.sync(self)
                     _alt = self._interp.adaptivePredict(self._input,30,self._ctx)
 
-                k=str(localctx.c.x); ifs[k]=al;al=[]
+                k=str(localctx.c.x).lower(); ifs[k]=al;al=[]
                 self.state = 293
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -1788,7 +1788,7 @@ class VarDefParser ( Parser ):
                 while True:
                     self.state = 308
                     localctx.a = self.assign()
-                    t=str(localctx.a.x);al.append(t)
+                    t=str(localctx.a.x).lower();al.append(t)
                     self.state = 313
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)

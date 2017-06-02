@@ -42,7 +42,7 @@ self.newArrayMap=collections.OrderedDict();
 self.ifid=0;
 }
 @after
-{groupName=$name.text;
+{groupName=str($name.text).lower();
 self.varPathGroupMap[groupName]=self.varPathMap;
 self.varExprGroupMap[groupName]=self.varExprMap;
 self.tempVarGroupList[groupName]=self.tempVarList;	
@@ -64,7 +64,7 @@ array
 
 array_var
 : i=ID 
-{v = Var('');name=str($i.text);
+{v = Var('');name=str($i.text).lower();
 self.newArrayMap[name]=v;
 }
 ;
@@ -75,7 +75,7 @@ array_cluster
 @after{
 for v in subvar:
 	o = Var('')
-	self.newArrayMap[header+'.'+v]=o;
+	self.newArrayMap[header.lower()+'.'+v.lower()]=o;
 }
 : ARRAY i=ID {header=str($i.text);} '{' 
 i=ID  {subvar.append(str($i.text));} (',' i=ID {subvar.append(str($i.text));} )* 
@@ -84,7 +84,7 @@ i=ID  {subvar.append(str($i.text));} (',' i=ID {subvar.append(str($i.text));} )*
 
 
 include
-@after{gn=$g.text;
+@after{gn=str($g.text).lower();
 if gn: 
 	self.varPathMap.update(self.varPathGroupMap[gn])
 	self.varExprMap.update(self.varExprGroupMap[gn])
@@ -99,13 +99,13 @@ var_path
 @init{isTemp=False }
 :  (T {isTemp=True} )? i=ID  '=' p=PATH  
 {p =str($p.text); t = Var(p); 
-name=str($i.text); self.varPathMap[name]=t;
+name=str($i.text).lower(); self.varPathMap[name]=t;
 if isTemp: self.tempVarList.append(name); 	
 }   ;
 
        
 var_meta : i=id2 '.' m=metaKey '=' inf=metaValue 
-{name=str($i.text);mk=str($m.text);c=str($inf.text);
+{name=str($i.text).lower();mk=str($m.text);c=str($inf.text);
 if name in self.varPathMap:
 	self.varPathMap[name].metaData[mk]=c; 
 elif name in self.varExprMap:
@@ -127,8 +127,8 @@ stat
 @after
 {
 v = Var('');
-e=str($e.text);v.expr=e;
-name=str($i.text); self.varExprMap[name]=v; 
+e=str($e.text);v.expr=e.lower();
+name=str($i.text).lower(); self.varExprMap[name]=v; 
 if isTemp: 
 	self.tempVarList.append(name);	
 }
@@ -165,13 +165,13 @@ if_stat
 @after{self.ifsMap[self.ifid]=ifs;
 #for s in ifs: print(s,ifs[s]);
 }
-	: IF c=compare NL* '{' NL* (a=assign {t=str($a.x);al.append(t)} NL*  )+ '}' NL*
-	{k=str($c.x); ifs[k]=al;al=[]}
+	: IF c=compare NL* '{' NL* (a=assign {t=str($a.x).lower();al.append(t)} NL*  )+ '}' NL*
+	{k=str($c.x).lower(); ifs[k]=al;al=[]}
 	 
-	 (ELSEIF c=compare NL* '{' NL* (a=assign {t=str($a.x);al.append(t)} NL*  )+ '}' NL*
-	{k=str($c.x); ifs[k]=al;al=[]})*
+	 (ELSEIF c=compare NL* '{' NL* (a=assign {t=str($a.x).lower();al.append(t)} NL*  )+ '}' NL*
+	{k=str($c.x).lower(); ifs[k]=al;al=[]})*
      
-     (ELSE NL* '{' NL* (a=assign {t=str($a.x);al.append(t)} NL*  )+ '}' NL+
+     (ELSE NL* '{' NL* (a=assign {t=str($a.x).lower();al.append(t)} NL*  )+ '}' NL+
 	{ifs['always']=al})?
 	; 
 
