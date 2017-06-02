@@ -31,6 +31,21 @@ class VarDefVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by VarDefParser#array.
+    def visitArray(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#array_var.
+    def visitArray_var(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#array_cluster.
+    def visitArray_cluster(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by VarDefParser#include.
     def visitInclude(self, ctx):
         return self.visitChildren(ctx)
@@ -46,8 +61,13 @@ class VarDefVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by VarDefParser#info.
-    def visitInfo(self, ctx):
+    # Visit a parse tree produced by VarDefParser#metaKey.
+    def visitMetaKey(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#metaValue.
+    def visitMetaValue(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -68,6 +88,11 @@ class VarDefVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by VarDefParser#assign.
     def visitAssign(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#id2.
+    def visitId2(self, ctx):
         return self.visitChildren(ctx)
 
 

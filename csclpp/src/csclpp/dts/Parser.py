@@ -24,7 +24,7 @@ def parseVarDef(f):
     p.ifsNewAppend=ifsNewDictName
     p.varMetaKeys=varMetaKeys
     tree = p.prog()
-    return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupList
+    return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupMap
     
 #     visitor = DtsVisitor()
 #     visitor.visit(tree)

@@ -29,10 +29,10 @@ vardef xyz
 end
 
 vardef release_control
-
-	array Min_Exports   # introduce an array, default values are zeros
-	array x
-	array y, z, kk
+ 
+	# introduce an array, default values are zeros
+	array x, y, z
+	array shasta_ctrl{min_exports, flood, keswick_mif, ncp_mif}
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
 	S4         = //S4/STORAGE//1MON//
@@ -40,10 +40,10 @@ vardef release_control
 	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
 	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
 
-	if D418<-0.1 { 
-		Min_Exports = 1 
+	if D418>0.1 { 
+		shasta_ctrl.min_exports = 1 
 	}
-
+	shasta_ctrl.min_exports.units = binary
 	
 	if D418+C5_EXC>4000  { 
 		x = 2

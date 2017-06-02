@@ -16,25 +16,29 @@ varPathGroupMap={};
 varExprGroupMap={};
 tempVarGroupList={};
 ifsMapGroupMap={};
-newArrayGroupList={};
-varPathMap={};
-varExprMap={};
+newArrayGroupMap={};
+varPathMap=collections.OrderedDict();
+varExprMap=collections.OrderedDict();
 tempVarList=[];
-newArrayList=[];
+newArrayMap=collections.OrderedDict();
+#newArrayClusterMap=collections.OrderedDict();
 ifsMap=collections.OrderedDict(); # (if statement ID, (condition, assignments)) 
 }
 
 prog 
 @init 
 {self.varPathGroupMap={};self.varExprGroupMap={};self.tempVarGroupList={};
-ifsMapGroupMap={};newArrayGroupList={};
+ifsMapGroupMap={};newArrayGroupMap={};
 }
 :    NL* vardef+ ;
 
 vardef
 @init {
-self.varPathMap={};self.varExprMap={};self.tempVarList=[];
-self.ifsMap=collections.OrderedDict();self.newArrayList=[];
+self.varPathMap=collections.OrderedDict();
+self.varExprMap=collections.OrderedDict();
+self.tempVarList=[];
+self.ifsMap=collections.OrderedDict();
+self.newArrayMap=collections.OrderedDict();
 self.ifid=0;
 }
 @after
@@ -43,7 +47,7 @@ self.varPathGroupMap[groupName]=self.varPathMap;
 self.varExprGroupMap[groupName]=self.varExprMap;
 self.tempVarGroupList[groupName]=self.tempVarList;	
 self.ifsMapGroupMap[groupName]=self.ifsMap;
-self.newArrayGroupList[groupName]=self.newArrayList;
+self.newArrayGroupMap[groupName]=self.newArrayMap;
 }
 :   VARDEF name=ID  NL+ 
        field+
@@ -53,9 +57,31 @@ self.newArrayGroupList[groupName]=self.newArrayList;
 field
 : ( var_path | var_meta | stat | if_stat {self.ifid=self.ifid+1;}| new_var | include ) NL+ ;
 
-new_var
-: ARRAY i=ID {name=str($i.text); self.newArrayList.append(name);} 
-       (',' i=ID {name=str($i.text); self.newArrayList.append(name);} )*   ;
+new_var : array | array_cluster ; 
+
+array
+: ARRAY array_var (',' array_var)*   ;
+
+array_var
+: i=ID 
+{v = Var('');name=str($i.text);
+self.newArrayMap[name]=v;
+}
+;
+
+
+array_cluster
+@init{header='';subvar=[];}
+@after{
+for v in subvar:
+	o = Var('')
+	self.newArrayMap[header+'.'+v]=o;
+}
+: ARRAY i=ID {header=str($i.text);} '{' 
+i=ID  {subvar.append(str($i.text));} (',' i=ID {subvar.append(str($i.text));} )* 
+'}' ;
+
+
 
 include
 @after{gn=$g.text;
@@ -64,7 +90,7 @@ if gn:
 	self.varExprMap.update(self.varExprGroupMap[gn])
 	self.tempVarList.extend(self.tempVarGroupList[gn])
 	self.ifsMap.update(self.ifsMapGroupMap[gn])
-	self.newArrayList.extend(self.newArrayGroupList[gn])
+	self.newArrayMap.update(self.newArrayGroupMap[gn])
 }
 : INCLUDE g=ID ;
 
@@ -78,21 +104,21 @@ if isTemp: self.tempVarList.append(name);
 }   ;
 
        
-var_meta : v=ID '.' p=ID '=' inf=info 
-{vn=str($v.text);pn=str($p.text);c=str($inf.text);
-	
-if pn in self.varMetaKeys:
-	if vn in self.varPathMap:
-		self.varPathMap[vn].metaData[pn]=c; 
-	elif vn in self.varExprMap:
-		self.varExprMap[vn].metaData[pn]=c; 
-	else:
-		print ('#Error: '+vn+'.'+pn+'='+c+' variable \"'+vn+'\" not found!')
+var_meta : i=id2 '.' m=metaKey '=' inf=metaValue 
+{name=str($i.text);mk=str($m.text);c=str($inf.text);
+if name in self.varPathMap:
+	self.varPathMap[name].metaData[mk]=c; 
+elif name in self.varExprMap:
+	self.varExprMap[name].metaData[mk]=c; 
+elif name in self.newArrayMap:
+	self.newArrayMap[name].metaData[mk]=c; 
 else:
-	print ('#Error: '+vn+'.'+pn+'='+c+' metadata keyword \"'+pn+'\" not recognized!')
+	print ('#Error: '+name+'.'+mk+'='+c+' variable \"'+name+'\" not found!')
 }; 
 
-info
+metaKey : UNITS | CAPACITY ;
+
+metaValue
 : i = FLOAT | INT | ID;
 
 
@@ -129,9 +155,10 @@ compare returns [String x]
 
 
 assign returns [String x]
-	: i=ID '=' a=ee {$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x}  
+	: i=id2 '=' a=ee {$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x}  
 	;
 
+id2 : ID ('.' ID)? ;
 
 if_stat
 @init{ifs=collections.OrderedDict();al=[];}
@@ -176,7 +203,8 @@ ARRAY    : 'array' ;
 IF     : 'if' ;
 ELSEIF   : 'elseif' ;
 ELSE   : 'else' ;
-
+UNITS : 'units';
+CAPACITY : 'capacity' ;
 ID  :   LETTER (LETTER|DIGIT|'_')* ;
 fragment LETTER  : [a-zA-Z] ;
 fragment DIGIT:  '0'..'9' ; 

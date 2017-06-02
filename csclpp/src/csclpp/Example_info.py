@@ -15,22 +15,28 @@ studyMap = W.readReference('./example_data/sample.setting')
 # take a look at the var maps
 
 for k in studyMap:
-    print 'studyName:', k
+    
+    print '\nstudyName:', k
     for d in studyMap[k].data_src:
         print 'dss data src:', d
         
-    for p in studyMap[k].varPathMap:
-        v=studyMap[k].varPathMap[p]
+    print ''
+    for p, v in studyMap[k].varPathMap.iteritems():
         print '  var:  '+p+'= '+v.path
         if v.metaData: print v.metaData   #print units, capacity
-        
-    for p in studyMap[k].varExprMap:
-        v=studyMap[k].varExprMap[p]
+    
+    print ''
+    for p, v in studyMap[k].varExprMap.iteritems():
         print '  dts:  '+p+'= '+v.expr
         if v.metaData: print v.metaData   #print units, capacity
 #     for p in studyMap[k].ifsMap:
 #         print '  if statement id:  '+str(p)
 #         print studyMap[k].ifsMap[p] 
+    
+    print ''
     print '  temp vars:', studyMap[k].tempVarList
-    print '  new vars:', studyMap[k].newArrayList
 
+    print ''
+    for p, v in studyMap[k].newArrayMap.iteritems():
+        print '  new array:  '+p
+        if v.metaData: print v.metaData   #print units, capacity

@@ -32,14 +32,14 @@ def readReference(fs):
         
         
         vf=os.path.join(ds,varFile+'.vardef')
-        varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, newArrayGroupList, =P.parseVarDef(vf)
+        varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, newArrayGroupMap, =P.parseVarDef(vf)
 #         S.fileVarPathGroupMap[varFile]=T.varPathGroupMap
 #         S.fileVarExprGroupMap[varFile]=T.varExprGroupMap
         sty.varPathMap=varPathGroupMap[varDef]
         sty.varExprMap=varExprGroupMap[varDef]
         sty.tempVarList = tempVarGroupList[varDef]
         sty.ifsMap = ifsMapGroupMap[varDef]
-        sty.newArrayList = newArrayGroupList[varDef]
+        sty.newArrayMap = newArrayGroupMap[varDef]
         
     return S.studyMap
 #     for s in S.studyMap:
