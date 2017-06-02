@@ -1,5 +1,6 @@
 from dts.Study import Study
 from dts import Workflow
+from dts import Debug
 from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
@@ -38,9 +39,8 @@ for studyName in studyMap:
 # compute derived timeseries and then store them in studyVarData
 Workflow.evaluateDTS(studyVarData)
 
-print studyVarData
 
-
+Debug.printCSV(studyVarData)
 
 
 

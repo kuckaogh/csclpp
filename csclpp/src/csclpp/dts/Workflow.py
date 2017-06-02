@@ -97,9 +97,9 @@ def evaluateIFS(studyVarTs):
                         es = es + '\t\t'+a+'\n'                   
             es =es+'\n'
     
-    text_file = open("es_printout.txt", "w")
-    text_file.write(es)
-    text_file.close()
+#     text_file = open("es_printout.txt", "w")
+#     text_file.write(es)
+#     text_file.close()
     exec(es, {'_ts':_ts})    
     
 def evaluateIFS0(studyVarTs):
@@ -152,11 +152,4 @@ def test_evaluateDTS(studyVarTs):
         print '/:  ', varTs['s_folsom'] / varTs['s_shasta']
         print '*:  ', varTs['s_folsom'] * varTs['s_shasta']        
         
-        
-        
-        
-#         for var in T.styVarTs[s]:
-#             print var, T.styVarTs[s][var]
-    
-            
         

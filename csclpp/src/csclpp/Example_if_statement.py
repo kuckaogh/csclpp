@@ -4,6 +4,7 @@ from dts.Study import Study
 from dts.Var import Var
 import dts.Setting as S
 from dts import Workflow
+from dts import Debug
 from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
@@ -38,24 +39,23 @@ for studyName in studyMap:
                 pass
         
         # reserve space for new vars
-        for varName in studyMap[studyName].newArrayList:
+        for varName in studyMap[studyName].newArrayMap:
             varData[varName]=[0]*iend
             
     # put data into dictionary
     studyVarData[studyName]=varData
 
 
-print 'evaluate DTS'
 # compute derived timeseries and then store them in studyVarData
 Workflow.evaluateDTS(studyVarData)
 
 
-print 'evaluate If Statements'
+# evaluate If Statements
 Workflow.evaluateIFS(studyVarData)
 
 
-print 'print results'
-print studyVarData
+Debug.printCSV(studyVarData)
+
 
 
 
