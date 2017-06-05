@@ -9,6 +9,7 @@ from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
 import collections
+import csv
 
 status, studyMap = Workflow.readReference('./example_data/if_statement.setting')
 if status!=0:  #has errors
@@ -56,9 +57,14 @@ Workflow.evaluateDTS(studyVarData)
 Workflow.evaluateIFS(studyVarData)
 
 
-Debug.printCSV(studyVarData)
+#print csv
+for s, d in studyVarData.iteritems():
 
-print studyVarData
+    with open(s+".csv", "wb") as outfile:
+        writer = csv.writer(outfile)
+        writer.writerow(d.keys())
+        writer.writerows(zip(*d.values()))  
+    outfile.close() 
 
 
 

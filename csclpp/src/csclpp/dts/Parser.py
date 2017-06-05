@@ -23,6 +23,7 @@ def parseVarDef(f):
     p.ifsAppend=ifsTsDictName
     p.ifsNewAppend=ifsNewDictName
     p.varMetaKeys=varMetaKeys
+    p.vardefFile=f
     tree = p.prog()
     return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupMap
     

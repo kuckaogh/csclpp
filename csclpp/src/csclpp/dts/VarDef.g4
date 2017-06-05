@@ -24,6 +24,8 @@ tempVarList=[];
 newArrayMap=collections.OrderedDict();
 #newArrayClusterMap=collections.OrderedDict();
 ifsMap=collections.OrderedDict(); # (if statement ID, (condition, assignments)) 
+vardefName='';
+vardefFile='';
 }
 
 prog 
@@ -43,14 +45,14 @@ self.newArrayMap=collections.OrderedDict();
 self.ifid=0;
 }
 @after
-{groupName=str($name.text).lower();
+{
 self.varPathGroupMap[groupName]=self.varPathMap;
 self.varExprGroupMap[groupName]=self.varExprMap;
 self.tempVarGroupList[groupName]=self.tempVarList;	
 self.ifsMapGroupMap[groupName]=self.ifsMap;
 self.newArrayGroupMap[groupName]=self.newArrayMap;
 }
-:   VARDEF name=ID  NL+ 
+:   VARDEF name=ID {groupName=str($name.text).lower();self.vardefName=groupName;} NL+ 
        field+
        END NL+
     ;
@@ -115,7 +117,7 @@ elif name in self.newArrayMap:
 	self.newArrayMap[name].metaData[mk]=c; 
 else:
 	msg=name+'.'+mk+'='+c+' variable \"'+name+'\" not found!'
-	Error.addError(msg)
+	Error.addError(msg, self.vardefFile, self.vardefName)
 }; 
 
 metaKey : UNITS | CAPACITY ;
@@ -151,7 +153,7 @@ if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName 
 	$x=self.ifsAppend+"['"+vName+"']"+"[i]"
 	#print (vName); 
 else:
-	Error.addError(vName+' not defined.')
+	Error.addError(vName+' not defined.', self.vardefFile, self.vardefName)
 }  
     | '(' a=ee ')'                    {$x="("+str($a.x)+")"}       
     ; 

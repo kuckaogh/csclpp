@@ -33,7 +33,7 @@ def readReference(fs):
         #print updated_data_src
         
         
-        vf=os.path.join(ds,varFile+'.vardef')
+        vf=os.path.join(ds,varFile+'.vardef').replace('\\', '/')
         varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, newArrayGroupMap, =P.parseVarDef(vf)
 #         S.fileVarPathGroupMap[varFile]=T.varPathGroupMap
 #         S.fileVarExprGroupMap[varFile]=T.varExprGroupMap
