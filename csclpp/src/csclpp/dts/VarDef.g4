@@ -6,6 +6,7 @@ from Study import Study
 from Var import Var
 from collections import defaultdict
 import collections
+import Error
 }
 
 @parser::members {
@@ -113,7 +114,8 @@ elif name in self.varExprMap:
 elif name in self.newArrayMap:
 	self.newArrayMap[name].metaData[mk]=c; 
 else:
-	print ('#Error: '+name+'.'+mk+'='+c+' variable \"'+name+'\" not found!')
+	msg=name+'.'+mk+'='+c+' variable \"'+name+'\" not found!'
+	Error.addError(msg)
 }; 
 
 metaKey : UNITS | CAPACITY ;
@@ -143,7 +145,14 @@ ee returns [String x]
     | a=ee o=('+'|'-') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);} 
     | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
     | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
-    | i=ID                            {$x=self.ifsAppend+"['"+str($i.text)+"']"+"[i]"}  
+    | i=ID                            
+{vName=str($i.text).lower();
+if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName in self.varExprMap.keys():
+	$x=self.ifsAppend+"['"+vName+"']"+"[i]"
+	#print (vName); 
+else:
+	Error.addError(vName+' not defined.')
+}  
     | '(' a=ee ')'                    {$x="("+str($a.x)+")"}       
     ; 
 
@@ -155,7 +164,14 @@ compare returns [String x]
 
 
 assign returns [String x]
-	: i=id2 '=' a=ee {$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x}  
+	: i=id2 '=' a=ee 
+{vName=str($i.text).lower();
+if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys():
+	$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x
+	#print (vName); 
+else:
+	Error.addError(vName+' not valid.')
+}  
 	;
 
 id2 : ID ('.' ID)? ;

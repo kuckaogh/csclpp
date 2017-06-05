@@ -4,9 +4,11 @@ from Study import Study
 from Var import Var
 import Setting as S
 import os
+import Error
 
 
 def readReference(fs):
+    status=0
     
     ds = os.path.dirname(fs)
     
@@ -40,8 +42,9 @@ def readReference(fs):
         sty.tempVarList = tempVarGroupList[varDef]
         sty.ifsMap = ifsMapGroupMap[varDef]
         sty.newArrayMap = newArrayGroupMap[varDef]
-        
-    return S.studyMap
+    
+    status = len(Error.errors)   
+    return status, S.studyMap
 #     for s in S.studyMap:
 #         sty = S.studyMap[s]
 #         for k in sty.varMap:

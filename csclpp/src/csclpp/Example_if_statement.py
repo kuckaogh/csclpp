@@ -8,17 +8,19 @@ from dts import Debug
 from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
+import collections
 
-
-studyMap = Workflow.readReference('./example_data/if_statement.setting')
-
+status, studyMap = Workflow.readReference('./example_data/if_statement.setting')
+if status!=0:  #has errors
+    quit()
+    
 
 # this is where the timeseries stored
 studyVarData = {} # studyVarData[studyName][varName]=timeseries
 
 # read timeseries into studyVarData
 for studyName in studyMap:
-    varData = {}
+    varData = collections.OrderedDict();
     iend=0
     for dssFile in studyMap[studyName].data_src:
         print 'open data src:', dssFile
@@ -41,7 +43,7 @@ for studyName in studyMap:
         # reserve space for new vars
         for varName in studyMap[studyName].newArrayMap:
             varData[varName]=[0]*iend
-            
+          
     # put data into dictionary
     studyVarData[studyName]=varData
 

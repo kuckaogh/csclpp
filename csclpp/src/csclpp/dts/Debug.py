@@ -11,6 +11,7 @@ def printCSV(studyVarTs):
 
     for s in studyVarTs:
         d = studyVarTs[s]
+        #print d.keys()
         with open(s+".csv", "wb") as outfile:
             writer = csv.writer(outfile)
             writer.writerow(d.keys())

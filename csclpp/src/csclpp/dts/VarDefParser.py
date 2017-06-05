@@ -9,6 +9,7 @@ from Study import Study
 from Var import Var
 from collections import defaultdict
 import collections
+import Error
 
 def serializedATN():
     with StringIO() as buf:
@@ -982,7 +983,8 @@ class VarDefParser ( Parser ):
             elif name in self.newArrayMap:
             	self.newArrayMap[name].metaData[mk]=c; 
             else:
-            	print ('#Error: '+name+'.'+mk+'='+c+' variable \"'+name+'\" not found!')
+            	msg=name+'.'+mk+'='+c+' variable \"'+name+'\" not found!'
+            	Error.addError(msg)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1255,7 +1257,13 @@ class VarDefParser ( Parser ):
             elif la_ == 3:
                 self.state = 161
                 localctx.i = self.match(VarDefParser.ID)
-                localctx.x=self.ifsAppend+"['"+str((None if localctx.i is None else localctx.i.text))+"']"+"[i]"
+                vName=str((None if localctx.i is None else localctx.i.text)).lower();
+                if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName in self.varExprMap.keys():
+                	localctx.x = self.ifsAppend+"['"+vName+"']"+"[i]"
+                	#print (vName) 
+                else:
+                	Error.addError(vName+' not defined.')
+
                 pass
 
             elif la_ == 4:
@@ -1501,7 +1509,13 @@ class VarDefParser ( Parser ):
             self.match(VarDefParser.T__3)
             self.state = 210
             localctx.a = self.ee(0)
-            localctx.x=self.ifsNewAppend+"['"+str((None if localctx.i is None else self._input.getText((localctx.i.start,localctx.i.stop))))+"'][i]="+localctx.a.x
+            vName=str((None if localctx.i is None else self._input.getText((localctx.i.start,localctx.i.stop)))).lower();
+            if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys():
+            	localctx.x = self.ifsNewAppend+"['"+str((None if localctx.i is None else self._input.getText((localctx.i.start,localctx.i.stop))))+"'][i]="+localctx.a.x
+            	#print (vName) 
+            else:
+            	Error.addError(vName+' not valid.')
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

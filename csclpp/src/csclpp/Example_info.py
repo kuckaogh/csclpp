@@ -7,10 +7,11 @@ import dts.Workflow as W
 from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
+import collections
 
-
-studyMap = W.readReference('./example_data/sample.setting')
-
+status, studyMap = W.readReference('./example_data/sample.setting')
+if status!=0:  #has errors
+    quit()
 
 # take a look at the var maps
 

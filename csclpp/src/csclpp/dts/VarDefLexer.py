@@ -9,6 +9,7 @@ from Study import Study
 from Var import Var
 from collections import defaultdict
 import collections
+import Error
 
 
 def serializedATN():

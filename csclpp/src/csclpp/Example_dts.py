@@ -4,12 +4,13 @@ from dts import Debug
 from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
-
+import collections
 
 
 # parse setting file and vardef files
-studyMap = Workflow.readReference('./example_data/sample.setting')
-
+status, studyMap = Workflow.readReference('./example_data/sample.setting')
+if status!=0:  #has errors
+    quit()
 
 # this is where the timeseries stored
 studyVarData = {} # studyVarData[studyName][varName]=timeseries
