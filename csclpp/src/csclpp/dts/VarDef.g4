@@ -172,7 +172,7 @@ if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys():
 	$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x
 	#print (vName); 
 else:
-	Error.addError(vName+' not valid.')
+	Error.addError(vName+' not valid.', self.vardefFile, self.vardefName)
 }  
 	;
 
@@ -223,10 +223,15 @@ ELSEIF   : 'elseif' ;
 ELSE   : 'else' ;
 UNITS : 'units';
 CAPACITY : 'capacity' ;
+GROUP : 'group' ;
+STRING_L : 'string'  ;
+INT_L :   'int' ;
+FLOAT_L : 'float' ;
+ 
 ID  :   LETTER (LETTER|DIGIT|'_')* ;
 fragment LETTER  : [a-zA-Z] ;
 fragment DIGIT:  '0'..'9' ; 
-FLOAT : DIGIT+ '.' (DIGIT+|' '+) ;
+FLOAT : DIGIT+ '.' DIGIT+ ; //FLOAT : DIGIT+ '.' (DIGIT+|' ') ;
 INT : DIGIT+ ;
 
 STRING
