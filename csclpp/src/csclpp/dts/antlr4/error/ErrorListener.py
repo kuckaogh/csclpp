@@ -9,6 +9,7 @@
 
 from __future__ import print_function
 import sys
+import Err
 
 class ErrorListener(object):
 
@@ -43,7 +44,9 @@ class ConsoleErrorListener(ErrorListener):
     # </pre>
     #
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        print("line " + str(line) + ":" + str(column) + " " + msg, file=sys.stderr)
+        #print("line " + str(line) + ":" + str(column) + " " + msg, file=sys.stderr)
+        
+        Err.addError(msg, Err.errFile, "line " + str(line) + ":" + str(column))
 
 ConsoleErrorListener.INSTANCE = ConsoleErrorListener()
 
