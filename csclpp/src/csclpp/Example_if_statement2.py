@@ -11,9 +11,8 @@ from vtools.data.api import *
 import collections
 import csv
 
-status, studyMap = Workflow.readReference('./example_data/if_statement2.setting')
-if status!=0:  #has errors
-    quit()
+studyMap = Workflow.readReference('./example_data/if_statement2.setting')
+
     
 
 # this is where the timeseries stored
@@ -66,5 +65,5 @@ for s, d in studyVarData.iteritems():
         writer.writerows(zip(*d.values()))  
     outfile.close() 
 
-
+print __file__
 

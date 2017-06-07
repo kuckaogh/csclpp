@@ -9,16 +9,15 @@ import csv
 
 
 # parse setting file and vardef files
-status, studyMap = Workflow.readReference('./example_data/sample.setting')
-if status!=0:  #has errors
-    quit()
+studyMap = Workflow.readReference('./example_data/sample.setting')
+
 
 # this is where the timeseries stored
 studyVarData = {} # studyVarData[studyName][varName]=timeseries
 
 # read timeseries into studyVarData
 for studyName in studyMap:
-    varData = {}
+    varData = collections.OrderedDict();
     for dssFile in studyMap[studyName].data_src:
         print 'open data src:', dssFile
 
@@ -39,6 +38,7 @@ for studyName in studyMap:
 
 
 # compute derived timeseries and then store them in studyVarData
+print 'evaluateDTS'
 Workflow.evaluateDTS(studyVarData)
 
 
@@ -46,10 +46,10 @@ Workflow.evaluateDTS(studyVarData)
 for s, d in studyVarData.iteritems():
 
     with open(s+".csv", "wb") as outfile:
-        writer = csv.writer(outfile)
-        writer.writerow(d.keys())
-        writer.writerows(zip(*d.values()))  
+        w = csv.writer(outfile)
+        w.writerow(d.keys())
+        w.writerows(zip(*d.values()))  
     outfile.close() 
 
-
+print __file__
 

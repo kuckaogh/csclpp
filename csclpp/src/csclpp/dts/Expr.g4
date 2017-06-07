@@ -43,10 +43,11 @@ DIV : '/' ;
 ADD : '+' ;
 SUB : '-' ;
 
+FLOAT:  ('0'..'9')+'.'('0'..'9')* ;  
 ID  :   LETTER (LETTER|DIGIT|'_')* ;
 fragment LETTER  : [a-zA-Z] ;
 fragment DIGIT:  '0'..'9' ; 
-FLOAT : DIGIT+ '.' (DIGIT+|' '+) ;
+//FLOAT : DIGIT+ '.' (DIGIT+|' ') ;
 INT : DIGIT+ ;
 NEWLINE:'\r'? '\n' ;     // return newlines to parser (is end-statement signal)
 WS  :   [ \t]+ -> skip ; // toss out whitespace

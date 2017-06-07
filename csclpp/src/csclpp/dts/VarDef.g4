@@ -6,7 +6,7 @@ from Study import Study
 from Var import Var
 from collections import defaultdict
 import collections
-import Error
+from antlr4.error import Err
 }
 
 @parser::members {
@@ -117,7 +117,7 @@ elif name in self.newArrayMap:
 	self.newArrayMap[name].metaData[mk]=c; 
 else:
 	msg=name+'.'+mk+'='+c+' variable \"'+name+'\" not found!'
-	Error.addError(msg, self.vardefFile, self.vardefName)
+	Err.addError(msg, self.vardefFile, self.vardefName)
 }; 
 
 metaKey : UNITS | CAPACITY ;
@@ -153,7 +153,7 @@ if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName 
 	$x=self.ifsAppend+"['"+vName+"']"+"[i]"
 	#print (vName); 
 else:
-	Error.addError(vName+' not defined.', self.vardefFile, self.vardefName)
+	Err.addError(vName+' not defined.', self.vardefFile, self.vardefName)
 }  
     | '(' a=ee ')'                    {$x="("+str($a.x)+")"}       
     ; 
@@ -172,7 +172,7 @@ if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys():
 	$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x
 	#print (vName); 
 else:
-	Error.addError(vName+' not valid.', self.vardefFile, self.vardefName)
+	Err.addError(vName+' not valid.', self.vardefFile, self.vardefName)
 }  
 	;
 
@@ -227,12 +227,14 @@ GROUP : 'group' ;
 STRING_L : 'string'  ;
 INT_L :   'int' ;
 FLOAT_L : 'float' ;
- 
+
+FLOAT:  ('0'..'9')+'.'('0'..'9')* ;  
 ID  :   LETTER (LETTER|DIGIT|'_')* ;
 fragment LETTER  : [a-zA-Z] ;
 fragment DIGIT:  '0'..'9' ; 
-FLOAT : DIGIT+ '.' DIGIT+ ; //FLOAT : DIGIT+ '.' (DIGIT+|' ') ;
+//FLOAT : DIGIT+ '.' (DIGIT+|' '+) ; //FLOAT : DIGIT+ '.' DIGIT+ ;
 INT : DIGIT+ ;
+
 
 STRING
     :   '"' ( ~[\\"] )*? '"'
@@ -242,3 +244,5 @@ STRING
 //INT :   [0-9]+ ;         // match integers
 NL:('\r'? '\n') ;     // return newlines to parser (is end-statement signal)
 WS  :   [ \t]+ -> skip ; // toss out whitespace
+//UNKNOWN_CHAR : . ;
+

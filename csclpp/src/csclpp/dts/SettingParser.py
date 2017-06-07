@@ -100,6 +100,7 @@ class SettingParser ( Parser ):
 
 
     styobj=None
+    thisFile='';
 
 
     class ProgContext(ParserRuleContext):

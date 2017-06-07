@@ -5,7 +5,7 @@ from Study import Study
 from Var import Var
 from collections import defaultdict
 import collections
-import Error
+from antlr4.error import Err
 
 
 # This class defines a complete generic visitor for a parse tree produced by VarDefParser.

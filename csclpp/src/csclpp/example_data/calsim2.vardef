@@ -23,7 +23,7 @@ vardef deltaInflow
 	@c3 = //C504/FLOW-CHANNEL//1MON//
 	@c4 = //C644/FLOW-CHANNEL//1MON// 
 	# @ means temp variables to construct delta inflow 
-	Delta_Inflow = c1 + C2 + c3 + 2*c4/2
+	Delta_Inflow = c1 + C2 + c3 + 2.0*c4/2
 	delta_inflow.units = CFS
 
 end
@@ -72,7 +72,7 @@ end
 vardef more_if_statements
  
 	# introduce an array, default values are zeros
-	array test{x, y, z, kk}
+	array test{x, y, z, beta, kk}
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
 	S4         = //S4/STORAGE//1MON//
@@ -80,17 +80,20 @@ vardef more_if_statements
 	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
 	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
 	
+		
 	if D418-800<0.1 or D418<3600 { 
 		test.x = 1  } #4
 	
-	elseif S4>2760.0 and s4<2780 {
-		test.y=1 } #3
+	elseif S4>2760. and s4<2780 {
+		test.y = 1 } #3
 		
-	elseif C5_EXC<3200 and C5_EXC>3000.0 {
-		test.z =1 } #2
+	elseif C5_EXC<3200 and C5_EXC>3000. {
+		test.z = 1 } #2
 		
 	else { 
 		test.kk = 1 } #1
 	
-
+	if c5_exc<1000. { 
+		test.beta = 1 }
+		
 end

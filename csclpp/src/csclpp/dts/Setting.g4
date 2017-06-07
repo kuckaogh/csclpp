@@ -8,6 +8,7 @@ import copy
 }
 @parser::members {
 styobj=None
+thisFile='';
 }
 
 

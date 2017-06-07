@@ -9,9 +9,8 @@ from vtools.functions.api import *
 from vtools.data.api import *
 import collections
 
-status, studyMap = W.readReference('./example_data/sample.setting')
-if status!=0:  #has errors
-    quit()
+studyMap = W.readReference('./example_data/sample.setting')
+
 
 # take a look at the var maps
 

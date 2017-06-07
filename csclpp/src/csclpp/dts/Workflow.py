@@ -4,14 +4,15 @@ from Study import Study
 from Var import Var
 import Setting as S
 import os
-import Error
+from antlr4.error import Err
 
+debugOn = False
 
 def readReference(fs):
     status=0
     
     ds = os.path.dirname(fs)
-    
+    Err.errFile=fs
     P.parseSetting(fs)
     
     for s in S.studyMap:
@@ -34,6 +35,7 @@ def readReference(fs):
         
         
         vf=os.path.join(ds,varFile+'.vardef').replace('\\', '/')
+        Err.errFile=vf
         varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, newArrayGroupMap, =P.parseVarDef(vf)
 #         S.fileVarPathGroupMap[varFile]=T.varPathGroupMap
 #         S.fileVarExprGroupMap[varFile]=T.varExprGroupMap
@@ -43,8 +45,9 @@ def readReference(fs):
         sty.ifsMap = ifsMapGroupMap[varDef]
         sty.newArrayMap = newArrayGroupMap[varDef]
     
-    status = len(Error.errors)   
-    return status, S.studyMap
+    status = len(Err.errors) 
+    if status !=0: quit()  
+    return S.studyMap
 #     for s in S.studyMap:
 #         sty = S.studyMap[s]
 #         for k in sty.varMap:
@@ -65,7 +68,10 @@ def evaluateDTS(studyVarTs):
             if e: eList.append(vk+'='+e+'\n')
         
         line = ''.join(eList)
-        if line: P.evaluateDTS(studyVarTs[s], line)    
+        if line: 
+            #print line
+            Err.errFile = line
+            P.evaluateDTS(studyVarTs[s], line)    
         
         #print T.styVarTs[s]
         
@@ -100,9 +106,11 @@ def evaluateIFS(studyVarTs):
                         es = es + '\t\t'+a+'\n'                   
             es =es+'\n'
     
-#     text_file = open("es_printout.txt", "w")
-#     text_file.write(es)
-#     text_file.close()
+    if debugOn:
+        text_file = open("es_printout.txt", "w")
+        text_file.write(es)
+        text_file.close()
+    Err.errFile = 'If statement evaluation'
     exec(es, {'_ts':_ts})    
     
 def evaluateIFS0(studyVarTs):

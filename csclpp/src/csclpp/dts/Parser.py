@@ -25,6 +25,7 @@ def parseVarDef(f):
     p.varMetaKeys=varMetaKeys
     p.vardefFile=f
     tree = p.prog()
+    #print(tree.toStringTree(recog=p))
     return p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupMap
     
 #     visitor = DtsVisitor()
@@ -37,6 +38,7 @@ def parseSetting(f):
     lexer = SettingLexer(input_stream)
     token_stream = CommonTokenStream(lexer)
     parser = SettingParser(token_stream)
+    parser.thisFile=f
     s=parser.prog()
 
 
