@@ -42,7 +42,7 @@ vardef release_control
 	
 	if D418-800<0.1  { 
 		shasta_ctrl.min_exports = 1  }
-	
+		
 	if S4-S4LEVEL5DV<0.1 {
 		shasta_ctrl.flood=1 } 
 		
@@ -52,7 +52,6 @@ vardef release_control
 	if C129_EXC<0.1 { 
 		shasta_ctrl.ncp_mif = 1 }
 	
-
 end
 
 vardef test_if
@@ -71,7 +70,6 @@ end
 
 vardef more_if_statements
  
-	# introduce an array, default values are zeros
 	array test{x, y, z, beta, kk}
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
@@ -79,21 +77,21 @@ vardef more_if_statements
 	S4LEVEL5DV = //S4LEVEL5DV/STORAGE-LEVEL//1MON//
 	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
 	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
-	
 		
 	if D418-800<0.1 or D418<3600 { 
-		test.x = 1  } #4
-	
-	elseif S4>2760. and s4<2780 {
-		test.y = 1 } #3
+		test.x = 1  } 
 		
-	elseif C5_EXC<3200 and C5_EXC>3000. {
-		test.z = 1 } #2
+	elseif S4>2760.0 and s4<2780 {
+		test.y = 1 } 
+		
+	elseif C5_EXC<3200 and C5_EXC>3000.0 {
+		test.z = 1 } 
 		
 	else { 
-		test.kk = 1 } #1
+		test.kk = 1 } 
 	
-	if c5_exc<1000. { 
-		test.beta = 1 }
-		
+	
+	if c5_exc<1000.0 { 
+		test.beta = 1 }		
 end
+
