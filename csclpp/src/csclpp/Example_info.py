@@ -14,9 +14,9 @@ studyMap = W.readReference('./example_data/sample.setting')
 
 # take a look at the var maps
 
-for k in studyMap:
+for k, sv in studyMap.iteritems():
     
-    print '\nstudyName:', k
+    print '\nstudyName:', k, ' vardef:', sv.varDef
     for d in studyMap[k].data_src:
         print 'dss data src:', d
         

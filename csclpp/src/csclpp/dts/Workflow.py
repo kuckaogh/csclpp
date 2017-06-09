@@ -18,7 +18,7 @@ def readReference(fs):
     for s in S.studyMap:
         sty = S.studyMap[s]
         varFile=sty.varFile
-        varDef =sty.varDef
+        #varDef =sty.varDef
         #print varFile, varDef
         
         # update data_src path
@@ -36,9 +36,10 @@ def readReference(fs):
         
         vf=os.path.join(ds,varFile+'.vardef').replace('\\', '/')
         Err.errFile=vf
-        varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, newArrayGroupMap, =P.parseVarDef(vf)
+        varDef, varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, newArrayGroupMap, =P.parseVarDef(vf)
 #         S.fileVarPathGroupMap[varFile]=T.varPathGroupMap
 #         S.fileVarExprGroupMap[varFile]=T.varExprGroupMap
+        sty.varDef = varDef
         sty.varPathMap=varPathGroupMap[varDef]
         sty.varExprMap=varExprGroupMap[varDef]
         sty.tempVarList = tempVarGroupList[varDef]

@@ -1,8 +1,9 @@
+use base
 
 vardef base 
 
-	s_trinity = //S_Trnty/STORAGE//1MON//
-	s_shasta  = //S_Shsta/STORAGE//1MON//
+	s_trinity = //S_Trnty/STORAGE//1MON//, TAF
+	s_shasta  = //S_Shsta/STORAGE//1MON//, CFS
 	s_folsom  = //S_Folsm/STORAGE//1MON//	
 	nod_storage	= s_trinity + s_shasta + s_folsom
 	s_oroville = //S_Orovl/STORAGE//1MON//	

@@ -17,6 +17,11 @@ class VarDefVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by VarDefParser#use.
+    def visitUse(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by VarDefParser#vardef.
     def visitVardef(self, ctx):
         return self.visitChildren(ctx)

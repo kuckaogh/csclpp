@@ -26,6 +26,7 @@ newArrayMap=collections.OrderedDict();
 ifsMap=collections.OrderedDict(); # (if statement ID, (condition, assignments)) 
 vardefName='';
 vardefFile='';
+vardefDefault='';
 }
 
 prog 
@@ -33,7 +34,10 @@ prog
 {self.varPathGroupMap={};self.varExprGroupMap={};self.tempVarGroupList={};
 ifsMapGroupMap={};newArrayGroupMap={};
 }
-:    NL* vardef+ ;
+:    NL* use NL* vardef+ ;
+
+use
+:USE i=ID{self.vardefDefault=str($i.text).lower()};
 
 vardef
 @init {
@@ -99,16 +103,17 @@ if gn:
 
  //{print $p.text}
 var_path
-@init{isTemp=False }
-:  (T {isTemp=True} )? i=ID  '=' p=PATH  
+@init{isTemp=False;}
+:  (T {isTemp=True} )? i=ID  '=' p=PATH  (',' u=ID )?
 {p =str($p.text); t = Var(p); 
 name=str($i.text).lower(); self.varPathMap[name]=t;
+if $u: self.varPathMap[name].metaData['units']=str($u.text).lower();
 if isTemp: self.tempVarList.append(name); 	
 }   ;
 
        
 var_meta : i=id2 '.' m=metaKey '=' inf=metaValue 
-{name=str($i.text).lower();mk=str($m.text);c=str($inf.text);
+{name=str($i.text).lower();mk=str($m.text).lower();c=str($inf.text).lower();
 if name in self.varPathMap:
 	self.varPathMap[name].metaData[mk]=c; 
 elif name in self.varExprMap:
@@ -214,6 +219,10 @@ ADD :   '+' ;
 SUB :   '-' ;
 AND :   ' and ';
 OR  :   ' or ';
+
+USE:   'use' ;
+
+
 INCLUDE : 'include' ;
 VARDEF : 'vardef' ;
 END    : 'end' ;
