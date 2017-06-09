@@ -57,6 +57,8 @@ end
 
 vardef test_if
 	
+	array ABC_ctrl{Aa,@Bb,Cc}
+	array @temp_ctrl{t1, t2, t3}
 	#include xyz
 	include Release_Control
 

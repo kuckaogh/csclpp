@@ -70,22 +70,32 @@ array
 : ARRAY array_var (',' array_var)*   ;
 
 array_var
-: i=ID 
+@init{isTemp=False;}
+:  (T {isTemp=True} )? i=ID 
 {v = Var('');name=str($i.text).lower();
 self.newArrayMap[name]=v;
+if isTemp: self.tempVarList.append(name); 
 }
 ;
 
 
 array_cluster
-@init{header='';subvar=[];}
+@init{header='';subvar=collections.OrderedDict();isTemp=False;isGroupTemp=False;}
 @after{
-for v in subvar:
+for k in subvar.keys():
 	o = Var('')
-	self.newArrayMap[header.lower()+'.'+v.lower()]=o;
+	name=header.lower()+'.'+k.lower()
+	self.newArrayMap[name]=o;
+	if isGroupTemp or subvar[k]:
+		self.tempVarList.append(name);
 }
-: ARRAY i=ID {header=str($i.text);} '{' 
-i=ID  {subvar.append(str($i.text));} (',' i=ID {subvar.append(str($i.text));} )* 
+: ARRAY 
+ (T {isGroupTemp=True} )? i=ID {header=str($i.text);} '{' 
+{isTemp=False;} (T {isTemp=True} )? i=ID  
+{subvar[str($i.text)]=isTemp;} 
+(',' {isTemp=False;} (T {isTemp=True} )? i=ID 
+{subvar[str($i.text)]=isTemp;} 
+)* 
 '}' ;
 
 
