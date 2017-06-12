@@ -162,7 +162,7 @@ ee returns [String x]
     | a=ee o=('+'|'-') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);} 
     | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
     | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
-    | i=ID                            
+    | i=ID                           
 {vName=str($i.text).lower();
 if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName in self.varExprMap.keys():
 	$x=self.ifsAppend+"['"+vName+"']"+"[i]"
@@ -170,7 +170,8 @@ if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName 
 else:
 	Err.addError(vName+' not defined.', self.vardefFile, self.vardefName)
 }  
-    | '(' a=ee ')'                    {$x="("+str($a.x)+")"}       
+    | '(' a=ee ')'                    {$x="("+str($a.x)+")"}   
+    | i= STRING                       {$x=  str($i.text) }  
     ; 
 
 compare returns [String x]

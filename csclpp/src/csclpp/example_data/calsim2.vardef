@@ -1,4 +1,4 @@
-use test_if
+use more_if_statements
 
 vardef base 
 
@@ -74,6 +74,7 @@ end
 vardef more_if_statements
  
 	array test{x, y, z, beta, kk}
+	array test_result
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
 	S4         = //S4/STORAGE//1MON//
@@ -82,19 +83,24 @@ vardef more_if_statements
 	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
 		
 	if D418-800<0.1 or D418<3600 { 
-		test.x = 1  } 
+		test.x = 1
+		test_result='x'} 
 		
 	elseif S4>2760.0 and s4<2780 {
-		test.y = 1 } 
+		test.y = 1 
+		test_result='y'} 
 		
 	elseif C5_EXC<3200 and C5_EXC>3000.0 {
-		test.z = 1 } 
+		test.z = 1 
+		test_result='z'} 
 		
 	else { 
-		test.kk = 1 } 
+		test.kk = 1 
+		test_result='kk'} 
 	
 	
 	if c5_exc<1000.0 { 
-		test.beta = 1 }		
+		test.beta = 1 
+		test_result=test_result+';beta' }		
 end
 

@@ -6,7 +6,7 @@ import Setting as S
 import os
 from antlr4.error import Err
 
-debugOn = False
+debugOn = True
 
 def readReference(fs):
     status=0

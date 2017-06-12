@@ -11,6 +11,7 @@ class Study:
     tempVarList = []
     ifsMap = {}
     newArrayList = []
+    newStringArrayList = []
 
     metaData =''
 
@@ -22,6 +23,7 @@ class Study:
         self.varExprMap={}
         self.ifsMap={}
         self.newArrayList=[]
+        self.newStringArrayList=[]
         self.metaData=''
 
 

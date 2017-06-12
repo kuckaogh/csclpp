@@ -37,7 +37,7 @@ def serializedATN():
         buf.write(u"89\7\n\2\29:\7\3\2\2:;\7\7\2\2;A\b\5\1\2<=\7\4\2\2=>")
         buf.write(u"\7\7\2\2>@\b\5\1\2?<\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB\3")
         buf.write(u"\2\2\2B\t\3\2\2\2CA\3\2\2\2DE\7\13\2\2EF\7\3\2\2FG\7")
-        buf.write(u"\16\2\2GH\7\5\2\2HI\7\16\2\2IJ\b\6\1\2J\13\3\2\2\2KL")
+        buf.write(u"\16\2\2GH\7\5\2\2HI\7\13\2\2IJ\b\6\1\2J\13\3\2\2\2KL")
         buf.write(u"\7\f\2\2LM\7\3\2\2MN\7\7\2\2N\r\3\2\2\2OP\7\r\2\2PQ\7")
         buf.write(u"\3\2\2QR\7\7\2\2R\17\3\2\2\2\n\23\31 %+\61\66A")
         return buf.getvalue()
@@ -432,16 +432,15 @@ class SettingParser ( Parser ):
             super(SettingParser.VardefContext, self).__init__(parent, invokingState)
             self.parser = parser
             self.f = None # Token
-            self.d = None # Token
 
-        def VARDEF(self):
-            return self.getToken(SettingParser.VARDEF, 0)
-
-        def ID(self, i=None):
+        def VARDEF(self, i=None):
             if i is None:
-                return self.getTokens(SettingParser.ID)
+                return self.getTokens(SettingParser.VARDEF)
             else:
-                return self.getToken(SettingParser.ID, i)
+                return self.getToken(SettingParser.VARDEF, i)
+
+        def ID(self):
+            return self.getToken(SettingParser.ID, 0)
 
         def getRuleIndex(self):
             return SettingParser.RULE_vardef
@@ -470,8 +469,8 @@ class SettingParser ( Parser ):
             self.state = 69
             self.match(SettingParser.T__2)
             self.state = 70
-            localctx.d = self.match(SettingParser.ID)
-            f=str((None if localctx.f is None else localctx.f.text));d=str((None if localctx.d is None else localctx.d.text));self.styobj.varFile=f;self.styobj.varDef=d;
+            self.match(SettingParser.VARDEF)
+            f=str((None if localctx.f is None else localctx.f.text));self.styobj.varFile=f;
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
