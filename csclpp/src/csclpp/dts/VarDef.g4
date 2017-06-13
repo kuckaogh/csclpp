@@ -18,10 +18,12 @@ varExprGroupMap={};
 tempVarGroupList={};
 ifsMapGroupMap={};
 newArrayGroupMap={};
+newConstGroupMap={};
 varPathMap=collections.OrderedDict();
 varExprMap=collections.OrderedDict();
 tempVarList=[];
 newArrayMap=collections.OrderedDict();
+newConstMap=collections.OrderedDict();
 #newArrayClusterMap=collections.OrderedDict();
 ifsMap=collections.OrderedDict(); # (if statement ID, (condition, assignments)) 
 vardefName='';
@@ -31,8 +33,12 @@ vardefDefault='';
 
 prog 
 @init 
-{self.varPathGroupMap={};self.varExprGroupMap={};self.tempVarGroupList={};
-ifsMapGroupMap={};newArrayGroupMap={};
+{self.varPathGroupMap={};
+self.varExprGroupMap={};
+self.tempVarGroupList={};
+ifsMapGroupMap={};
+newArrayGroupMap={};
+newConstGroupMap={};
 }
 :    NL* use NL* vardef+ ;
 
@@ -46,6 +52,7 @@ self.varExprMap=collections.OrderedDict();
 self.tempVarList=[];
 self.ifsMap=collections.OrderedDict();
 self.newArrayMap=collections.OrderedDict();
+self.newConstMap=collections.OrderedDict();
 self.ifid=0;
 }
 @after
@@ -55,6 +62,7 @@ self.varExprGroupMap[groupName]=self.varExprMap;
 self.tempVarGroupList[groupName]=self.tempVarList;	
 self.ifsMapGroupMap[groupName]=self.ifsMap;
 self.newArrayGroupMap[groupName]=self.newArrayMap;
+self.newConstGroupMap[groupName]=self.newConstMap;
 }
 :   VARDEF name=ID {groupName=str($name.text).lower();self.vardefName=groupName;} NL+ 
        field+
@@ -62,9 +70,19 @@ self.newArrayGroupMap[groupName]=self.newArrayMap;
     ;
 
 field
-: ( var_path | var_meta | stat | if_stat {self.ifid=self.ifid+1;}| new_var | include ) NL+ ;
+: ( var_path | var_meta | stat | if_stat {self.ifid=self.ifid+1;}| new_var | include | constant) NL+ ;
 
 new_var : array | array_cluster ; 
+
+constant
+: CONST const_var (',' const_var)*  ;
+
+const_var
+: i=ID '=' (c=ID|c=FLOAT|c=INT) 
+{v = Var('');v.const=str($c.text);name=str($i.text).lower();self.newConstMap[name]=v;}
+;
+
+
 
 array
 : ARRAY array_var (',' array_var)*   ;
@@ -108,6 +126,7 @@ if gn:
 	self.tempVarList.extend(self.tempVarGroupList[gn])
 	self.ifsMap.update(self.ifsMapGroupMap[gn])
 	self.newArrayMap.update(self.newArrayGroupMap[gn])
+	self.newConstMap.update(self.newConstGroupMap[gn])
 }
 : INCLUDE g=ID ;
 
@@ -122,8 +141,10 @@ if isTemp: self.tempVarList.append(name);
 }   ;
 
        
-var_meta : i=id2 '.' m=metaKey '=' inf=metaValue 
-{name=str($i.text).lower();mk=str($m.text).lower();c=str($inf.text).lower();
+var_meta : i=id2 '.' m=metaKey '=' (inf=metaValue{c=str($inf.text).lower()}|dv=metaDict{c=str($dv.text).lower()}) 
+{name=str($i.text).lower();mk=str($m.text).lower();
+
+	
 if name in self.varPathMap:
 	self.varPathMap[name].metaData[mk]=c; 
 elif name in self.varExprMap:
@@ -135,10 +156,16 @@ else:
 	Err.addError(msg, self.vardefFile, self.vardefName)
 }; 
 
-metaKey : UNITS | CAPACITY ;
+metaKey : ID;
 
 metaValue
-: i = FLOAT | INT | ID;
+: FLOAT | INT | ID;
+
+metaDict: '{'   dict_pair (',' dict_pair)* '}' ;
+
+dict_pair :  (ID|STRING|number) ':' (ID|STRING|number) ;
+
+number: FLOAT|INT;
 
 
 stat
@@ -241,12 +268,15 @@ ARRAY    : 'array' ;
 IF     : 'if' ;
 ELSEIF   : 'elseif' ;
 ELSE   : 'else' ;
-UNITS : 'units';
-CAPACITY : 'capacity' ;
+//UNITS : 'units';
+//CAPACITY : 'capacity' ;
 GROUP : 'group' ;
 STRING_L : 'string'  ;
 INT_L :   'int' ;
 FLOAT_L : 'float' ;
+CONST : 'const' ;
+MONTH : 'month' ;
+YEAR  : 'year'  ;
 
 FLOAT:  ('0'..'9')+'.'('0'..'9')* ;  
 ID  :   LETTER (LETTER|DIGIT|'_')* ;

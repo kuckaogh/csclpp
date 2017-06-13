@@ -26,7 +26,8 @@ def parseVarDef(f):
     p.vardefFile=f
     tree = p.prog()
     #print(tree.toStringTree(recog=p))
-    return p.vardefDefault, p.varPathGroupMap, p.varExprGroupMap, p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupMap
+    return p.vardefDefault, p.varPathGroupMap, p.varExprGroupMap, \
+        p.tempVarGroupList, p.ifsMapGroupMap, p.newArrayGroupMap, p.newConstGroupMap
     
 #     visitor = DtsVisitor()
 #     visitor.visit(tree)

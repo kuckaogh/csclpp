@@ -36,7 +36,8 @@ def readReference(fs):
         
         vf=os.path.join(ds,varFile+'.vardef').replace('\\', '/')
         Err.errFile=vf
-        varDef, varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, newArrayGroupMap, =P.parseVarDef(vf)
+        varDef, varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, \
+        newArrayGroupMap, newConstGroupMap=P.parseVarDef(vf)
 #         S.fileVarPathGroupMap[varFile]=T.varPathGroupMap
 #         S.fileVarExprGroupMap[varFile]=T.varExprGroupMap
         sty.varDef = varDef
@@ -45,6 +46,7 @@ def readReference(fs):
         sty.tempVarList = tempVarGroupList[varDef]
         sty.ifsMap = ifsMapGroupMap[varDef]
         sty.newArrayMap = newArrayGroupMap[varDef]
+        sty.newConstMap = newConstGroupMap[varDef]
     
     status = len(Err.errors) 
     if status !=0: quit()  
@@ -108,7 +110,7 @@ def evaluateIFS(studyVarTs):
             es =es+'\n'
     
     if debugOn:
-        text_file = open("es_printout.txt", "w")
+        text_file = open("es_printout.py", "w")
         text_file.write(es)
         text_file.close()
     Err.errFile = 'If statement evaluation'

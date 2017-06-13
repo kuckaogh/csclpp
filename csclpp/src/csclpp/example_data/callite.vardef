@@ -1,9 +1,20 @@
 use base
 
-vardef base 
+vardef param
+	const jan=1, feb=2, mar=3, apr=4, may=5, jun=6, jul=7, aug=8, sep=9, oct=10, nov=11, dec=12
+	const taf='taf', cfs='cfs'
 
-	s_trinity = //S_Trnty/STORAGE//1MON//, TAF
-	s_shasta  = //S_Shsta/STORAGE//1MON//, CFS
+
+
+end
+
+vardef base 
+	include param
+	
+	s_trinity = //S_Trnty/STORAGE//1MON//, taf
+	s_trinity.level1 = {oct:100.0,  nov:110.0 , feb:20,  mar:30}
+	s_trinity.level2 = {oct:1000.0, nov:1100.0 ,feb:200, mar:300}
+	s_shasta  = //S_Shsta/STORAGE//1MON//, cfs
 	s_folsom  = //S_Folsm/STORAGE//1MON//	
 	nod_storage	= s_trinity + s_shasta + s_folsom
 	s_oroville = //S_Orovl/STORAGE//1MON//	

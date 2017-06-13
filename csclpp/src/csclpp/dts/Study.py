@@ -1,5 +1,6 @@
 import sys
-
+from collections import defaultdict
+import collections
 
 class Study:
 
@@ -11,7 +12,7 @@ class Study:
     tempVarList = []
     ifsMap = {}
     newArrayList = []
-    newStringArrayList = []
+    newConstMap = collections.OrderedDict()
 
     metaData =''
 
@@ -23,7 +24,7 @@ class Study:
         self.varExprMap={}
         self.ifsMap={}
         self.newArrayList=[]
-        self.newStringArrayList=[]
+        self.newConstMap=collections.OrderedDict()
         self.metaData=''
 
 
