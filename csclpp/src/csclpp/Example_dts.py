@@ -9,7 +9,7 @@ import csv
 
 
 # parse setting file and vardef files
-studyMap = Workflow.readReference('./example_data/sample.setting')
+studyMap = Workflow.readReference('./example_data/dts.setting')
 
 
 # this is where the timeseries stored
