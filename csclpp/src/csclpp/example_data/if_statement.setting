@@ -2,7 +2,7 @@
 study calsim2StudyName
 
 	data = './cs2.dss'
-	vardef = calsim2.test_if
+	vardef = calsim2.vardef
 
 end
 
