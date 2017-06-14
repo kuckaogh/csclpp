@@ -43,5 +43,5 @@ for k, sv in studyMap.iteritems():
 
     print ''
     for p, v in studyMap[k].newConstMap.iteritems():
-        print '  new const:  '+p+'= '+v.const
+        print '  new const:  '+p+'= ', v.const
         if v.metaData: print v.metaData   #print units, capacity

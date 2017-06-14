@@ -78,8 +78,9 @@ constant
 : CONST const_var (',' const_var)*  ;
 
 const_var
-: i=ID '=' (c=ID|c=FLOAT|c=INT) 
-{v = Var('');v.const=str($c.text);name=str($i.text).lower();self.newConstMap[name]=v;}
+@init{v = Var('');}
+: i=ID '=' (c=FLOAT {v.const=float($c.text)}|c=INT {v.const=int($c.text)}|c=STRING{v.const=str($c.text)}) 
+{name=str($i.text).lower();self.newConstMap[name]=v;}
 ;
 
 
