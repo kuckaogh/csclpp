@@ -1,5 +1,3 @@
-import sys
-import dts.Parser as P
 from dts.Study import Study
 from dts.Var import Var
 import dts.Setting as S
@@ -9,7 +7,7 @@ from vtools.functions.api import *
 from vtools.data.api import *
 import collections
 
-studyMap = W.readReference('./example_data/sample.setting')
+studyMap = W.readReference('./example_data/dts.setting')
 
 
 # take a look at the var maps

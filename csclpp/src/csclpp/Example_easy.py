@@ -9,7 +9,7 @@ import csv
 
 
 # parse setting file and vardef files
-studyMap = Workflow.readReference('./example_data/dts.setting')
+studyMap = Workflow.readReference('./example_data/easy.setting')
 
 
 # read timeseries into studyVarData  
@@ -23,7 +23,7 @@ Workflow.evaluateDTS(studyVarData)
 
 #print csv
 for s, d in studyVarData.iteritems():
-
+    print d.values
     with open(s+".csv", "wb") as outfile:
         w = csv.writer(outfile)
         w.writerow(d.keys())

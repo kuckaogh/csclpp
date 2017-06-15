@@ -5,8 +5,14 @@ from Var import Var
 import Setting as S
 import os
 from antlr4.error import Err
+import collections
+from vtools.datastore.dss.api import *
+from vtools.functions.api import *
+from vtools.data.api import *
+
 
 debugOn = True
+
 
 def readReference(fs):
     status=0
@@ -166,4 +172,36 @@ def test_evaluateDTS(studyVarTs):
         print '/:  ', varTs['s_folsom'] / varTs['s_shasta']
         print '*:  ', varTs['s_folsom'] * varTs['s_shasta']        
         
-        
+
+# read timeseries into studyVarData  
+def readData(studyMap):
+    studyVarData = collections.OrderedDict();
+
+    for studyName in studyMap:
+        varData = collections.OrderedDict();
+        iend=0
+        for dssFile in studyMap[studyName].data_src:
+            print 'open data src:', dssFile
+    
+            for varName in studyMap[studyName].varPathMap:
+                dssPath =  studyMap[studyName].varPathMap[varName].path
+                try:
+                    ts = dss_retrieve_ts(dssFile,selector=dssPath,unique=True)
+                    print 'found  var:  '+varName+': '+dssPath
+                    #print ts.data
+                    varData[varName]=ts.data
+                    
+                    #find length
+                    if not iend:
+                        iend = len(ts.data)
+                except:
+                    # dss path not found in this dss file
+                    pass
+            
+            # reserve space for new vars
+            for varName in studyMap[studyName].newArrayMap:
+                varData[varName]=[0]*iend
+              
+        # put data into dictionary
+        studyVarData[studyName]=varData
+    return studyVarData   
