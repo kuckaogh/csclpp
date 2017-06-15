@@ -1,4 +1,4 @@
-use more_if_statements
+use more
 
 vardef base 
 
@@ -71,16 +71,18 @@ vardef all
 
 end
 
-vardef more_if_statements
+vardef more
  
 	array test{x, y, z, beta, kk}
 	array test_result
+	array ts_status, ts_status2
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
 	S4         = //S4/STORAGE//1MON//
 	S4LEVEL5DV = //S4LEVEL5DV/STORAGE-LEVEL//1MON//
 	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
 	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
+
 		
 	if D418-800<0.1 or D418<3600 { 
 		test.x = 1
@@ -101,6 +103,20 @@ vardef more_if_statements
 	
 	if c5_exc<1000.0 { 
 		test.beta = 1 
-		test_result=test_result+';beta' }		
+		test_result=test_result+';beta' }
+
+	
+	C129_EXC_before_mod   = C129_EXC
+	
+	if C129_EXC>999 {
+		C129_EXC = 999
+		ts_status='modified'
+	}
+
+	if ts_status=='modified' {
+		ts_status2='yes' } 
+	else { 
+		ts_status2='no'}
+	
 end
 

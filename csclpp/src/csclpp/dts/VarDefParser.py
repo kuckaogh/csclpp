@@ -2061,7 +2061,7 @@ class VarDefParser ( Parser ):
             self.state = 308
             localctx.a = self.ee(0)
             vName=str((None if localctx.i is None else self._input.getText((localctx.i.start,localctx.i.stop)))).lower();
-            if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys():
+            if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys() or vName in self.varPathMap.keys():
             	localctx.x = self.ifsNewAppend+"['"+str((None if localctx.i is None else self._input.getText((localctx.i.start,localctx.i.stop))))+"'][i]="+localctx.a.x
             	#print (vName) 
             else:

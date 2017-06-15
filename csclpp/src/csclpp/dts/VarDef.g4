@@ -212,7 +212,7 @@ compare returns [String x]
 assign returns [String x]
 	: i=id2 '=' a=ee 
 {vName=str($i.text).lower();
-if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys():
+if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys() or vName in self.varPathMap.keys():
 	$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x
 	#print (vName); 
 else:

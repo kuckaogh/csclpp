@@ -73,7 +73,7 @@ def evaluateDTS(studyVarTs):
         
         eList=[]
         for vk in S.studyMap[s].varExprMap:
-            e = S.studyMap[s].varExprMap[vk].expr
+            e = S.studyMap[s].varExprMap[vk].expr+'+0'
             if e: eList.append(vk+'='+e+'\n')
         
         line = ''.join(eList)
