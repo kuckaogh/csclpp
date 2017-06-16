@@ -15,6 +15,7 @@ ts = dss_retrieve_ts(d,selector=path,unique=True)
 
 print ts.times
 print ts.props
+print ts.props['unit']
 print ts.start, ts.end
 print ts.start.strftime('%Y%m')
 

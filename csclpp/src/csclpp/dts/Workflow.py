@@ -201,14 +201,14 @@ def readData(studyMap):
         for dssFile in studyMap[studyName].data_src:
             print 'open data src:', dssFile
     
-            for varName in studyMap[studyName].varPathMap:
-                dssPath =  studyMap[studyName].varPathMap[varName].path
+            for varName, var in studyMap[studyName].varPathMap.iteritems():
+                dssPath =  var.path
                 try:
                     ts = dss_retrieve_ts(dssFile,selector=dssPath,unique=True)
                     print 'found  var:  '+varName+': '+dssPath
                     #print ts.data
                     varData[varName]=ts.data
-                    
+                    var.metaData['_unit']=ts.props['unit']
                     #find length
                     if not iend:
                         iend = len(ts.data)

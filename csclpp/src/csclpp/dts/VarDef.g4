@@ -134,11 +134,12 @@ if gn:
  //{print $p.text}
 var_path
 @init{isTemp=False;}
-:  (T {isTemp=True} )? i=ID  '=' p=PATH  (',' u=STRING )?
+:  (T {isTemp=True} )? i=ID  '=' p=PATH (',' u=STRING )?
 {p =str($p.text); t = Var(p); 
 name=str($i.text).lower(); self.varPathMap[name]=t;
 if $u: self.varPathMap[name].metaData['units']=str($u.text)[1:-1].lower();
-if isTemp: self.tempVarList.append(name); 	
+if isTemp: self.tempVarList.append(name); 
+self.varPathMap[name].metaData['partc']=str($p.text).split("/")[3];	
 }   ;
 
        

@@ -6,8 +6,12 @@ from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
 import collections
+from dts import Workflow
 
 studyMap = W.readReference('./example_data/easy.setting')
+
+# read timeseries into studyVarData  
+studyVarData = Workflow.readData(studyMap)
 
 
 # take a look at the var maps
