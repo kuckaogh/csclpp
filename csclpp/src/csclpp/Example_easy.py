@@ -23,7 +23,7 @@ Workflow.evaluateDTS(studyVarData)
 
 #print csv
 for s, d in studyVarData.iteritems():
-    print d.values
+    #print d.values
     with open(s+".csv", "wb") as outfile:
         w = csv.writer(outfile)
         w.writerow(d.keys())

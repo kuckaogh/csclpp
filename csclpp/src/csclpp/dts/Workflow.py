@@ -56,9 +56,17 @@ def readReference(fs):
         
         
         # process metadata dictionary type
+        _cm=sty.newConstMap
+        #print '_cm:', _cm
         for k, v in sty.varPathMap.iteritems():
             for e in v.metaDataPost:
-                print k, v.metaData[e]
+                #print k, v.metaData[e]
+                _dummy={}
+                es = '_dummy='+v.metaData[e]
+                #print 'es:',es
+                exec(es)
+                #print _dummy
+                v.metaData[e]=_dummy
                 
                 
                 

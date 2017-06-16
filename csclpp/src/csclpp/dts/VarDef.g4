@@ -175,6 +175,7 @@ else:
 
 metaDict returns [boolean hasV, String x]
 @init{hasV=False}
+@after{$x='{'+$x+'}'}
 : '{'   d=dict_pair
 {if $d.hasV: $hasV=True;
 $x=$d.x;	
@@ -188,12 +189,12 @@ $x=$x+','+$d.x;
 dict_pair returns [boolean hasV, String x]
 @init{r1='';r2=''}
 :  (i1=ID {$hasV=True; 
-r1='sty.newConstMap['+str($i1.text)+']'
+r1='_cm[\''+str($i1.text)+'\'].const'
 }
 |s1=STRING{r1=str($s1.text)}|s11=number{r1=str($s11.text)})
 
 ':' (i2=ID {$hasV=True; 
-r2='sty.newConstMap['+str($i2.text)+']'
+r2='_cm[\''+str($i2.text)+'\'].const'
 }
 |s2=STRING{r2=str($s2.text)}|s22=number{r2=str($s22.text)})
 {$x=r1+':'+r2;}

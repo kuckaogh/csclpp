@@ -1456,6 +1456,8 @@ class VarDefParser ( Parser ):
 
             self.state = 219
             self.match(VarDefParser.T__3)
+            self._ctx.stop = self._input.LT(-1)
+            localctx.x='{'+localctx.x+'}'
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1523,7 +1525,7 @@ class VarDefParser ( Parser ):
                 self.state = 221
                 localctx.i1 = self.match(VarDefParser.ID)
                 localctx.hasV = True 
-                r1='sty.newConstMap['+str((None if localctx.i1 is None else localctx.i1.text))+']'
+                r1='_cm[\''+str((None if localctx.i1 is None else localctx.i1.text))+'\'].const'
 
                 pass
             elif token in [VarDefParser.STRING]:
@@ -1548,7 +1550,7 @@ class VarDefParser ( Parser ):
                 self.state = 231
                 localctx.i2 = self.match(VarDefParser.ID)
                 localctx.hasV = True 
-                r2='sty.newConstMap['+str((None if localctx.i2 is None else localctx.i2.text))+']'
+                r2='_cm[\''+str((None if localctx.i2 is None else localctx.i2.text))+'\'].const'
 
                 pass
             elif token in [VarDefParser.STRING]:
