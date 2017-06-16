@@ -1272,6 +1272,7 @@ class VarDefParser ( Parser ):
             if localctx.u: self.varPathMap[name].metaData['units']=str((None if localctx.u is None else localctx.u.text))[1:-1].lower();
             if isTemp: self.tempVarList.append(name); 
             self.varPathMap[name].metaData['partc']=str((None if localctx.p is None else localctx.p.text)).split("/")[3];	
+            self.varPathMap[name].metaData['partb']=str((None if localctx.p is None else localctx.p.text)).split("/")[2];	
 
         except RecognitionException as re:
             localctx.exception = re
