@@ -6,7 +6,8 @@ class Var:
 	path = ''
 	expr = ''
 	const = None
-	metaData = {}	
+	metaData = {}; 
+	metaDataPost = []
 
 	def __init__(self, path):
 		self.isTemp=False
@@ -14,4 +15,5 @@ class Var:
 		self.expr=''
 		self.const = None
 		self.metaData={}
+		self.metaDataPost =[]
 

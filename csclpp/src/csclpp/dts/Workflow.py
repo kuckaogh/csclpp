@@ -53,6 +53,15 @@ def readReference(fs):
         sty.ifsMap = ifsMapGroupMap[varDef]
         sty.newArrayMap = newArrayGroupMap[varDef]
         sty.newConstMap = newConstGroupMap[varDef]
+        
+        
+        # process metadata dictionary type
+        for k, v in sty.varPathMap.iteritems():
+            for e in v.metaDataPost:
+                print k, v.metaData[e]
+                
+                
+                
     
     status = len(Err.errors) 
     if status !=0: quit()  
@@ -92,6 +101,7 @@ def evaluateIFS(studyVarTs):
     es=''
     results={}
     for s in studyVarTs:
+        if not S.studyMap[s].ifsMap: return
         global _ts
         _ts = studyVarTs[s]
         #print ts

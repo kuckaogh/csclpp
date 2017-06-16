@@ -134,37 +134,70 @@ if gn:
  //{print $p.text}
 var_path
 @init{isTemp=False;}
-:  (T {isTemp=True} )? i=ID  '=' p=PATH  (',' u=ID )?
+:  (T {isTemp=True} )? i=ID  '=' p=PATH  (',' u=STRING )?
 {p =str($p.text); t = Var(p); 
 name=str($i.text).lower(); self.varPathMap[name]=t;
-if $u: self.varPathMap[name].metaData['units']=str($u.text).lower();
+if $u: self.varPathMap[name].metaData['units']=str($u.text)[1:-1].lower();
 if isTemp: self.tempVarList.append(name); 	
 }   ;
 
        
-var_meta : i=id2 '.' m=metaKey '=' (inf=metaValue{c=str($inf.text).lower()}|dv=metaDict{c=str($dv.text).lower()}) 
+var_meta 
+@init{ha=False}
+: i=id2 '.' m=ID '=' 
+( 
+	(k=FLOAT{c=float($k.text)}|k=INT{c=int($k.text)}|k=STRING{c=str($k.text)[1:-1].lower()}) 
+	| 
+	(dv=metaDict{c=str($dv.x).lower();
+if $dv.hasV: ha=True;
+	})
+) 
 {name=str($i.text).lower();mk=str($m.text).lower();
 
-	
-if name in self.varPathMap:
-	self.varPathMap[name].metaData[mk]=c; 
-elif name in self.varExprMap:
-	self.varExprMap[name].metaData[mk]=c; 
-elif name in self.newArrayMap:
+if self.varPathMap.has_key(name):
+	self.varPathMap[name].metaData[mk]=c;
+	if ha: self.varPathMap[name].metaDataPost.append(mk);
+elif self.varExprMap.has_key(name):
+	self.varExprMap[name].metaData[mk]=c;
+	if ha: self.varExprMap[name].metaDataPost.append(mk); 
+elif self.newArrayMap.has_key(name):
 	self.newArrayMap[name].metaData[mk]=c; 
+	if ha: self.newArrayMap[name].metaDataPost.append(mk);
 else:
 	msg=name+'.'+mk+'='+c+' variable \"'+name+'\" not found!'
 	Err.addError(msg, self.vardefFile, self.vardefName)
 }; 
 
-metaKey : ID;
 
-metaValue
-: FLOAT | INT | ID;
 
-metaDict: '{'   dict_pair (',' dict_pair)* '}' ;
+//metaValue 
+//: FLOAT | INT | STRING;
 
-dict_pair :  (ID|STRING|number) ':' (ID|STRING|number) ;
+metaDict returns [boolean hasV, String x]
+@init{hasV=False}
+: '{'   d=dict_pair
+{if $d.hasV: $hasV=True;
+$x=$d.x;	
+} 
+(',' d=dict_pair
+{if $d.hasV: $hasV=True;
+$x=$x+','+$d.x;	
+}
+)* '}' ;
+
+dict_pair returns [boolean hasV, String x]
+@init{r1='';r2=''}
+:  (i1=ID {$hasV=True; 
+r1='sty.newConstMap['+str($i1.text)+']'
+}
+|s1=STRING{r1=str($s1.text)}|s11=number{r1=str($s11.text)})
+
+':' (i2=ID {$hasV=True; 
+r2='sty.newConstMap['+str($i2.text)+']'
+}
+|s2=STRING{r2=str($s2.text)}|s22=number{r2=str($s22.text)})
+{$x=r1+':'+r2;}
+;
 
 number: FLOAT|INT;
 

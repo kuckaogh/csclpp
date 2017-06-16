@@ -77,16 +77,6 @@ class VarDefVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by VarDefParser#metaKey.
-    def visitMetaKey(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by VarDefParser#metaValue.
-    def visitMetaValue(self, ctx):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by VarDefParser#metaDict.
     def visitMetaDict(self, ctx):
         return self.visitChildren(ctx)

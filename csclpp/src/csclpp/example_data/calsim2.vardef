@@ -1,13 +1,13 @@
-use more
+use all
 
 vardef base 
 
 	s_trinity = //S1/STORAGE//1MON//
 	s_trinity.capacity = 2447.6
 	s_shasta  = //S4/STORAGE//1MON//
-	s_folsom  = //S8/STORAGE//1MON//	
+	s_folsom  = //S8/STORAGE//1MON//, 'taf'	
 	nod_storage	= s_trinity + s_shasta + s_folsom
-	nod_storage.units = TAF
+	nod_storage.units = 'taf'
 	Nod_storage.capacity = 8000
 	s_oroville = //S6/STORAGE//1MON//
     cvp_sanLuis = //S11/STORAGE//1MON//
@@ -25,7 +25,7 @@ vardef deltaInflow
 	@c4 = //C644/FLOW-CHANNEL//1MON// 
 	# @ means temp variables to construct delta inflow 
 	Delta_Inflow = c1 + C2 + c3 + 2.0*c4/2
-	delta_inflow.units = CFS
+	delta_inflow.units = 'cfs'
 
 end
 
