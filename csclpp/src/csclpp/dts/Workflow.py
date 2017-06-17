@@ -9,6 +9,7 @@ import collections
 from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
+from datetime import datetime
 
 
 debugOn = True
@@ -194,8 +195,11 @@ def test_evaluateDTS(studyVarTs):
 # read timeseries into studyVarData  
 def readData(studyMap):
     studyVarData = collections.OrderedDict();
-
+    
     for studyName in studyMap:
+
+        startTime=datetime(2900,1,1,0,0)
+        endTime=datetime(500,1,1,0,0)
         varData = collections.OrderedDict();
         iend=0
         for dssFile in studyMap[studyName].data_src:
@@ -210,8 +214,13 @@ def readData(studyMap):
                     varData[varName]=ts.data
                     var.metaData['_unit']=ts.props['unit']
                     #find length
-                    if not iend:
-                        iend = len(ts.data)
+                    if len(ts.data)> iend: iend = len(ts.data)
+                    if ts.start<startTime: startTime=ts.start
+                    if ts.end>    endTime: endTime= ts.end
+                        
+                    var.metaData['_start']=ts.start  
+                    var.metaData['_end']=ts.end    
+                    
                 except:
                     # dss path not found in this dss file
                     pass
@@ -222,4 +231,6 @@ def readData(studyMap):
               
         # put data into dictionary
         studyVarData[studyName]=varData
+        
+        print startTime, endTime, iend
     return studyVarData   
