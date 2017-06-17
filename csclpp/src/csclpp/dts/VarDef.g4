@@ -39,6 +39,7 @@ self.tempVarGroupList={};
 ifsMapGroupMap={};
 newArrayGroupMap={};
 newConstGroupMap={};
+self.ifid=0;
 }
 :    NL* use NL* vardef+ ;
 
@@ -53,7 +54,6 @@ self.tempVarList=[];
 self.ifsMap=collections.OrderedDict();
 self.newArrayMap=collections.OrderedDict();
 self.newConstMap=collections.OrderedDict();
-self.ifid=0;
 }
 @after
 {
@@ -70,7 +70,7 @@ self.newConstGroupMap[groupName]=self.newConstMap;
     ;
 
 field
-: ( var_path | var_meta | stat | if_stat {self.ifid=self.ifid+1;}| new_var | include | constant) NL+ ;
+: ( var_path | var_meta | stat {self.ifid=self.ifid+1;} | if_stat {self.ifid=self.ifid+1;}| new_var | include | constant) NL+ ;
 
 new_var : array | array_cluster ; 
 
@@ -206,20 +206,42 @@ number: FLOAT|INT;
 
 
 stat
-@init{isTemp=False }
+@init{isTemp=False;ifs=collections.OrderedDict();k='';}
 @after
 {
 v = Var('');
-e=str($e.text);v.expr=e.lower();
+e=str($e.text).lower();v.expr=e;
 name=str($i.text).lower(); self.varExprMap[name]=v; 
+e2=str($e.x).lower()
+name2=self.ifsAppend+"['"+str($i.text).lower()+"']"
+k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
 if isTemp: 
 	self.tempVarList.append(name);	
+print('i am here', self.ifid, name)
 }
-:   (T {isTemp=True} )? i=ID '=' e=ee     
+:   (T {isTemp=True} )? i=ID '=' e=ee_dts
 //{name=str($i.text);
 //
 //}
     ;
+
+ee_dts returns [String x]
+    : a=ee_dts o=('*'|'/') b=ee_dts           {$x=str($a.x)+str($o.text)+str($b.x);}   
+    | a=ee_dts o=('+'|'-') b=ee_dts           {$x=str($a.x)+str($o.text)+str($b.x);} 
+    | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
+    | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
+    | i=ID                           
+{vName=str($i.text).lower();
+if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName in self.varExprMap.keys():
+	$x=self.ifsAppend+"['"+vName+"']"
+	#print (vName); 
+else:
+	Err.addError(vName+' not defined.', self.vardefFile, self.vardefName)
+}  
+    | '(' a=ee_dts ')'                    {$x="("+str($a.x)+")"}   
+    | i= STRING                       {$x=  str($i.text) }  
+    ; 
+
 
 ee returns [String x]
     : a=ee o=('*'|'/') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);}   

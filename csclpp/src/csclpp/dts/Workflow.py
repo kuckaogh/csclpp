@@ -82,7 +82,7 @@ def readReference(fs):
 #             print k, v.isTemp, v.path, v.expr
 
         
-def evaluateDTS(studyVarTs):
+def evaluateDTS_old(studyVarTs):
     
     #T.styVarTs=studyVarTs
     
@@ -105,22 +105,36 @@ def evaluateDTS(studyVarTs):
         
 #         for var in T.styVarTs[s]:
 #             print var, T.styVarTs[s][var]
-
 def evaluateIFS(studyVarTs):
-    es=''
-    results={}
+    return
+
+def evaluateDTS(studyVarTs):
+
     for s in studyVarTs:
         if not S.studyMap[s].ifsMap: return
-        global _ts
+        #global _ts
+        es=''
         _ts = studyVarTs[s]
-        #print ts
+        print s, '_ts.keys():', _ts.keys()
         #es=es+'print globals()\n'
         iend=len(_ts.values()[0])
-        es=es+'for i in range(0,'+str(iend)+'):\n'
+        #es=es+'for i in range(0,'+str(iend)+'):\n'
+        needTag=False
         for p in S.studyMap[s].ifsMap:
             ifs = S.studyMap[s].ifsMap[p]
             #print 'if statement ID: '+ str(p)
-            for idx, condition in enumerate(ifs):
+                
+            for idx, condition in enumerate(ifs):                
+                #print condition
+                if condition[0]=='!':
+                    es=es+condition[1:]+'+0\n'
+                    needTag=True
+                    continue
+                else:
+                    if needTag:
+                        es=es+'for i in range(0,'+str(iend)+'):\n'   
+                        needTag=False                        
+                        
                 if idx<1:
                     es =es + '\tif ' + condition + ":\n"
                     for a in ifs[condition]:
@@ -134,12 +148,12 @@ def evaluateIFS(studyVarTs):
                         es = es + '\t\t'+a+'\n'                   
             es =es+'\n'
     
-    if debugOn:
-        text_file = open("es_printout.py", "w")
-        text_file.write(es)
-        text_file.close()
-    Err.errFile = 'If statement evaluation'
-    exec(es, {'_ts':_ts})    
+        if debugOn:
+            text_file = open(s+"_es_printout.py", "w")
+            text_file.write(es)
+            text_file.close()
+        Err.errFile = 'If statement evaluation'
+        exec(es, {'_ts':_ts})    
     
 def evaluateIFS0(studyVarTs):
     es=''

@@ -97,6 +97,11 @@ class VarDefVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by VarDefParser#ee_dts.
+    def visitEe_dts(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by VarDefParser#ee.
     def visitEe(self, ctx):
         return self.visitChildren(ctx)

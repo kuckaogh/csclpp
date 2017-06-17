@@ -28,3 +28,7 @@ print ts2.times
 print ts2.props
 print ts2.start, ts2.end
 print ts2.start.strftime('%Y%m')
+
+print ts.data
+print ts2.data
+print ts.data+ts2.data

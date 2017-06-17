@@ -7,7 +7,7 @@ vardef base
 	s_shasta  = //S4/STORAGE//1MON//
 	s_folsom  = //S8/STORAGE//1MON//, 'taf'	
 	nod_storage	= s_trinity + s_shasta + s_folsom
-	nod_storage.units = 'taf'
+	nod_storage.unit = 'taf'
 	Nod_storage.capacity = 8000
 	s_oroville = //S6/STORAGE//1MON//
     cvp_sanLuis = //S11/STORAGE//1MON//
@@ -25,7 +25,7 @@ vardef deltaInflow
 	@c4 = //C644/FLOW-CHANNEL//1MON// 
 	# @ means temp variables to construct delta inflow 
 	Delta_Inflow = c1 + C2 + c3 + 2.0*c4/2
-	delta_inflow.units = 'cfs'
+	delta_inflow.unit = 'cfs'
 
 end
 
@@ -61,13 +61,6 @@ vardef test_if
 	array @temp_ctrl{t1, t2, t3}
 	#include xyz
 	include Release_Control
-
-end
-
-vardef all
-	
-	include deltaInflow
-	include release_control
 
 end
 
@@ -120,3 +113,10 @@ vardef more
 	
 end
 
+vardef all
+	
+	include deltaInflow
+	include release_control
+	include more
+
+end
