@@ -7,11 +7,23 @@ from vtools.functions.api import *
 from vtools.data.api import *
 import collections
 
+d='./example_data/callite2.dss'
+path =  '//S_OROVL/STORAGE//1MON//'
+print path
+c = dss_catalog(d) 
+for e in c:
+    print e
+ts = dss_retrieve_ts(d,selector=path,unique=True) 
+
+
 
 d='./example_data/callite1.dss'
 path =  '//S_Folsm/STORAGE//1MON//'
 print path
 ts = dss_retrieve_ts(d,selector=path,unique=True) 
+c = dss_catalog(d) 
+# for e in c:
+#     print e
 
 print ts.times
 print ts.props

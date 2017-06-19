@@ -211,7 +211,8 @@ def readData(studyMap, time_window=None):
     studyVarData = collections.OrderedDict();
     
     for studyName in studyMap:
-
+        
+        missingVars = studyMap[studyName].varPathMap.keys()
         #startTime=datetime(2900,1,1,0,0)
         #endTime=datetime(500,1,1,0,0)
         varData = collections.OrderedDict();
@@ -223,6 +224,8 @@ def readData(studyMap, time_window=None):
                 dssPath =  var.path
                 try:
                     ts = dss_retrieve_ts(dssFile,selector=dssPath,time_window=time_window,unique=True)
+                    if varName in varData.keys():
+                        Err.addError('This var exists in multiple DSS files: '+varName+':'+dssPath, '', '')
                     print 'found  var:  '+varName+': '+dssPath
                     #print ts.data
                     varData[varName]=ts.data
@@ -235,13 +238,20 @@ def readData(studyMap, time_window=None):
                     var.metaData['_start']=ts.start  
                     var.metaData['_end']=ts.end    
                     
+                    missingVars.remove(varName)
+                    
                 except:
-                    # dss path not found in this dss file
+                    #print varName+':'+dssPath+' not found.'# dss path not found in this dss file
                     pass
             
-            # reserve space for new vars
-            for varName in studyMap[studyName].newArrayMap:
-                varData[varName]=[0]*iend
+        # check missing vars
+        if missingVars:
+            Err.addError('These vars not found in DSS files: '+str(missingVars), '', '')
+                
+            
+        # reserve space for new vars
+        for varName in studyMap[studyName].newArrayMap:
+            varData[varName]=[0]*iend
               
         # put data into dictionary
         studyVarData[studyName]=varData
