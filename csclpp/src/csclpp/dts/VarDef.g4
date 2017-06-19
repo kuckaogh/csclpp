@@ -139,8 +139,8 @@ var_path
 name=str($i.text).lower(); self.varPathMap[name]=t;
 if $u: self.varPathMap[name].metaData['units']=str($u.text)[1:-1].lower();
 if isTemp: self.tempVarList.append(name); 
-self.varPathMap[name].metaData['partc']=str($p.text).split("/")[3];	
-self.varPathMap[name].metaData['partb']=str($p.text).split("/")[2];	
+self.varPathMap[name].metaData['_partc']=str($p.text).split("/")[3];	
+self.varPathMap[name].metaData['_partb']=str($p.text).split("/")[2];	
 }   ;
 
        
@@ -217,7 +217,7 @@ name2=self.ifsAppend+"['"+str($i.text).lower()+"']"
 k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
 if isTemp: 
 	self.tempVarList.append(name);	
-print('i am here', self.ifid, name)
+#print('i am here', self.ifid, name)
 }
 :   (T {isTemp=True} )? i=ID '=' e=ee_dts
 //{name=str($i.text);

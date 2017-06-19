@@ -13,16 +13,12 @@ studyMap = Workflow.readReference('./example_data/if_statement.setting')
     
 
 # read timeseries into studyVarData  
-studyVarData = Workflow.readData(studyMap)
+studyVarData = Workflow.readData(studyMap, time_window='(9/15/1921 00:00,1/15/1922 00:00)')
 
 
 # compute derived timeseries and then store them in studyVarData
 print 'evaluateDTS'
 Workflow.evaluateDTS(studyVarData)
-
-
-# evaluate If Statements
-Workflow.evaluateIFS(studyVarData)
 
 
 #print csv

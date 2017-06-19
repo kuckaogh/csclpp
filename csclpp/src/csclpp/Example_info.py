@@ -11,7 +11,7 @@ from dts import Workflow
 studyMap = W.readReference('./example_data/easy.setting')
 
 # read timeseries into studyVarData  
-studyVarData = Workflow.readData(studyMap)
+studyVarData = Workflow.readData(studyMap, time_window='(9/15/1921 00:00,1/15/1922 00:00)')
 
 
 # take a look at the var maps

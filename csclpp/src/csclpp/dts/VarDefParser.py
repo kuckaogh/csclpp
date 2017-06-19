@@ -1299,8 +1299,8 @@ class VarDefParser ( Parser ):
             name=str((None if localctx.i is None else localctx.i.text)).lower(); self.varPathMap[name]=t;
             if localctx.u: self.varPathMap[name].metaData['units']=str((None if localctx.u is None else localctx.u.text))[1:-1].lower();
             if isTemp: self.tempVarList.append(name); 
-            self.varPathMap[name].metaData['partc']=str((None if localctx.p is None else localctx.p.text)).split("/")[3];	
-            self.varPathMap[name].metaData['partb']=str((None if localctx.p is None else localctx.p.text)).split("/")[2];	
+            self.varPathMap[name].metaData['_partc']=str((None if localctx.p is None else localctx.p.text)).split("/")[3];	
+            self.varPathMap[name].metaData['_partb']=str((None if localctx.p is None else localctx.p.text)).split("/")[2];	
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1714,7 +1714,7 @@ class VarDefParser ( Parser ):
             k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
             if isTemp: 
             	self.tempVarList.append(name);	
-            print('i am here', self.ifid, name)
+            #print('i am here', self.ifid, name)
 
         except RecognitionException as re:
             localctx.exception = re

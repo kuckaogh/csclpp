@@ -116,7 +116,7 @@ def evaluateDTS(studyVarTs):
         es=''
         _ts = studyVarTs[s]
         print s, '_ts.keys():', _ts.keys()
-        #es=es+'print globals()\n'
+
         iend=len(_ts.values()[0])
         #es=es+'for i in range(0,'+str(iend)+'):\n'
         needTag=False
@@ -207,13 +207,13 @@ def test_evaluateDTS(studyVarTs):
         
 
 # read timeseries into studyVarData  
-def readData(studyMap):
+def readData(studyMap, time_window=None):
     studyVarData = collections.OrderedDict();
     
     for studyName in studyMap:
 
-        startTime=datetime(2900,1,1,0,0)
-        endTime=datetime(500,1,1,0,0)
+        #startTime=datetime(2900,1,1,0,0)
+        #endTime=datetime(500,1,1,0,0)
         varData = collections.OrderedDict();
         iend=0
         for dssFile in studyMap[studyName].data_src:
@@ -222,15 +222,15 @@ def readData(studyMap):
             for varName, var in studyMap[studyName].varPathMap.iteritems():
                 dssPath =  var.path
                 try:
-                    ts = dss_retrieve_ts(dssFile,selector=dssPath,unique=True)
+                    ts = dss_retrieve_ts(dssFile,selector=dssPath,time_window=time_window,unique=True)
                     print 'found  var:  '+varName+': '+dssPath
                     #print ts.data
                     varData[varName]=ts.data
                     var.metaData['_unit']=ts.props['unit']
                     #find length
                     if len(ts.data)> iend: iend = len(ts.data)
-                    if ts.start<startTime: startTime=ts.start
-                    if ts.end>    endTime: endTime= ts.end
+                    #if ts.start<startTime: startTime=ts.start
+                    #if ts.end>    endTime: endTime= ts.end
                         
                     var.metaData['_start']=ts.start  
                     var.metaData['_end']=ts.end    
@@ -246,5 +246,5 @@ def readData(studyMap):
         # put data into dictionary
         studyVarData[studyName]=varData
         
-        print startTime, endTime, iend
+        #print startTime, endTime, iend
     return studyVarData   

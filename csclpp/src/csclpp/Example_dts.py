@@ -13,7 +13,7 @@ studyMap = Workflow.readReference('./example_data/dts.setting')
 
 
 # read timeseries into studyVarData  
-studyVarData = Workflow.readData(studyMap)
+studyVarData = Workflow.readData(studyMap, time_window='(9/15/1921 00:00,1/15/1922 00:00)')
 
 
 # compute derived timeseries and then store them in studyVarData
