@@ -30,7 +30,12 @@ data:  DATA '=' s1=STRING {s1=$s1.text[1:-1];self.styobj.data_src.append(str(s1)
 (',' s2=STRING {s2=$s2.text[1:-1];self.styobj.data_src.append(str(s2))} )* ;
 
 vardef
+: VARDEF '=' s1=STRING {s=$s1.text[1:-1];self.styobj.varFile=s;} 
+;
+
+vardef_old
 : VARDEF '=' f=ID '.' VARDEF  {f=str($f.text);self.styobj.varFile=f;}; 
+
 meta : METADATA '=' STRING ;
 wresl: WRESL '=' STRING ; 
 

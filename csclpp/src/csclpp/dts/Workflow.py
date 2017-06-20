@@ -25,8 +25,6 @@ def readReference(fs):
     for s in S.studyMap:
         sty = S.studyMap[s]
         varFile=sty.varFile
-        #varDef =sty.varDef
-        #print varFile, varDef
         
         # update data_src path
         updated_data_src=[]
@@ -39,14 +37,20 @@ def readReference(fs):
             updated_data_src.append(str(ut))
         sty.data_src = updated_data_src
         #print updated_data_src
+
+        vf=''
+        vd = os.path.dirname(varFile)
+        if vd == '.' : 
+            vf = os.path.join(ds,os.path.basename(varFile)).replace('\\', '/')
+        else:
+            vf = os.path.join(ds,d,os.path.basename(varFile)).replace('\\', '/')
+                        
         
-        
-        vf=os.path.join(ds,varFile+'.vardef').replace('\\', '/')
+        #print vf
         Err.errFile=vf
         varDef, varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, \
         newArrayGroupMap, newConstGroupMap=P.parseVarDef(vf)
-#         S.fileVarPathGroupMap[varFile]=T.varPathGroupMap
-#         S.fileVarExprGroupMap[varFile]=T.varExprGroupMap
+
         sty.varDef = varDef
         sty.varPathMap=varPathGroupMap[varDef]
         sty.varExprMap=varExprGroupMap[varDef]

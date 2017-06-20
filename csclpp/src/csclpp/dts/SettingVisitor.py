@@ -36,6 +36,11 @@ class SettingVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by SettingParser#vardef_old.
+    def visitVardef_old(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by SettingParser#meta.
     def visitMeta(self, ctx):
         return self.visitChildren(ctx)
