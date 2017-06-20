@@ -12,7 +12,7 @@ from vtools.data.api import *
 from datetime import datetime
 
 
-debugOn = True
+debugOn = False
 
 
 def readReference(fs):
