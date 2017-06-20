@@ -15,6 +15,9 @@ class Study:
     newConstMap = collections.OrderedDict()
 
     metaData =''
+    start_earliest=None
+    end_latest=None
+
 
     def __init__(self):
         self.data_src=[]
@@ -26,5 +29,6 @@ class Study:
         self.newArrayList=[]
         self.newConstMap=collections.OrderedDict()
         self.metaData=''
-
+        self.start_earliest=None
+        self.end_latest=None
 

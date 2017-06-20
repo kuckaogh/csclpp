@@ -209,7 +209,8 @@ def test_evaluateDTS(studyVarTs):
         print '/:  ', varTs['s_folsom'] / varTs['s_shasta']
         print '*:  ', varTs['s_folsom'] * varTs['s_shasta']        
         
-
+def diff_month(d1, d2):
+    return (d1.year - d2.year) * 12 + d1.month - d2.month
 # read timeseries into studyVarData  
 def readData(studyMap, time_window=None):
     studyVarData = collections.OrderedDict();
@@ -217,8 +218,8 @@ def readData(studyMap, time_window=None):
     for studyName in studyMap:
         
         missingVars = studyMap[studyName].varPathMap.keys()
-        #startTime=datetime(2900,1,1,0,0)
-        #endTime=datetime(500,1,1,0,0)
+        start_earliest=datetime(2900,1,1,0,0)
+        end_latest=datetime(500,1,1,0,0)
         varData = collections.OrderedDict();
         iend=0
         for dssFile in studyMap[studyName].data_src:
@@ -236,8 +237,8 @@ def readData(studyMap, time_window=None):
                     var.metaData['_unit']=ts.props['unit']
                     #find length
                     if len(ts.data)> iend: iend = len(ts.data)
-                    #if ts.start<startTime: startTime=ts.start
-                    #if ts.end>    endTime: endTime= ts.end
+                    if ts.start<start_earliest: start_earliest=ts.start
+                    if ts.end>    end_latest: end_latest= ts.end
                         
                     var.metaData['_start']=ts.start  
                     var.metaData['_end']=ts.end    
@@ -260,5 +261,15 @@ def readData(studyMap, time_window=None):
         # put data into dictionary
         studyVarData[studyName]=varData
         
-        #print startTime, endTime, iend
+        studyMap[studyName].start_earliest=start_earliest
+        studyMap[studyName].end_latest=end_latest
+    
+    if time_window==None:
+        
+        for styK, styV in studyMap.iteritems():
+            print styV.start_earliest, styV.end_latest
+            for k,v in styV.varPathMap.iteritems():
+                print k, v.metaData['_start'], v.metaData['_end']
+                print k, diff_month(v.metaData['_start'],styV.start_earliest), diff_month(styV.end_latest, v.metaData['_end'])
+    
     return studyVarData   
