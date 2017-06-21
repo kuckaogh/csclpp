@@ -79,22 +79,26 @@ constant
 
 const_var
 @init{v = Var('');}
-: i=ID '=' (c=FLOAT {v.const=float($c.text)}|c=INT {v.const=int($c.text)}|c=STRING{v.const=str($c.text)}) 
+: i=ID '=' (c=FLOAT {v.const=float($c.text)}|c=INT {v.const=int($c.text);v.type='int';}|c=STRING{v.const=str($c.text);v.type='str';}) 
 {name=str($i.text).lower();self.newConstMap[name]=v;}
 ;
 
 
 
 array
-: l=STRING_L? ARRAY array_var[$l!=None] (',' array_var[$l!=None])*   ;
+: (l=STRING_L|g=INT_L)? ARRAY array_var[$l!=None,$g!=None] (',' array_var[$l!=None,$g!=None])*   ;
 
-array_var[boolean isStr]
+
+array_var[boolean isStr, boolean isInt]
 @init{isTemp=False;}
 :  (T {isTemp=True} )? i=ID 
 {v = Var('');name=str($i.text).lower();
 if isStr:
 	v.type='str'
-	#print (name+' is string')
+	print (name+' is string')
+if isInt:
+	v.type='int'
+	print (name+' is integer')
 self.newArrayMap[name]=v;
 if isTemp: self.tempVarList.append(name); 
 
@@ -110,12 +114,15 @@ for k in subvar.keys():
 	name=header.lower()+'.'+k.lower()
 	if $l!=None: 
 		o.type='str';
-		#print (name+' is string')
+		print (name+' is string')
+	if $g!=None: 
+		o.type='int';
+		print (name+' is int')
 	self.newArrayMap[name]=o;
 	if isGroupTemp or subvar[k]:
 		self.tempVarList.append(name);
 }
-: l=STRING_L? ARRAY 
+: (l=STRING_L|g=INT_L)? ARRAY 
  (T {isGroupTemp=True} )? i=ID {header=str($i.text);} '{' 
 {isTemp=False;} (T {isTemp=True} )? i=ID  
 {subvar[str($i.text)]=isTemp;} 

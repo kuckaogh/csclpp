@@ -66,7 +66,7 @@ end
 
 vardef more
  
-	array test{x, y, z, beta, kk}
+	int array test{x, y, z, beta, kk}
 	string array test_result
 	string array teststr{status, status2}
 

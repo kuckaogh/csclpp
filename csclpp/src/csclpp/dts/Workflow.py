@@ -259,7 +259,10 @@ def readData(studyMap, time_window=None):
         #print 'arrayN:', arrayN
         for varName,v in styV.newArrayMap.iteritems():
             vd=np.empty(arrayN)
-            if v.type!='str':
+            if v.type==None:
+                vd.fill(0)
+            elif v.type=='int':
+                vd=vd.astype(np.int)
                 vd.fill(0)
             else:
                 vd=vd.astype(np.str)
