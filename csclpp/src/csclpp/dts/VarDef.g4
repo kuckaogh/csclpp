@@ -86,14 +86,18 @@ const_var
 
 
 array
-: ARRAY array_var (',' array_var)*   ;
+: l=STRING_L? ARRAY array_var[$l!=None] (',' array_var[$l!=None])*   ;
 
-array_var
+array_var[boolean isStr]
 @init{isTemp=False;}
 :  (T {isTemp=True} )? i=ID 
 {v = Var('');name=str($i.text).lower();
+if isStr:
+	v.type='str'
+	#print (name+' is string')
 self.newArrayMap[name]=v;
 if isTemp: self.tempVarList.append(name); 
+
 }
 ;
 
@@ -104,11 +108,14 @@ array_cluster
 for k in subvar.keys():
 	o = Var('')
 	name=header.lower()+'.'+k.lower()
+	if $l!=None: 
+		o.type='str';
+		#print (name+' is string')
 	self.newArrayMap[name]=o;
 	if isGroupTemp or subvar[k]:
 		self.tempVarList.append(name);
 }
-: ARRAY 
+: l=STRING_L? ARRAY 
  (T {isGroupTemp=True} )? i=ID {header=str($i.text);} '{' 
 {isTemp=False;} (T {isTemp=True} )? i=ID  
 {subvar[str($i.text)]=isTemp;} 
@@ -248,8 +255,9 @@ ee returns [String x]
     | a=ee o=('+'|'-') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);} 
     | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
     | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
-    | i=ID                           
+    | (i=ID ('.' j=ID)?)                         
 {vName=str($i.text).lower();
+if $j!=None: vName=str($i.text).lower()+'.'+str($j.text).lower();
 if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName in self.varExprMap.keys():
 	$x=self.ifsAppend+"['"+vName+"']"+"[i]"
 	#print (vName); 

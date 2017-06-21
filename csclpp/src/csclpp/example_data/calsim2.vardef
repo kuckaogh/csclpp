@@ -67,8 +67,8 @@ end
 vardef more
  
 	array test{x, y, z, beta, kk}
-	array test_result
-	array ts_status, ts_status2
+	string array test_result
+	string array teststr{status, status2}
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
 	S4         = //S4/STORAGE//1MON//
@@ -103,13 +103,12 @@ vardef more
 	
 	if C129_EXC>999 {
 		C129_EXC = 999
-		ts_status='modified'
+		teststr.status='modified'
 	}
 
-	if ts_status=='modified' {
-		ts_status2='yes' } 
-	else { 
-		ts_status2='no'}
+	if teststr.status=='modified' {
+		teststr.status2='yes' } 
+
 	
 end
 

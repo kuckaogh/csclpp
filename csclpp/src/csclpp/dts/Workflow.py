@@ -12,7 +12,7 @@ from vtools.data.api import *
 from datetime import datetime
 
 
-debugOn = False
+debugOn = True
 
 
 def readReference(fs):
@@ -119,7 +119,7 @@ def evaluateDTS(studyVarTs):
         #global _ts
         es=''
         _ts = studyVarTs[s]
-        print s, '_ts.keys():', _ts.keys()
+        #print s, '_ts.keys():', _ts.keys()
 
         iend=len(_ts.values()[0])
         #es=es+'for i in range(0,'+str(iend)+'):\n'
@@ -215,17 +215,17 @@ def diff_month(d1, d2):
 def readData(studyMap, time_window=None):
     studyVarData = collections.OrderedDict();
     
-    for studyName in studyMap:
-        
-        missingVars = studyMap[studyName].varPathMap.keys()
+    for studyName, styV in studyMap.iteritems():
+
+        missingVars = styV.varPathMap.keys()
         start_earliest=datetime(2900,1,1,0,0)
         end_latest=datetime(500,1,1,0,0)
         varData = collections.OrderedDict();
         iend=0
-        for dssFile in studyMap[studyName].data_src:
+        for dssFile in styV.data_src:
             print 'open data src:', dssFile
     
-            for varName, var in studyMap[studyName].varPathMap.iteritems():
+            for varName, var in styV.varPathMap.iteritems():
                 dssPath =  var.path
                 try:
                     ts = dss_retrieve_ts(dssFile,selector=dssPath,time_window=time_window,unique=True)
@@ -255,21 +255,39 @@ def readData(studyMap, time_window=None):
                 
             
         # reserve space for new vars
-        for varName in studyMap[studyName].newArrayMap:
-            varData[varName]=[0]*iend
-              
+        arrayN=diff_month(end_latest,start_earliest)+1
+        #print 'arrayN:', arrayN
+        for varName,v in styV.newArrayMap.iteritems():
+            vd=np.empty(arrayN)
+            if v.type!='str':
+                vd.fill(0)
+            else:
+                vd=vd.astype(np.str)
+                vd.fill('')
+            varData[varName]=vd
         # put data into dictionary
         studyVarData[studyName]=varData
         
         studyMap[studyName].start_earliest=start_earliest
         studyMap[studyName].end_latest=end_latest
-    
-    if time_window==None:
-        
-        for styK, styV in studyMap.iteritems():
+
+
+        # fill nan 
+        if time_window==None:        
+            
             print styV.start_earliest, styV.end_latest
             for k,v in styV.varPathMap.iteritems():
                 print k, v.metaData['_start'], v.metaData['_end']
                 print k, diff_month(v.metaData['_start'],styV.start_earliest), diff_month(styV.end_latest, v.metaData['_end'])
-    
+                pre_n=diff_month(v.metaData['_start'],styV.start_earliest)
+                post_n=diff_month(styV.end_latest, v.metaData['_end'])
+                
+                if pre_n>0:
+                    pre=np.empty(pre_n); pre.fill(np.nan)
+                    varData[k] = np.concatenate((pre, varData[k]))
+                
+                if post_n>0:
+                    post=np.empty(post_n); post.fill(np.nan)
+                    varData[k] = np.concatenate((varData[k],post))
+                                    
     return studyVarData   

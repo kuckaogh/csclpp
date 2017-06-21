@@ -8,6 +8,7 @@ class Var:
 	const = None
 	metaData = {}; 
 	metaDataPost = []
+	type=None
 
 	def __init__(self, path):
 		self.isTemp=False
@@ -16,4 +17,6 @@ class Var:
 		self.const = None
 		self.metaData={}
 		self.metaDataPost =[]
+		self.isStr=False
+		self.type=None
 
