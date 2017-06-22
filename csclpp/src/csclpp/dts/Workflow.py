@@ -122,8 +122,9 @@ def evaluateDTS(studyVarTs):
         #print s, '_ts.keys():', _ts.keys()
 
         iend=len(_ts.values()[0])
-        #es=es+'for i in range(0,'+str(iend)+'):\n'
+
         needTag=False
+        es=es+'for i in range(0,'+str(iend)+'):\n'   
         for p in S.studyMap[s].ifsMap:
             ifs = S.studyMap[s].ifsMap[p]
             #print 'if statement ID: '+ str(p)
@@ -131,12 +132,13 @@ def evaluateDTS(studyVarTs):
             for idx, condition in enumerate(ifs):                
                 #print condition
                 if condition[0]=='!':
-                    es=es+condition[1:]+'+0\n'
+                    es=es+'\t'+condition[1:]+'+0\n'
+                    #es=es+condition[1:]+'+0\n'
                     needTag=True
                     continue
                 else:
                     if needTag:
-                        es=es+'for i in range(0,'+str(iend)+'):\n'   
+                        #es=es+'for i in range(0,'+str(iend)+'):\n'   
                         needTag=False                        
                         
                 if idx<1:
@@ -157,7 +159,15 @@ def evaluateDTS(studyVarTs):
             text_file.write(es)
             text_file.close()
         Err.errFile = 'If statement evaluation'
-        exec(es, {'_ts':_ts})    
+        exec(es, {'_ts':_ts}) 
+
+#         import timeit
+#         start_time = timeit.default_timer()
+#         for w in range(0,1000):
+#             exec(es, {'_ts':_ts}) 
+#         print(timeit.default_timer() - start_time)
+  
+         
     
 def evaluateIFS0(studyVarTs):
     es=''
@@ -257,6 +267,11 @@ def readData(studyMap, time_window=None):
         # reserve space for new vars
         arrayN=diff_month(end_latest,start_earliest)+1
         #print 'arrayN:', arrayN
+        for varName,v in styV.varExprMap.iteritems():
+            vd=np.empty(arrayN)
+            vd.fill(0)
+            varData[varName]=vd
+                    
         for varName,v in styV.newArrayMap.iteritems():
             vd=np.empty(arrayN)
             if v.type==None:

@@ -227,13 +227,13 @@ v = Var('');
 e=str($e.text).lower();v.expr=e;
 name=str($i.text).lower(); self.varExprMap[name]=v; 
 e2=str($e.x).lower()
-name2=self.ifsAppend+"['"+str($i.text).lower()+"']"
+name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
 k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
 if isTemp: 
 	self.tempVarList.append(name);	
 #print('i am here', self.ifid, name)
 }
-:   (T {isTemp=True} )? i=ID '=' e=ee_dts
+:   (T {isTemp=True} )? i=ID '=' e=ee
 //{name=str($i.text);
 //
 //}

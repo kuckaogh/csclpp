@@ -154,7 +154,7 @@ def serializedATN():
         buf.write(u"!\3\2\2\2\u0102\u0103\7\22\2\2\u0103\u0105\b\22\1\2\u0104")
         buf.write(u"\u0102\3\2\2\2\u0104\u0105\3\2\2\2\u0105\u0106\3\2\2")
         buf.write(u"\2\u0106\u0107\7*\2\2\u0107\u0108\7\4\2\2\u0108\u0109")
-        buf.write(u"\5$\23\2\u0109#\3\2\2\2\u010a\u010b\b\23\1\2\u010b\u010e")
+        buf.write(u"\5&\24\2\u0109#\3\2\2\2\u010a\u010b\b\23\1\2\u010b\u010e")
         buf.write(u"\b\23\1\2\u010c\u010d\7\27\2\2\u010d\u010f\b\23\1\2\u010e")
         buf.write(u"\u010c\3\2\2\2\u010e\u010f\3\2\2\2\u010f\u0110\3\2\2")
         buf.write(u"\2\u0110\u0111\7+\2\2\u0111\u0123\b\23\1\2\u0112\u0115")
@@ -1727,13 +1727,13 @@ class VarDefParser ( Parser ):
             super(VarDefParser.StatContext, self).__init__(parent, invokingState)
             self.parser = parser
             self.i = None # Token
-            self.e = None # Ee_dtsContext
+            self.e = None # EeContext
 
         def ID(self):
             return self.getToken(VarDefParser.ID, 0)
 
-        def ee_dts(self):
-            return self.getTypedRuleContext(VarDefParser.Ee_dtsContext,0)
+        def ee(self):
+            return self.getTypedRuleContext(VarDefParser.EeContext,0)
 
 
         def T(self):
@@ -1773,14 +1773,14 @@ class VarDefParser ( Parser ):
             self.state = 261
             self.match(VarDefParser.T__1)
             self.state = 262
-            localctx.e = self.ee_dts(0)
+            localctx.e = self.ee(0)
             self._ctx.stop = self._input.LT(-1)
 
             v = Var('');
             e=str((None if localctx.e is None else self._input.getText((localctx.e.start,localctx.e.stop)))).lower();v.expr=e;
             name=str((None if localctx.i is None else localctx.i.text)).lower(); self.varExprMap[name]=v; 
             e2=str(localctx.e.x).lower()
-            name2=self.ifsAppend+"['"+str((None if localctx.i is None else localctx.i.text)).lower()+"']"
+            name2=self.ifsAppend+"['"+str((None if localctx.i is None else localctx.i.text)).lower()+"'][i]"
             k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
             if isTemp: 
             	self.tempVarList.append(name);	
