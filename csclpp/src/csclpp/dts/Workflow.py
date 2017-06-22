@@ -124,7 +124,7 @@ def evaluateDTS(studyVarTs):
         iend=len(_ts.values()[0])
 
         needTag=False
-        es=es+'for i in range(0,'+str(iend)+'):\n'   
+        #es=es+'for i in range(0,'+str(iend)+'):\n'   
         for p in S.studyMap[s].ifsMap:
             ifs = S.studyMap[s].ifsMap[p]
             #print 'if statement ID: '+ str(p)
@@ -132,6 +132,7 @@ def evaluateDTS(studyVarTs):
             for idx, condition in enumerate(ifs):                
                 #print condition
                 if condition[0]=='!':
+                    es=es+'for i in range(0,'+str(iend)+'):\n' 
                     es=es+'\t'+condition[1:]+'+0\n'
                     #es=es+condition[1:]+'+0\n'
                     needTag=True
@@ -142,6 +143,7 @@ def evaluateDTS(studyVarTs):
                         needTag=False                        
                         
                 if idx<1:
+                    es=es+'for i in range(0,'+str(iend)+'):\n' 
                     es =es + '\tif ' + condition + ":\n"
                     for a in ifs[condition]:
                         es = es + '\t\t'+a+'\n'
