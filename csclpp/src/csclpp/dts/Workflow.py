@@ -9,10 +9,11 @@ import collections
 from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 
-debugOn = True
+debugOn = False #True
 
 
 def readReference(fs):
@@ -233,6 +234,10 @@ def readData(studyMap, time_window=None):
         start_earliest=datetime(2900,1,1,0,0)
         end_latest=datetime(500,1,1,0,0)
         varData = collections.OrderedDict();
+        varData['_datetime']=None
+        varData['year']=None
+        varData['month']=None
+
         iend=0
         for dssFile in styV.data_src:
             print 'open data src:', dssFile
@@ -269,6 +274,22 @@ def readData(studyMap, time_window=None):
         # reserve space for new vars
         arrayN=diff_month(end_latest,start_earliest)+1
         #print 'arrayN:', arrayN
+        print 'arrayN', arrayN
+        # attach datetime
+        dtName='_datetime'
+        dtv=Var('')
+        dtv.metaData['_dataType']='datetime'
+        styV.varSystemMap[dtName]=dtv
+        varData[dtName]=start_earliest + np.arange(arrayN) * relativedelta(months=1)
+        #styV.tempVarList.append(dtName)
+
+        varData['year']= (start_earliest.year+ np.floor((np.arange(arrayN)+start_earliest.month-1)/12).astype(np.int))
+        varData['month']= np.mod(start_earliest.month+np.arange(arrayN)-1,12)+1
+        #styV.tempVarList.append('year')
+        #styV.tempVarList.append('month')
+        
+        #print varData['year']
+        
         for varName,v in styV.varExprMap.iteritems():
             vd=np.empty(arrayN)
             vd.fill(0)
@@ -276,14 +297,16 @@ def readData(studyMap, time_window=None):
                     
         for varName,v in styV.newArrayMap.iteritems():
             vd=np.empty(arrayN)
-            if v.type==None:
+            if v.metaData['_dataType']==np.float:
                 vd.fill(0)
-            elif v.type=='int':
+            elif v.metaData['_dataType']==np.int:
                 vd=vd.astype(np.int)
                 vd.fill(0)
-            else:
+            elif v.metaData['_dataType']==np.str:
                 vd=vd.astype(np.str)
                 vd.fill('')
+            else:
+                print 'error. data type not valid: ', v.metaData['_dataType']
             varData[varName]=vd
         # put data into dictionary
         studyVarData[studyName]=varData

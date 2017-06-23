@@ -66,8 +66,9 @@ end
 
 vardef more
  
-	int array test{x, y, z, beta, kk}
-	string array test_result
+    array test{x, y, z, beta, kk}
+	int array test_int{x, y, z, beta, kk}
+	string array test_str_result
 	string array teststr{status, status2}
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
@@ -78,25 +79,30 @@ vardef more
 
 		
 	if D418-800<0.1 or D418<3600 { 
-		test.x = 1
-		test_result='x'} 
+		test.x = 1.0
+		test_int.x = 1
+		test_str_result='x'} 
 		
-	elseif S4>2760.0 and s4<2780 {
-		test.y = 1 
-		test_result='y'} 
+	elseif S4>2760. and s4<2780 {
+		test.y = 1. 
+		test_int.y = 1 
+		test_str_result='y'} 
 		
 	elseif C5_EXC<3200 and C5_EXC>3000.0 {
-		test.z = 1 
-		test_result='z'} 
+		test.z = 1. 
+		test_int.z = 1 
+		test_str_result='z'} 
 		
 	else { 
-		test.kk = 1 
-		test_result='kk'} 
+		test.kk = 1.0 
+		test_int.kk = 1 
+		test_str_result='kk'} 
 	
 	
 	if c5_exc<1000.0 { 
-		test.beta = 1 
-		test_result=test_result+';beta' }
+		test.beta = 1.0 
+		test_int.beta = 1 
+		test_str_result=test_str_result+';beta' }
 
 	
 	C129_EXC_before_mod   = C129_EXC

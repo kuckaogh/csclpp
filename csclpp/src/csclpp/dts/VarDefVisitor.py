@@ -6,6 +6,7 @@ from Var import Var
 from collections import defaultdict
 import collections
 from antlr4.error import Err
+import numpy as np
 
 
 # This class defines a complete generic visitor for a parse tree produced by VarDefParser.

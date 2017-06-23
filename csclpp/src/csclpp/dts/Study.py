@@ -9,12 +9,13 @@ class Study:
     varDef=''
     varPathMap = {}
     varExprMap = {}
+    varSystemMap = {}
     tempVarList = []
     ifsMap = {}
     newArrayList = []
     newConstMap = collections.OrderedDict()
 
-    metaData =''
+    metaData ={}
     start_earliest=None
     end_latest=None
 
@@ -25,10 +26,11 @@ class Study:
         self.varDef=''
         self.varPathMap={}
         self.varExprMap={}
+        self.varSystemMap = {}
         self.ifsMap={}
         self.newArrayList=[]
         self.newConstMap=collections.OrderedDict()
-        self.metaData=''
+        self.metaData={}
         self.start_earliest=None
         self.end_latest=None
 

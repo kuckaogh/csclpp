@@ -7,6 +7,7 @@ from Var import Var
 from collections import defaultdict
 import collections
 from antlr4.error import Err
+import numpy as np
 }
 
 @parser::members {
@@ -79,7 +80,7 @@ constant
 
 const_var
 @init{v = Var('');}
-: i=ID '=' (c=FLOAT {v.const=float($c.text)}|c=INT {v.const=int($c.text);v.type='int';}|c=STRING{v.const=str($c.text);v.type='str';}) 
+: i=ID '=' (c=FLOAT {v.const=float($c.text)}|c=INT {v.const=int($c.text);v.metaData['_dataType']=np.int;}|c=STRING{v.const=str($c.text);v.metaData['_dataType']=np.str;}) 
 {name=str($i.text).lower();self.newConstMap[name]=v;}
 ;
 
@@ -94,11 +95,13 @@ array_var[boolean isStr, boolean isInt]
 :  (T {isTemp=True} )? i=ID 
 {v = Var('');name=str($i.text).lower();
 if isStr:
-	v.type='str'
+	v.metaData['_dataType']=np.str
 	print (name+' is string')
 if isInt:
-	v.type='int'
+	v.metaData['_dataType']=np.int
 	print (name+' is integer')
+if not isStr and not isInt:
+	print (name+' is float')
 self.newArrayMap[name]=v;
 if isTemp: self.tempVarList.append(name); 
 
@@ -113,11 +116,13 @@ for k in subvar.keys():
 	o = Var('')
 	name=header.lower()+'.'+k.lower()
 	if $l!=None: 
-		o.type='str';
+		o.metaData['_dataType']=np.str;
 		print (name+' is string')
 	if $g!=None: 
-		o.type='int';
+		o.metaData['_dataType']=np.int;
 		print (name+' is int')
+	if $g==None and $l==None:
+		print (name+' is float')
 	self.newArrayMap[name]=o;
 	if isGroupTemp or subvar[k]:
 		self.tempVarList.append(name);
@@ -349,8 +354,10 @@ STRING_L : 'string'  ;
 INT_L :   'int' ;
 FLOAT_L : 'float' ;
 CONST : 'const' ;
-MONTH : 'month' ;
-YEAR  : 'year'  ;
+
+
+//MONTH : 'month' ;
+//YEAR  : 'year'  ;
 //WY    : 'wateryear' ;
 //JAN : 'jan' ;
 //FEB : 'feb' ;

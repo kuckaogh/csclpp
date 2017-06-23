@@ -1,14 +1,16 @@
 import sys
+import numpy as np
 
 
 class Var:
 
+	isTemp=False
 	path = ''
 	expr = ''
 	const = None
 	metaData = {}; 
 	metaDataPost = []
-	type=None
+
 
 	def __init__(self, path):
 		self.isTemp=False
@@ -16,7 +18,7 @@ class Var:
 		self.expr=''
 		self.const = None
 		self.metaData={}
+		self.metaData['_dataType']=np.float # str, int, datetime
 		self.metaDataPost =[]
-		self.isStr=False
-		self.type=None
+
 
