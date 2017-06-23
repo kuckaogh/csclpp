@@ -25,6 +25,10 @@ def readReference(fs):
     
     for s in S.studyMap:
         sty = S.studyMap[s]
+        
+        defaultConst=setDefaultConst(); sty.newConstMap=defaultConst
+        
+        #print sty.newConstMap
         varFile=sty.varFile
         
         # update data_src path
@@ -58,7 +62,7 @@ def readReference(fs):
         sty.tempVarList = tempVarGroupList[varDef]
         sty.ifsMap = ifsMapGroupMap[varDef]
         sty.newArrayMap = newArrayGroupMap[varDef]
-        sty.newConstMap = newConstGroupMap[varDef]
+        sty.newConstMap.update(newConstGroupMap[varDef])
         
         
         # process metadata dictionary type
@@ -320,8 +324,8 @@ def readData(studyMap, time_window=None):
             
             print styV.start_earliest, styV.end_latest
             for k,v in styV.varPathMap.iteritems():
-                print k, v.metaData['_start'], v.metaData['_end']
-                print k, diff_month(v.metaData['_start'],styV.start_earliest), diff_month(styV.end_latest, v.metaData['_end'])
+                #print k, v.metaData['_start'], v.metaData['_end']
+                #print k, diff_month(v.metaData['_start'],styV.start_earliest), diff_month(styV.end_latest, v.metaData['_end'])
                 pre_n=diff_month(v.metaData['_start'],styV.start_earliest)
                 post_n=diff_month(styV.end_latest, v.metaData['_end'])
                 
@@ -334,3 +338,20 @@ def readData(studyMap, time_window=None):
                     varData[k] = np.concatenate((varData[k],post))
                                     
     return studyVarData   
+
+
+def setDefaultConst():
+    
+    d=collections.OrderedDict();
+    l=[('jan',1),('feb',2),('mar',3),('apr',4),('may',5),('jun',6),('jul',7),('aug',8),('sep',9),('oct',10),('nov',11),('dec',12)]
+    for k in l:
+        v=Var('')
+        v.metaData['_dataType']=np.int
+        v.const=k[1]
+        d[k[0]]=v
+  
+    return d
+    
+#     d['jan']=1; d['feb']=2; d['mar']=3; d['apr']=4; d['may']=5; d['jun']=6
+#     d['jul']=7; d['aug']=8; d['sep']=9; d['oct']=10; d['nov']=11; d['dec']=12      
+    

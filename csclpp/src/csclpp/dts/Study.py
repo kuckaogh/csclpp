@@ -8,7 +8,7 @@ class Study:
     varFile=''
     varDef=''
     varPathMap = {}
-    varExprMap = {}
+    varExprMap = collections.OrderedDict()
     varSystemMap = {}
     tempVarList = []
     ifsMap = {}
@@ -25,7 +25,7 @@ class Study:
         self.varFile=''
         self.varDef=''
         self.varPathMap={}
-        self.varExprMap={}
+        self.varExprMap=collections.OrderedDict()
         self.varSystemMap = {}
         self.ifsMap={}
         self.newArrayList=[]
