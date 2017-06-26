@@ -238,7 +238,7 @@ def readData(studyMap, time_window=None):
         start_earliest=datetime(2900,1,1,0,0)
         end_latest=datetime(500,1,1,0,0)
         varData = collections.OrderedDict();
-        varData['_datetime']=None
+        varData['datetime']=None
         varData['year']=None
         varData['month']=None
 
@@ -278,9 +278,9 @@ def readData(studyMap, time_window=None):
         # reserve space for new vars
         arrayN=diff_month(end_latest,start_earliest)+1
         #print 'arrayN:', arrayN
-        print 'arrayN', arrayN
+        #print 'arrayN', arrayN
         # attach datetime
-        dtName='_datetime'
+        dtName='datetime'
         dtv=Var('')
         dtv.metaData['_dataType']='datetime'
         styV.varSystemMap[dtName]=dtv
@@ -322,7 +322,7 @@ def readData(studyMap, time_window=None):
         # fill nan 
         if time_window==None:        
             
-            print styV.start_earliest, styV.end_latest
+            #print styV.start_earliest, styV.end_latest
             for k,v in styV.varPathMap.iteritems():
                 #print k, v.metaData['_start'], v.metaData['_end']
                 #print k, diff_month(v.metaData['_start'],styV.start_earliest), diff_month(styV.end_latest, v.metaData['_end'])
