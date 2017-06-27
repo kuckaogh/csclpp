@@ -93,6 +93,11 @@ class VarDefVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by VarDefParser#stat_define.
+    def visitStat_define(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by VarDefParser#stat.
     def visitStat(self, ctx):
         return self.visitChildren(ctx)

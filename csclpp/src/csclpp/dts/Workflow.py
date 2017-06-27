@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 
-debugOn = False #True
+debugOn = True
 
 
 def readReference(fs):
@@ -61,7 +61,7 @@ def readReference(fs):
         sty.varExprMap=varExprGroupMap[varDef]
         sty.tempVarList = tempVarGroupList[varDef]
         sty.ifsMap = ifsMapGroupMap[varDef]
-        sty.newArrayMap = newArrayGroupMap[varDef]
+        sty.newArrayMap.update(newArrayGroupMap[varDef])
         sty.newConstMap.update(newConstGroupMap[varDef])
         
         
@@ -279,20 +279,9 @@ def readData(studyMap, time_window=None):
         arrayN=diff_month(end_latest,start_earliest)+1
         #print 'arrayN:', arrayN
         #print 'arrayN', arrayN
-        # attach datetime
-        dtName='datetime'
-        dtv=Var('')
-        dtv.metaData['_dataType']='datetime'
-        styV.varSystemMap[dtName]=dtv
-        varData[dtName]=start_earliest + np.arange(arrayN) * relativedelta(months=1)
-        #styV.tempVarList.append(dtName)
 
-        varData['year']= (start_earliest.year+ np.floor((np.arange(arrayN)+start_earliest.month-1)/12).astype(np.int))
-        varData['month']= np.mod(start_earliest.month+np.arange(arrayN)-1,12)+1
-        #styV.tempVarList.append('year')
-        #styV.tempVarList.append('month')
-        
-        #print varData['year']
+
+
         
         for varName,v in styV.varExprMap.iteritems():
             vd=np.empty(arrayN)
@@ -312,6 +301,28 @@ def readData(studyMap, time_window=None):
             else:
                 print 'error. data type not valid: ', v.metaData['_dataType']
             varData[varName]=vd
+            
+
+        # attach datetime
+        dtName='datetime'
+        dtv=Var('')
+        dtv.metaData['_dataType']='datetime'
+        styV.varSystemMap[dtName]=dtv
+        varData[dtName]=start_earliest + np.arange(arrayN) * relativedelta(months=1)
+        
+        dtName='year'
+#         dtv=Var('')
+#         dtv.metaData['_dataType']=np.int
+#         styV.newArrayMap[dtName]=dtv
+        varData[dtName]= (start_earliest.year+ np.floor((np.arange(arrayN)+start_earliest.month-1)/12).astype(np.int))
+        
+        dtName='month'
+#         dtv=Var('')
+#         dtv.metaData['_dataType']=np.int
+#         styV.newArrayMap[dtName]=dtv        
+        varData[dtName]= np.mod(start_earliest.month+np.arange(arrayN)-1,12)+1            
+            
+        print 'month', varData['month']
         # put data into dictionary
         studyVarData[studyName]=varData
         

@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/csclpp/dts/ExprParser.py=utf-8
 encoding//src/csclpp/dts/SettingParser.py=utf-8
+encoding//src/csclpp/dts/VarDefLexer.py=utf-8
 encoding//src/csclpp/dts/VarDefParser.py=utf-8
 encoding//target/dts/VarDefLexer.py=utf-8
 encoding//target/dts/VarDefParser.py=utf-8

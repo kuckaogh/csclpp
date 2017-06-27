@@ -6,7 +6,7 @@ vardef base
 	s_trinity.capacity = 2447.6
 	s_shasta  = //S4/STORAGE//1MON//
 	s_folsom  = //S8/STORAGE//1MON//, 'taf'	
-	nod_storage	= s_trinity + s_shasta + s_folsom
+	array nod_storage	= s_trinity + s_shasta + s_folsom
 	nod_storage.unit = 'taf'
 	Nod_storage.capacity = 8000
 	s_oroville = //S6/STORAGE//1MON//
@@ -24,7 +24,7 @@ vardef deltaInflow
 	@c3 = //C504/FLOW-CHANNEL//1MON//
 	@c4 = //C644/FLOW-CHANNEL//1MON// 
 	# @ means temp variables to construct delta inflow 
-	Delta_Inflow = c1 + C2 + c3 + 2.0*c4/2
+	array Delta_Inflow = c1 + C2 + c3 + 2.0*c4/2
 	delta_inflow.unit = 'cfs'
 
 end
@@ -105,7 +105,7 @@ vardef more
 		test_str_result=test_str_result+';beta' }
 
 	
-	C129_EXC_before_mod   = C129_EXC
+	array C129_EXC_before_mod   = C129_EXC
 	
 	if C129_EXC>999 {
 		C129_EXC = 999
@@ -118,10 +118,27 @@ vardef more
 	
 end
 
+vardef timeOp
+	
+	string array test_timeOp1_str
+	int array test_timeOp2_int
+	
+	if month==oct {
+		test_timeOp1_str='october'
+	}
+	
+	if year==1922 {
+		test_timeOp2_int=1922
+	}
+
+
+end
+
 vardef all
 	
 	include deltaInflow
 	include release_control
 	include more
+	include timeOp
 
 end

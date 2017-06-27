@@ -30,6 +30,8 @@ ifsMap=collections.OrderedDict(); # (if statement ID, (condition, assignments))
 vardefName='';
 vardefFile='';
 vardefDefault='';
+systemVars=['year','month','oct','nov','dec','jan','feb','mar','apr','may','jun','jul','aug','sep'];
+allVars=[];
 }
 
 prog 
@@ -55,6 +57,7 @@ self.tempVarList=[];
 self.ifsMap=collections.OrderedDict();
 self.newArrayMap=collections.OrderedDict();
 self.newConstMap=collections.OrderedDict();
+self.allVars=list(self.systemVars);
 }
 @after
 {
@@ -71,7 +74,7 @@ self.newConstGroupMap[groupName]=self.newConstMap;
     ;
 
 field
-: ( var_path | var_meta | stat {self.ifid=self.ifid+1;} | if_stat {self.ifid=self.ifid+1;}| new_var | include | constant) NL+ ;
+: ( var_path | var_meta | stat {self.ifid=self.ifid+1;}|stat_define {self.ifid=self.ifid+1;} | if_stat {self.ifid=self.ifid+1;}| new_var | include | constant) NL+ ;
 
 new_var : array | array_cluster ; 
 
@@ -81,7 +84,12 @@ constant
 const_var
 @init{v = Var('');}
 : i=ID '=' (c=FLOAT {v.const=float($c.text)}|c=INT {v.const=int($c.text);v.metaData['_dataType']=np.int;}|c=STRING{v.const=str($c.text);v.metaData['_dataType']=np.str;}) 
-{name=str($i.text).lower();self.newConstMap[name]=v;}
+{name=str($i.text).lower();self.newConstMap[name]=v;
+if name in self.allVars:
+	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
+else:
+	self.allVars.append(name)	
+}
 ;
 
 
@@ -94,6 +102,10 @@ array_var[boolean isStr, boolean isInt]
 @init{isTemp=False;}
 :  (T {isTemp=True} )? i=ID 
 {v = Var('');name=str($i.text).lower();
+if name in self.allVars:
+	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
+else:
+	self.allVars.append(name)
 if isStr:
 	v.metaData['_dataType']=np.str
 	print (name+' is string')
@@ -115,6 +127,10 @@ array_cluster
 for k in subvar.keys():
 	o = Var('')
 	name=header.lower()+'.'+k.lower()
+	if name in self.allVars:
+		Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
+	else:
+		self.allVars.append(name)
 	if $l!=None: 
 		o.metaData['_dataType']=np.str;
 		print (name+' is string')
@@ -155,7 +171,11 @@ var_path
 @init{isTemp=False;}
 :  (T {isTemp=True} )? i=ID  '=' p=PATH (',' u=STRING )?
 {p =str($p.text); t = Var(p); 
-name=str($i.text).lower(); self.varPathMap[name]=t;
+name=str($i.text).lower(); self.varPathMap[name]=t; 
+if name in self.allVars:
+	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
+else:
+	self.allVars.append(name)
 if $u: self.varPathMap[name].metaData['units']=str($u.text)[1:-1].lower();
 if isTemp: self.tempVarList.append(name); 
 self.varPathMap[name].metaData['_partc']=str($p.text).split("/")[3];	
@@ -209,7 +229,7 @@ $x=$x+','+$d.x;
 
 dict_pair returns [boolean hasV, String x]
 @init{r1='';r2=''}
-:  (i1=ID {$hasV=True; 
+:  ((i1=ID|i1=SYSCONST) {$hasV=True; 
 r1='_cm[\''+str($i1.text)+'\'].const'
 }
 |s1=STRING{r1=str($s1.text)}|s11=number{r1=str($s11.text)})
@@ -224,13 +244,39 @@ r2='_cm[\''+str($i2.text)+'\'].const'
 number: FLOAT|INT;
 
 
-stat
+stat_define
 @init{isTemp=False;ifs=collections.OrderedDict();k='';}
 @after
 {
 v = Var('');
 e=str($e.text).lower();v.expr=e;
 name=str($i.text).lower(); self.varExprMap[name]=v; 
+if name in self.allVars:
+	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
+else:
+	self.allVars.append(name)
+e2=str($e.x).lower()
+name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
+k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
+if isTemp: 
+	self.tempVarList.append(name);	
+#print('i am here', self.ifid, name)
+}
+:   ARRAY (T {isTemp=True} )? i=ID '=' e=ee
+//{name=str($i.text);
+//
+//}
+    ;
+
+stat
+@init{isTemp=False;ifs=collections.OrderedDict();k='';}
+@after
+{
+e=str($e.text).lower();
+name=str($i.text).lower(); 
+if name not in self.allVars:
+	Err.addError(name+' not defined.', self.vardefFile, self.vardefName)
+
 e2=str($e.x).lower()
 name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
 k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
@@ -267,6 +313,8 @@ ee returns [String x]
     | a=ee o=('+'|'-') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);} 
     | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
     | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
+    | i=SYSARRAY        {vName=str($i.text).lower();$x=self.ifsAppend+"['"+vName+"']"+"[i]"}   
+    | i=SYSCONST        {$x=str($i.text).lower()} 
     | (i=ID ('.' j=ID)?)                         
 {vName=str($i.text).lower();
 if $j!=None: vName=str($i.text).lower()+'.'+str($j.text).lower();
@@ -354,8 +402,8 @@ STRING_L : 'string'  ;
 INT_L :   'int' ;
 FLOAT_L : 'float' ;
 CONST : 'const' ;
-
-
+SYSARRAY: 'year'|'month';
+SYSCONST: 'oct'|'nov'|'dec'|'jan'|'feb'|'mar'|'apr'|'may'|'jun'|'jul'|'aug'|'sep';
 //MONTH : 'month' ;
 //YEAR  : 'year'  ;
 //WY    : 'wateryear' ;
