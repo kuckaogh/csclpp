@@ -12,7 +12,7 @@ class Study:
     varSystemMap = {}
     tempVarList = []
     ifsMap = {}
-    newArrayList = []
+    newArrayMap = collections.OrderedDict()
     newConstMap = collections.OrderedDict()
 
     metaData ={}
@@ -28,7 +28,7 @@ class Study:
         self.varExprMap=collections.OrderedDict()
         self.varSystemMap = {}
         self.ifsMap={}
-        self.newArrayList=[]
+        self.newArrayMap=collections.OrderedDict()
         self.newConstMap=collections.OrderedDict()
         self.metaData={}
         self.start_earliest=None
