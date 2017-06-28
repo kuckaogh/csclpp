@@ -26,9 +26,9 @@ def readReference(fs):
     for s in S.studyMap:
         sty = S.studyMap[s]
         
-        defaultConst=setDefaultConst(); sty.newConstMap=defaultConst
+        defaultConst=setDefaultConst(); sty.constMap=defaultConst
         
-        #print sty.newConstMap
+        #print sty.constMap
         varFile=sty.varFile
         
         # update data_src path
@@ -53,20 +53,26 @@ def readReference(fs):
         
         #print vf
         Err.errFile=vf
-        varDef, varPathGroupMap, varExprGroupMap, tempVarGroupList, ifsMapGroupMap, \
-        newArrayGroupMap, newConstGroupMap=P.parseVarDef(vf)
+        varDef, varPathGroupMap, tempVarGroupList, ifsMapGroupMap, \
+        strArrayGroupMap, intArrayGroupMap, floatArrayGroupMap, constGroupMap=P.parseVarDef(vf)
 
+        print 'intArrayGroupMap', intArrayGroupMap
+        
         sty.varDef = varDef
         sty.varPathMap=varPathGroupMap[varDef]
-        sty.varExprMap=varExprGroupMap[varDef]
+
         sty.tempVarList = tempVarGroupList[varDef]
         sty.ifsMap = ifsMapGroupMap[varDef]
-        sty.newArrayMap.update(newArrayGroupMap[varDef])
-        sty.newConstMap.update(newConstGroupMap[varDef])
+
+        sty.strArrayMap.update(strArrayGroupMap[varDef])
+        sty.intArrayMap.update(intArrayGroupMap[varDef])        
+        sty.floatArrayMap.update(floatArrayGroupMap[varDef]) 
+        sty.constMap.update(constGroupMap[varDef])
         
+        print 'sty.intArrayMap', sty.intArrayMap
         
         # process metadata dictionary type
-        _cm=sty.newConstMap
+        _cm=sty.constMap
         #print '_cm:', _cm
         for k, v in sty.varPathMap.iteritems():
             for e in v.metaDataPost:
@@ -84,38 +90,8 @@ def readReference(fs):
     status = len(Err.errors) 
     if status !=0: quit()  
     return S.studyMap
-#     for s in S.studyMap:
-#         sty = S.studyMap[s]
-#         for k in sty.varMap:
-#             v=sty.varMap[k]
-#             print k, v.isTemp, v.path, v.expr
 
-        
-def evaluateDTS_old(studyVarTs):
-    
-    #T.styVarTs=studyVarTs
-    
-    for s in studyVarTs:
-        #T.varTs = T.styVarTs[s]
-        
-        eList=[]
-        for vk in S.studyMap[s].varExprMap:
-            e = S.studyMap[s].varExprMap[vk].expr+'+0'
-            if e: eList.append(vk+'='+e+'\n')
-        
-        line = ''.join(eList)
-        if line: 
-            #print line
-            Err.errFile = line
-            P.evaluateDTS(studyVarTs[s], line)    
-        
-        #print T.styVarTs[s]
-        
-        
-#         for var in T.styVarTs[s]:
-#             print var, T.styVarTs[s][var]
-def evaluateIFS(studyVarTs):
-    return
+
 
 def evaluateDTS(studyVarTs):
 
@@ -138,7 +114,7 @@ def evaluateDTS(studyVarTs):
                 #print condition
                 if condition[0]=='!':
                     es=es+'for i in range(0,'+str(iend)+'):\n' 
-                    es=es+'\t'+condition[1:]+'+0\n'
+                    es=es+'\t'+condition[1:]+'\n'
                     #es=es+condition[1:]+'+0\n'
                     needTag=True
                     continue
@@ -280,29 +256,23 @@ def readData(studyMap, time_window=None):
         #print 'arrayN:', arrayN
         #print 'arrayN', arrayN
 
-
-
-        
-        for varName,v in styV.varExprMap.iteritems():
+            
+        for varName,v in styV.strArrayMap.iteritems():
             vd=np.empty(arrayN)
+            vd=vd.astype(np.str)
+            vd.fill('')
+            varData[varName]=vd
+        for varName,v in styV.intArrayMap.iteritems():
+            vd=np.empty(arrayN)
+            vd=vd.astype(np.int)
             vd.fill(0)
             varData[varName]=vd
-                    
-        for varName,v in styV.newArrayMap.iteritems():
+        for varName,v in styV.floatArrayMap.iteritems():
             vd=np.empty(arrayN)
-            if v.metaData['_dataType']==np.float:
-                vd.fill(0)
-            elif v.metaData['_dataType']==np.int:
-                vd=vd.astype(np.int)
-                vd.fill(0)
-            elif v.metaData['_dataType']==np.str:
-                vd=vd.astype(np.str)
-                vd.fill('')
-            else:
-                print 'error. data type not valid: ', v.metaData['_dataType']
+            vd=vd.astype(np.float)
+            vd.fill(0)
             varData[varName]=vd
             
-
         # attach datetime
         dtName='datetime'
         dtv=Var('')
@@ -311,15 +281,9 @@ def readData(studyMap, time_window=None):
         varData[dtName]=start_earliest + np.arange(arrayN) * relativedelta(months=1)
         
         dtName='year'
-#         dtv=Var('')
-#         dtv.metaData['_dataType']=np.int
-#         styV.newArrayMap[dtName]=dtv
         varData[dtName]= (start_earliest.year+ np.floor((np.arange(arrayN)+start_earliest.month-1)/12).astype(np.int))
         
-        dtName='month'
-#         dtv=Var('')
-#         dtv.metaData['_dataType']=np.int
-#         styV.newArrayMap[dtName]=dtv        
+        dtName='month'      
         varData[dtName]= np.mod(start_earliest.month+np.arange(arrayN)-1,12)+1            
             
         print 'month', varData['month']

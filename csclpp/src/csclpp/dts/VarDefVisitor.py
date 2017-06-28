@@ -48,18 +48,68 @@ class VarDefVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by VarDefParser#array.
-    def visitArray(self, ctx):
+    # Visit a parse tree produced by VarDefParser#stat.
+    def visitStat(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by VarDefParser#array_var.
-    def visitArray_var(self, ctx):
+    # Visit a parse tree produced by VarDefParser#strArray.
+    def visitStrArray(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by VarDefParser#array_cluster.
-    def visitArray_cluster(self, ctx):
+    # Visit a parse tree produced by VarDefParser#strArrayCluster.
+    def visitStrArrayCluster(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#strArrayLone.
+    def visitStrArrayLone(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#strArrayVar.
+    def visitStrArrayVar(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#intArray.
+    def visitIntArray(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#intArrayCluster.
+    def visitIntArrayCluster(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#intArrayLone.
+    def visitIntArrayLone(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#intArrayVar.
+    def visitIntArrayVar(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#floatArray.
+    def visitFloatArray(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#floatArrayCluster.
+    def visitFloatArrayCluster(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#floatArrayLone.
+    def visitFloatArrayLone(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#floatArrayVar.
+    def visitFloatArrayVar(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -90,21 +140,6 @@ class VarDefVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by VarDefParser#number.
     def visitNumber(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by VarDefParser#stat_define.
-    def visitStat_define(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by VarDefParser#stat.
-    def visitStat(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by VarDefParser#ee_dts.
-    def visitEe_dts(self, ctx):
         return self.visitChildren(ctx)
 
 

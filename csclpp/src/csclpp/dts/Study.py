@@ -8,12 +8,15 @@ class Study:
     varFile=''
     varDef=''
     varPathMap = {}
-    varExprMap = collections.OrderedDict()
+
     varSystemMap = {}
     tempVarList = []
     ifsMap = {}
-    newArrayMap = collections.OrderedDict()
-    newConstMap = collections.OrderedDict()
+
+    strArrayMap = collections.OrderedDict()
+    intArrayMap = collections.OrderedDict()
+    floatArrayMap = collections.OrderedDict()        
+    constMap = collections.OrderedDict()
 
     metaData ={}
     start_earliest=None
@@ -25,11 +28,14 @@ class Study:
         self.varFile=''
         self.varDef=''
         self.varPathMap={}
-        self.varExprMap=collections.OrderedDict()
+
         self.varSystemMap = {}
         self.ifsMap={}
-        self.newArrayMap=collections.OrderedDict()
-        self.newConstMap=collections.OrderedDict()
+
+        self.strArrayMap=collections.OrderedDict()  
+        self.intArrayMap=collections.OrderedDict()  
+        self.floatArrayMap=collections.OrderedDict()        
+        self.constMap=collections.OrderedDict()
         self.metaData={}
         self.start_earliest=None
         self.end_latest=None

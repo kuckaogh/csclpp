@@ -17,6 +17,7 @@ vardef base
 	s_shasta  = //S_Shsta/STORAGE//1MON//, 'cfs'
 	s_folsom  = //S_Folsm/STORAGE//1MON//	
 	array nod_storage = 0
+	nod_storage.unit = 'taf'
 	nod_storage	= s_trinity + s_shasta + s_folsom
 	s_oroville = //S_Orovl/STORAGE//1MON//	
     cvp_sanLuis = //S_SLCVP/STORAGE//1MON//

@@ -15,33 +15,49 @@ varMetaKeys=[];
 ifsAppend='';
 ifsNewAppend='';
 varPathGroupMap={};
-varExprGroupMap={};
+
 tempVarGroupList={};
 ifsMapGroupMap={};
-newArrayGroupMap={};
-newConstGroupMap={};
+strArrayGroupMap={};
+intArrayGroupMap={};
+floatArrayGroupMap={};
+constGroupMap={};
 varPathMap=collections.OrderedDict();
-varExprMap=collections.OrderedDict();
+
 tempVarList=[];
-newArrayMap=collections.OrderedDict();
-newConstMap=collections.OrderedDict();
-#newArrayClusterMap=collections.OrderedDict();
+strArrayMap=collections.OrderedDict();
+intArrayMap=collections.OrderedDict();
+floatArrayMap=collections.OrderedDict();
+constMap=collections.OrderedDict();
 ifsMap=collections.OrderedDict(); # (if statement ID, (condition, assignments)) 
 vardefName='';
 vardefFile='';
 vardefDefault='';
 systemVars=['year','month','oct','nov','dec','jan','feb','mar','apr','may','jun','jul','aug','sep'];
 allVars=[];
+
+def checkDup(self, name):
+	if name in self.allVars:
+		Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
+	else:
+		self.allVars.append(name)
+		
+def checkExist(self, name):
+	if name not in self.allVars:
+		Err.addError(name+' is not defined.', self.vardefFile, self.vardefName)
+		
 }
 
 prog 
 @init 
 {self.varPathGroupMap={};
-self.varExprGroupMap={};
+
 self.tempVarGroupList={};
-ifsMapGroupMap={};
-newArrayGroupMap={};
-newConstGroupMap={};
+self.ifsMapGroupMap={};
+self.strArrayGroupMap={};
+self.intArrayGroupMap={};
+self.floatArrayGroupMap={};
+self.constGroupMap={};
 self.ifid=0;
 }
 :    NL* use NL* vardef+ ;
@@ -52,21 +68,25 @@ use
 vardef
 @init {
 self.varPathMap=collections.OrderedDict();
-self.varExprMap=collections.OrderedDict();
+
 self.tempVarList=[];
 self.ifsMap=collections.OrderedDict();
-self.newArrayMap=collections.OrderedDict();
-self.newConstMap=collections.OrderedDict();
+self.strArrayMap=collections.OrderedDict();
+self.intArrayMap=collections.OrderedDict();
+self.floatArrayMap=collections.OrderedDict();
+self.constMap=collections.OrderedDict();
 self.allVars=list(self.systemVars);
 }
 @after
 {
 self.varPathGroupMap[groupName]=self.varPathMap;
-self.varExprGroupMap[groupName]=self.varExprMap;
+
 self.tempVarGroupList[groupName]=self.tempVarList;	
 self.ifsMapGroupMap[groupName]=self.ifsMap;
-self.newArrayGroupMap[groupName]=self.newArrayMap;
-self.newConstGroupMap[groupName]=self.newConstMap;
+self.strArrayGroupMap[groupName]=self.strArrayMap;
+self.intArrayGroupMap[groupName]=self.intArrayMap;
+self.floatArrayGroupMap[groupName]=self.floatArrayMap;
+self.constGroupMap[groupName]=self.constMap;
 }
 :   VARDEF name=ID {groupName=str($name.text).lower();self.vardefName=groupName;} NL+ 
        field+
@@ -74,95 +94,186 @@ self.newConstGroupMap[groupName]=self.newConstMap;
     ;
 
 field
-: ( var_path | var_meta | stat {self.ifid=self.ifid+1;}|stat_define {self.ifid=self.ifid+1;} | if_stat {self.ifid=self.ifid+1;}| new_var | include | constant) NL+ ;
+: ( var_path | var_meta  | stat | if_stat {self.ifid=self.ifid+1;}| new_var | include | constant) NL+ ;
 
-new_var : array | array_cluster ; 
+new_var : strArray| intArray| floatArray ; 
 
 constant
 : CONST const_var (',' const_var)*  ;
 
 const_var
 @init{v = Var('');}
-: i=ID '=' (c=FLOAT {v.const=float($c.text)}|c=INT {v.const=int($c.text);v.metaData['_dataType']=np.int;}|c=STRING{v.const=str($c.text);v.metaData['_dataType']=np.str;}) 
-{name=str($i.text).lower();self.newConstMap[name]=v;
-if name in self.allVars:
-	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
-else:
-	self.allVars.append(name)	
-}
+: i=ID '=' (c=FLOAT {v.const=float($c.text);v.metaData['_dataType']=np.float;}
+	       |c=INT   {v.const=int($c.text);v.metaData['_dataType']=np.int;}
+	       |c=STRING{v.const=str($c.text);v.metaData['_dataType']=np.str;}
+) 
+{name=str($i.text).lower();self.constMap[name]=v;self.checkDup(name);}
 ;
 
 
-
-array
-: (l=STRING_L|g=INT_L)? ARRAY array_var[$l!=None,$g!=None] (',' array_var[$l!=None,$g!=None])*   ;
-
-
-array_var[boolean isStr, boolean isInt]
-@init{isTemp=False;}
+stat
+@init{isTemp=False;ifs=collections.OrderedDict();k='';}
 :  (T {isTemp=True} )? i=ID 
-{v = Var('');name=str($i.text).lower();
-if name in self.allVars:
-	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
-else:
-	self.allVars.append(name)
-if isStr:
-	v.metaData['_dataType']=np.str
-	print (name+' is string')
-if isInt:
-	v.metaData['_dataType']=np.int
-	print (name+' is integer')
-if not isStr and not isInt:
-	print (name+' is float')
-self.newArrayMap[name]=v;
-if isTemp: self.tempVarList.append(name); 
+{v = Var('');name=str($i.text).lower();self.checkExist(name);}
 
-}
+'=' e=ee
+{e2=str($e.x).lower()
+name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
+k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;self.ifid=self.ifid+1;}
 ;
 
 
-array_cluster
-@init{header='';subvar=collections.OrderedDict();isTemp=False;isGroupTemp=False;}
+strArray: strArrayCluster| strArrayLone;
+
+strArrayCluster
+@init
+{header='';subvar=collections.OrderedDict();isTemp=False;isGroupTemp=False;
+expr='';ifs=collections.OrderedDict();k='';}
 @after{
 for k in subvar.keys():
 	o = Var('')
 	name=header.lower()+'.'+k.lower()
-	if name in self.allVars:
-		Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
-	else:
-		self.allVars.append(name)
-	if $l!=None: 
-		o.metaData['_dataType']=np.str;
-		print (name+' is string')
-	if $g!=None: 
-		o.metaData['_dataType']=np.int;
-		print (name+' is int')
-	if $g==None and $l==None:
-		print (name+' is float')
-	self.newArrayMap[name]=o;
+	self.checkDup(name)	
+	print (name+' is string')
+	self.strArrayMap[name]=o;
 	if isGroupTemp or subvar[k]:
 		self.tempVarList.append(name);
+	if expr:
+		name2=self.ifsAppend+"['"+name+"'][i]"
+		k='!'+name2+'='+expr;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;self.ifid=self.ifid+1;
 }
-: (l=STRING_L|g=INT_L)? ARRAY 
+: STR_L ARRAY 
  (T {isGroupTemp=True} )? i=ID {header=str($i.text);} '{' 
 {isTemp=False;} (T {isTemp=True} )? i=ID  
 {subvar[str($i.text)]=isTemp;} 
 (',' {isTemp=False;} (T {isTemp=True} )? i=ID 
 {subvar[str($i.text)]=isTemp;} 
-)* 
-'}' ;
+)* '}'
+('=' e=ee {expr=str($e.x).lower()})? 
+;
 
+strArrayLone
+: STR_L ARRAY strArrayVar (',' strArrayVar)*   ;
+
+strArrayVar
+@init{isTemp=False;ifs=collections.OrderedDict();k='';}
+:  (T {isTemp=True} )? i=ID 
+{v = Var('');name=str($i.text).lower();
+self.checkDup(name);self.strArrayMap[name]=v;
+if isTemp: self.tempVarList.append(name); 
+print (name+' is string')
+}
+('=' e=ee
+{e2=str($e.x).lower()
+name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
+k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;self.ifid=self.ifid+1;}
+)?;
+
+intArray: intArrayCluster| intArrayLone;
+
+intArrayCluster
+@init
+{header='';subvar=collections.OrderedDict();isTemp=False;isGroupTemp=False;
+expr='';ifs=collections.OrderedDict();k='';}
+@after{
+for k in subvar.keys():
+	o = Var('')
+	name=header.lower()+'.'+k.lower()
+	self.checkDup(name)	
+	print (name+' is integer')
+	self.intArrayMap[name]=o;
+	if isGroupTemp or subvar[k]:
+		self.tempVarList.append(name);
+	if expr:
+		name2=self.ifsAppend+"['"+name+"'][i]"
+		k='!'+name2+'='+expr;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;self.ifid=self.ifid+1;
+}
+: INT_L ARRAY 
+ (T {isGroupTemp=True} )? i=ID {header=str($i.text);} '{' 
+{isTemp=False;} (T {isTemp=True} )? i=ID  
+{subvar[str($i.text)]=isTemp;} 
+(',' {isTemp=False;} (T {isTemp=True} )? i=ID 
+{subvar[str($i.text)]=isTemp;} 
+)* '}'
+('=' e=ee {expr=str($e.x).lower()})? 
+;
+
+intArrayLone
+: INT_L ARRAY intArrayVar (',' intArrayVar)*   ;
+
+intArrayVar
+@init{isTemp=False;ifs=collections.OrderedDict();k='';}
+:  (T {isTemp=True} )? i=ID 
+{v = Var('');name=str($i.text).lower();
+self.checkDup(name);self.intArrayMap[name]=v;
+if isTemp: self.tempVarList.append(name); 
+print (name+' is integer')}
+('=' e=ee
+{e2=str($e.x).lower()
+name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
+k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;self.ifid=self.ifid+1;}
+)?;
+
+
+floatArray: floatArrayCluster| floatArrayLone;
+
+floatArrayCluster
+@init
+{header='';subvar=collections.OrderedDict();isTemp=False;isGroupTemp=False;
+expr='';ifs=collections.OrderedDict();k='';}
+@after{
+for k in subvar.keys():
+	o = Var('')
+	name=header.lower()+'.'+k.lower()
+	self.checkDup(name)	
+	print (name+' is float')
+	self.floatArrayMap[name]=o;
+	if isGroupTemp or subvar[k]:
+		self.tempVarList.append(name);
+	if expr:
+		name2=self.ifsAppend+"['"+name+"'][i]"
+		k='!'+name2+'='+expr;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;self.ifid=self.ifid+1;
+}
+: ARRAY 
+ (T {isGroupTemp=True} )? i=ID {header=str($i.text);} '{' 
+{isTemp=False;} (T {isTemp=True} )? i=ID  
+{subvar[str($i.text)]=isTemp;} 
+(',' {isTemp=False;} (T {isTemp=True} )? i=ID 
+{subvar[str($i.text)]=isTemp;} 
+)* '}'
+('=' e=ee {expr=str($e.x).lower()})? 
+;
+
+floatArrayLone
+: ARRAY floatArrayVar (',' floatArrayVar)*   ;
+
+floatArrayVar
+@init{isTemp=False;ifs=collections.OrderedDict();k='';}
+:  (T {isTemp=True} )? i=ID 
+{v = Var('');name=str($i.text).lower();
+self.checkDup(name);self.floatArrayMap[name]=v;
+if isTemp: self.tempVarList.append(name); 
+print (name+' is float')}
+ 
+('=' e=ee
+{e2=str($e.x).lower()
+name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
+k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;self.ifid=self.ifid+1;}
+)?
+;
 
 
 include
 @after{gn=str($g.text).lower();
 if gn: 
 	self.varPathMap.update(self.varPathGroupMap[gn])
-	self.varExprMap.update(self.varExprGroupMap[gn])
+
 	self.tempVarList.extend(self.tempVarGroupList[gn])
 	self.ifsMap.update(self.ifsMapGroupMap[gn])
-	self.newArrayMap.update(self.newArrayGroupMap[gn])
-	self.newConstMap.update(self.newConstGroupMap[gn])
+	self.strArrayMap.update(self.strArrayGroupMap[gn])
+	self.intArrayMap.update(self.intArrayGroupMap[gn])
+	self.floatArrayMap.update(self.floatArrayGroupMap[gn])
+	self.constMap.update(self.constGroupMap[gn])
 }
 : INCLUDE g=ID ;
 
@@ -198,12 +309,12 @@ if $dv.hasV: ha=True;
 if self.varPathMap.has_key(name):
 	self.varPathMap[name].metaData[mk]=c;
 	if ha: self.varPathMap[name].metaDataPost.append(mk);
-elif self.varExprMap.has_key(name):
-	self.varExprMap[name].metaData[mk]=c;
-	if ha: self.varExprMap[name].metaDataPost.append(mk); 
-elif self.newArrayMap.has_key(name):
-	self.newArrayMap[name].metaData[mk]=c; 
-	if ha: self.newArrayMap[name].metaDataPost.append(mk);
+elif self.strArrayMap.has_key(name):
+	self.strArrayMap[name].metaData[mk]=c; 
+elif self.intArrayMap.has_key(name):
+	self.intArrayMap[name].metaData[mk]=c; 
+elif self.floatArrayMap.has_key(name):
+	self.floatArrayMap[name].metaData[mk]=c; 
 else:
 	msg=name+'.'+mk+'='+c+' variable \"'+name+'\" not found!'
 	Err.addError(msg, self.vardefFile, self.vardefName)
@@ -244,70 +355,6 @@ r2='_cm[\''+str($i2.text)+'\'].const'
 number: FLOAT|INT;
 
 
-stat_define
-@init{isTemp=False;ifs=collections.OrderedDict();k='';}
-@after
-{
-v = Var('');
-e=str($e.text).lower();v.expr=e;
-name=str($i.text).lower(); self.varExprMap[name]=v; 
-if name in self.allVars:
-	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
-else:
-	self.allVars.append(name)
-e2=str($e.x).lower()
-name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
-k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
-if isTemp: 
-	self.tempVarList.append(name);	
-#print('i am here', self.ifid, name)
-}
-:   ARRAY (T {isTemp=True} )? i=ID '=' e=ee
-//{name=str($i.text);
-//
-//}
-    ;
-
-stat
-@init{isTemp=False;ifs=collections.OrderedDict();k='';}
-@after
-{
-e=str($e.text).lower();
-name=str($i.text).lower(); 
-if name not in self.allVars:
-	Err.addError(name+' not defined.', self.vardefFile, self.vardefName)
-
-e2=str($e.x).lower()
-name2=self.ifsAppend+"['"+str($i.text).lower()+"'][i]"
-k='!'+name2+'='+e2;ifs[k]='hi';self.ifsMap[self.ifid]=ifs;
-if isTemp: 
-	self.tempVarList.append(name);	
-#print('i am here', self.ifid, name)
-}
-:   (T {isTemp=True} )? i=ID '=' e=ee
-//{name=str($i.text);
-//
-//}
-    ;
-
-ee_dts returns [String x]
-    : a=ee_dts o=('*'|'/') b=ee_dts           {$x=str($a.x)+str($o.text)+str($b.x);}   
-    | a=ee_dts o=('+'|'-') b=ee_dts           {$x=str($a.x)+str($o.text)+str($b.x);} 
-    | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
-    | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
-    | i=ID                           
-{vName=str($i.text).lower();
-if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName in self.varExprMap.keys():
-	$x=self.ifsAppend+"['"+vName+"']"
-	#print (vName); 
-else:
-	Err.addError(vName+' not defined.', self.vardefFile, self.vardefName)
-}  
-    | '(' a=ee_dts ')'                    {$x="("+str($a.x)+")"}   
-    | i= STRING                       {$x=  str($i.text) }  
-    ; 
-
-
 ee returns [String x]
     : a=ee o=('*'|'/') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);}   
     | a=ee o=('+'|'-') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);} 
@@ -318,7 +365,7 @@ ee returns [String x]
     | (i=ID ('.' j=ID)?)                         
 {vName=str($i.text).lower();
 if $j!=None: vName=str($i.text).lower()+'.'+str($j.text).lower();
-if vName in self.newArrayMap.keys() or vName in self.varPathMap.keys() or vName in self.varExprMap.keys():
+if vName in self.allVars:
 	$x=self.ifsAppend+"['"+vName+"']"+"[i]"
 	#print (vName); 
 else:
@@ -338,11 +385,11 @@ compare returns [String x]
 assign returns [String x]
 	: i=id2 '=' a=ee 
 {vName=str($i.text).lower();
-if vName in self.newArrayMap.keys() or vName in self.varExprMap.keys() or vName in self.varPathMap.keys():
+if vName in self.allVars:
 	$x=self.ifsNewAppend+"['"+str($i.text)+"'][i]="+$a.x
 	#print (vName); 
 else:
-	Err.addError(vName+' not valid.', self.vardefFile, self.vardefName)
+	Err.addError(vName+' not defined yet.', self.vardefFile, self.vardefName)
 }  
 	;
 
@@ -398,7 +445,7 @@ ELSE   : 'else' ;
 //UNITS : 'units';
 //CAPACITY : 'capacity' ;
 GROUP : 'group' ;
-STRING_L : 'string'  ;
+STR_L : 'str'  ;
 INT_L :   'int' ;
 FLOAT_L : 'float' ;
 CONST : 'const' ;
