@@ -43,8 +43,23 @@ class VarDefVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by VarDefParser#const_var.
-    def visitConst_var(self, ctx):
+    # Visit a parse tree produced by VarDefParser#intConst.
+    def visitIntConst(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#floatConst.
+    def visitFloatConst(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#floatConstVar.
+    def visitFloatConstVar(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by VarDefParser#intConstVar.
+    def visitIntConstVar(self, ctx):
         return self.visitChildren(ctx)
 
 

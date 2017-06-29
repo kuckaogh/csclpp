@@ -26,7 +26,7 @@ def readReference(fs):
     for s in S.studyMap:
         sty = S.studyMap[s]
         
-        defaultConst=setDefaultConst(); sty.constMap=defaultConst
+        defaultConstMap=setDefaultConst(); sty.constMap=defaultConstMap
         
         #print sty.constMap
         varFile=sty.varFile
@@ -54,9 +54,9 @@ def readReference(fs):
         #print vf
         Err.errFile=vf
         varDef, varPathGroupMap, tempVarGroupList, ifsMapGroupMap, \
-        strArrayGroupMap, intArrayGroupMap, floatArrayGroupMap, constGroupMap=P.parseVarDef(vf)
+        strArrayGroupMap, intArrayGroupMap, floatArrayGroupMap, constGroupMap=P.parseVarDef(vf, defaultConstMap)
 
-        print 'intArrayGroupMap', intArrayGroupMap
+        #print 'intArrayGroupMap', intArrayGroupMap
         
         sty.varDef = varDef
         sty.varPathMap=varPathGroupMap[varDef]
@@ -69,7 +69,7 @@ def readReference(fs):
         sty.floatArrayMap.update(floatArrayGroupMap[varDef]) 
         sty.constMap.update(constGroupMap[varDef])
         
-        print 'sty.intArrayMap', sty.intArrayMap
+        #print 'sty.constMap', sty.constMap
         
         # process metadata dictionary type
         _cm=sty.constMap
@@ -143,11 +143,12 @@ def evaluateDTS(studyVarTs):
             text_file.close()
         Err.errFile = 'If statement evaluation'
         
-        for k,v in S.studyMap[s].constMap.iteritems():
-            _ts[k]=v.const
+#         for k,v in S.studyMap[s].constMap.iteritems():
+#             #print k, v.const
+#             _ts[k]=v.const
         exec(es, {'_ts':_ts}) 
-        for k in S.studyMap[s].constMap.keys():
-            _ts.pop(k, None)
+#         for k in S.studyMap[s].constMap.keys():
+#             _ts.pop(k, None)
 
 #         import timeit
 #         start_time = timeit.default_timer()
@@ -291,7 +292,7 @@ def readData(studyMap, time_window=None):
         dtName='month'      
         varData[dtName]= np.mod(start_earliest.month+np.arange(arrayN)-1,12)+1            
             
-        print 'month', varData['month']
+        #print 'month', varData['month']
         # put data into dictionary
         studyVarData[studyName]=varData
         

@@ -23,6 +23,7 @@ intArrayGroupMap={};
 floatArrayGroupMap={};
 constGroupMap={};
 varPathMap=collections.OrderedDict();
+allVarsGroupList={}
 
 tempVarList=[];
 strArrayMap=collections.OrderedDict();
@@ -34,6 +35,7 @@ vardefName='';
 vardefFile='';
 vardefDefault='';
 systemVars=['year','month','oct','nov','dec','jan','feb','mar','apr','may','jun','jul','aug','sep'];
+systemConstMap=collections.OrderedDict();
 allVars=[];
 
 def isConst(self, name):
@@ -42,18 +44,16 @@ def isConst(self, name):
 	else:
 		return False
 
-def checkDup(self, name, where=None):
+def checkDup(self, name):
 	if name in self.allVars:
 		msg=name+' is already defined.'
-		if where: msg=msg+'@'+where
 		Err.addError(msg, self.vardefFile, self.vardefName)
 	else:
 		self.allVars.append(name)
 		
-def checkExist(self, name, where=None):
+def checkExist(self, name):
 	if name not in self.allVars:
 		msg=name+' is not defined.'
-		if where: msg=msg+'@'+where
 		Err.addError(msg, self.vardefFile, self.vardefName)
 		
 }
@@ -68,6 +68,7 @@ self.strArrayGroupMap={};
 self.intArrayGroupMap={};
 self.floatArrayGroupMap={};
 self.constGroupMap={};
+self.allVarsGroupList={};
 self.ifid=0;
 }
 :    NL* use NL* vardef+ ;
@@ -84,8 +85,8 @@ self.ifsMap=collections.OrderedDict();
 self.strArrayMap=collections.OrderedDict();
 self.intArrayMap=collections.OrderedDict();
 self.floatArrayMap=collections.OrderedDict();
-self.constMap=collections.OrderedDict();
-self.allVars=list(self.systemVars);
+self.constMap=self.systemConstMap;
+self.allVars=self.systemVars[:];
 }
 @after
 {
@@ -97,6 +98,8 @@ self.strArrayGroupMap[groupName]=self.strArrayMap;
 self.intArrayGroupMap[groupName]=self.intArrayMap;
 self.floatArrayGroupMap[groupName]=self.floatArrayMap;
 self.constGroupMap[groupName]=self.constMap;
+self.allVarsGroupList[groupName]=self.allVars;
+#print(groupName, self.allVars)
 }
 :   VARDEF name=ID {groupName=str($name.text).lower();self.vardefName=groupName;} NL+ 
        field+
@@ -108,18 +111,29 @@ field
 
 new_var : strArray| intArray| floatArray ; 
 
-constant
-: CONST const_var (',' const_var)*  ;
+constant: floatConst|intConst;
 
-const_var
+intConst: INT_L CONST intConstVar (',' intConstVar)*  ;
+floatConst: CONST floatConstVar (',' floatConstVar)*  ;
+
+floatConstVar
 @init{v = Var('');}
-: i=ID '=' (c=FLOAT {v.const=float($c.text);v.metaData['_dataType']=np.float;}
-	       |c=INT   {v.const=int($c.text);v.metaData['_dataType']=np.int;}
-	       |c=STRING{v.const=str($c.text);v.metaData['_dataType']=np.str;}
-) 
-{name=str($i.text).lower();self.constMap[name]=v;self.checkDup(name);}
-;
+: i=ID '=' e=ee 
+{name=str($i.text).lower();
+self.checkDup(name);
+v.const='('+str($e.x)+')';v.metaData['_dataType']=np.float;
+self.constMap[name]=v;
+};
 
+
+intConstVar
+@init{v = Var('');}
+: i=ID '=' e=ee 
+{name=str($i.text).lower();
+self.checkDup(name);
+v.const='int('+str($e.x)+')';v.metaData['_dataType']=np.int;
+self.constMap[name]=v;
+};
 
 stat
 @init{isTemp=False;ifs=collections.OrderedDict();k='';}
@@ -284,6 +298,7 @@ if gn:
 	self.intArrayMap.update(self.intArrayGroupMap[gn])
 	self.floatArrayMap.update(self.floatArrayGroupMap[gn])
 	self.constMap.update(self.constGroupMap[gn])
+	self.allVars.extend(self.allVarsGroupList[gn])
 }
 : INCLUDE g=ID ;
 
@@ -370,15 +385,19 @@ ee returns [String x]
     | a=ee o=('+'|'-') b=ee           {$x=str($a.x)+str($o.text)+str($b.x);} 
     | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
     | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
-    | i=SYSARRAY        {vName=str($i.text).lower();$x=self.ifsAppend+"['"+vName+"']"+"[i]"}   
-    | i=SYSCONST        {vName=str($i.text).lower();$x=self.ifsAppend+"['"+vName+"']"} 
+    | i=SYSARRAY        {vName=str($i.text).lower();$x=self.ifsAppend+"['"+vName+"']"+"[i]";}   
+    | i=SYSCONST        {vName=str($i.text).lower();$x=self.constMap[vName].const;} 
     | i=ID
 {vName=str($i.text).lower();
+self.checkExist(vName);
 if vName in self.allVars:
 	if vName in self.constMap.keys():
-		$x=str($i.text).lower()
+		$x=self.constMap[vName].const
 	else:
 		$x=self.ifsAppend+"['"+vName+"']"+"[i]"	
+else:
+		print('not found ***',vName, $x)
+		print(self.allVars)
 }      
     | (i=ID '.' j=ID)                        
 {
@@ -401,7 +420,7 @@ elif name1 in self.allVars:
     ; 
 
 compare returns [String x]
-    : a=ee o=('>'|'>='|'<'|'<='|'=='|'!=') b=ee    {$x=str($a.x)+str($o.text)+str($b.x)}  
+    : a=ee o=('>'|'>='|'<'|'<='|'=='|'!=') b=ee    {$x=str($a.x)+str($o.text)+str($b.x);}  
     | '(' c=compare ')'                            {$x="("+str($c.x)+")"}    
     |    c1=compare op=(AND|OR) c2=compare         {$x=str($c1.x)+str($op.text)+str($c2.x)}  
     ; 

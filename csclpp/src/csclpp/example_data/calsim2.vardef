@@ -1,11 +1,12 @@
 use all
-# vardef
-# int const five=5
-# int const nine=5+4
-# const pi = 3.1416*2/2
-# str const
 
-# end
+vardef param
+
+int const five=5
+const pi = 3.1416*five/five
+
+end
+
 vardef base 
 
 	s_trinity = //S1/STORAGE//1MON//
@@ -135,8 +136,12 @@ end
 
 vardef timeOp
 	
+	include param
+	
 	str array test_timeOp1_str = 'NA'
 	int array test_timeOp2_int
+	str array test_const_op1 = ''
+	str array test_const_op2 = ''
 	
 	if month==nov {
 		test_timeOp1_str='november'
@@ -147,7 +152,13 @@ vardef timeOp
 	if year==1922 {
 		test_timeOp2_int=1922
 	}
-
+	if five*2!=10 {
+		test_const_op1 = 'error in const op1'
+	}
+	int const nine=7.6+2
+	if nine*2!=18 {
+		test_const_op2 = 'error in const op2'
+	}
 
 end
 

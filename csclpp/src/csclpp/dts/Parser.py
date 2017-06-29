@@ -14,7 +14,7 @@ ifsTsDictName='_ts'
 ifsNewDictName=ifsTsDictName
 varMetaKeys=['units','capacity']
 
-def parseVarDef(f):
+def parseVarDef(f, sysConstMap):
 
     input_stream = FileStream(f)
     lexer = VarDefLexer(input_stream)
@@ -24,6 +24,7 @@ def parseVarDef(f):
     p.ifsNewAppend=ifsNewDictName
     p.varMetaKeys=varMetaKeys
     p.vardefFile=f
+    p.systemConstMap=sysConstMap
     tree = p.prog()
     #print(tree.toStringTree(recog=p))
     return p.vardefDefault, p.varPathGroupMap, \
