@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 
-debugOn = True
+debugOn = False
 
 
 def readReference(fs):
