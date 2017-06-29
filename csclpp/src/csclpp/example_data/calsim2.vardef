@@ -78,13 +78,20 @@ vardef more
 	int array test_int{x, y, z, beta, kk}
 	str array test_str_result 
 	str array teststr{status, status2}='hello'
+	int array test_metadata = 40
 
 	D418       = //D418/FLOW-DELIVERY//1MON//
 	S4         = //S4/STORAGE//1MON//
+	s4.level2 = 200
+	
+	if S4 > s4.level2 { test_metadata = 5 }
+	
+	
 	S4LEVEL5DV = //S4LEVEL5DV/STORAGE-LEVEL//1MON//
 	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
 	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
 
+	
 		
 	if D418-800<0.1 or D418<3600 { 
 		test.x = 1.0
@@ -131,10 +138,12 @@ vardef timeOp
 	str array test_timeOp1_str = 'NA'
 	int array test_timeOp2_int
 	
-	if month==oct {
-		test_timeOp1_str='october'
+	if month==nov {
+		test_timeOp1_str='november'
 	}
-	
+	if month==12 {
+		test_timeOp1_str='december'
+	}	
 	if year==1922 {
 		test_timeOp2_int=1922
 	}

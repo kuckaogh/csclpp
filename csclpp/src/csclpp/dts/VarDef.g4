@@ -36,15 +36,25 @@ vardefDefault='';
 systemVars=['year','month','oct','nov','dec','jan','feb','mar','apr','may','jun','jul','aug','sep'];
 allVars=[];
 
-def checkDup(self, name):
+def isConst(self, name):
+	if name in self.constMap.keys():
+		return True
+	else:
+		return False
+
+def checkDup(self, name, where=None):
 	if name in self.allVars:
-		Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
+		msg=name+' is already defined.'
+		if where: msg=msg+'@'+where
+		Err.addError(msg, self.vardefFile, self.vardefName)
 	else:
 		self.allVars.append(name)
 		
-def checkExist(self, name):
+def checkExist(self, name, where=None):
 	if name not in self.allVars:
-		Err.addError(name+' is not defined.', self.vardefFile, self.vardefName)
+		msg=name+' is not defined.'
+		if where: msg=msg+'@'+where
+		Err.addError(msg, self.vardefFile, self.vardefName)
 		
 }
 
@@ -361,15 +371,30 @@ ee returns [String x]
     | {s=''} ('-'{s='-'})? i=INT      {$x=s+str($i.text)}             
     | {s=''} ('-'{s='-'})? i=FLOAT    {$x=s+str($i.text)}              
     | i=SYSARRAY        {vName=str($i.text).lower();$x=self.ifsAppend+"['"+vName+"']"+"[i]"}   
-    | i=SYSCONST        {$x=str($i.text).lower()} 
-    | (i=ID ('.' j=ID)?)                         
+    | i=SYSCONST        {vName=str($i.text).lower();$x=self.ifsAppend+"['"+vName+"']"} 
+    | i=ID
 {vName=str($i.text).lower();
-if $j!=None: vName=str($i.text).lower()+'.'+str($j.text).lower();
+if vName in self.allVars:
+	if vName in self.constMap.keys():
+		$x=str($i.text).lower()
+	else:
+		$x=self.ifsAppend+"['"+vName+"']"+"[i]"	
+}      
+    | (i=ID '.' j=ID)                        
+{
+name1=str($i.text).lower();name2=str($j.text).lower();vName=name1+'.'+name2; 
 if vName in self.allVars:
 	$x=self.ifsAppend+"['"+vName+"']"+"[i]"
-	#print (vName); 
-else:
-	Err.addError(vName+' not defined.', self.vardefFile, self.vardefName)
+ 
+elif name1 in self.allVars:
+	m=None
+	if name1 in self.varPathMap.keys():
+		m=self.varPathMap[name1].metaData[name2]
+	elif name1 in self.floatArrayMap.keys():
+		m=self.floatArrayMap[name1].metaData[name2]
+	elif name1 in self.intArrayMap.keys():	
+		m=self.intArrayMap[name1].metaData[name2]
+	$x=str(m)
 }  
     | '(' a=ee ')'                    {$x="("+str($a.x)+")"}   
     | i= STRING                       {$x=  str($i.text) }  

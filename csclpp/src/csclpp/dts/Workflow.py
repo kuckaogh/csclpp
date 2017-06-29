@@ -142,7 +142,12 @@ def evaluateDTS(studyVarTs):
             text_file.write(es)
             text_file.close()
         Err.errFile = 'If statement evaluation'
+        
+        for k,v in S.studyMap[s].constMap.iteritems():
+            _ts[k]=v.const
         exec(es, {'_ts':_ts}) 
+        for k in S.studyMap[s].constMap.keys():
+            _ts.pop(k, None)
 
 #         import timeit
 #         start_time = timeit.default_timer()
