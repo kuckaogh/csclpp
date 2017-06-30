@@ -341,7 +341,7 @@ elif self.intArrayMap.has_key(name):
 elif self.floatArrayMap.has_key(name):
 	self.floatArrayMap[name].metaData[mk]=c; 
 else:
-	msg=name+'.'+mk+'='+c+' variable \"'+name+'\" not found!'
+	msg=name+'.'+mk+'='+str(c)+' variable \"'+name+'\" not found!'
 	Err.addError(msg, self.vardefFile, self.vardefName)
 }; 
 
