@@ -223,6 +223,7 @@ def readData(studyMap, time_window=None):
         varData['datetime']=None
         varData['year']=None
         varData['month']=None
+        varData['daysin']=None
 
         iend=0
         for dssFile in styV.data_src:
@@ -291,6 +292,29 @@ def readData(studyMap, time_window=None):
         
         dtName='month'      
         varData[dtName]= np.mod(start_earliest.month+np.arange(arrayN)-1,12)+1            
+
+
+        dtName='daysin'
+        import calendar
+        month_days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        vd=np.empty(arrayN);vd=vd.astype(np.int)
+        varData[dtName]=vd
+        styV.tempVarList.append(dtName)
+        for i in range(arrayN):
+            y= varData['year'][i]
+            m = varData['month'][i]
+            if m!=2:
+                varData[dtName][i]=month_days[m]
+            else:
+                if not calendar.isleap(y):
+                    varData[dtName][i]=month_days[m]
+                else:
+                    varData[dtName][i]=29
+            
+            
+            
+                  
+        
             
         #print 'month', varData['month']
         # put data into dictionary
