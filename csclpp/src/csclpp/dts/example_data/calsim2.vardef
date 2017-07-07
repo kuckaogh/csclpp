@@ -1,0 +1,173 @@
+use all
+
+vardef param
+
+int const five=5
+const pi = 3.1416*five/five
+
+end
+
+vardef base 
+
+	s_trinity = //S1/STORAGE//1MON//
+	s_trinity.capacity = 2447.6
+	s_shasta  = //S4/STORAGE//1MON//
+	s_folsom  = //S8/STORAGE//1MON//, 'taf'	
+	array nod_storage	= s_trinity + s_shasta + s_folsom
+	nod_storage.unit = 'taf'
+	Nod_storage.capacity = 8000
+	nod_storage =nod_storage *1.5
+	s_oroville = //S6/STORAGE//1MON//
+    cvp_sanLuis = //S11/STORAGE//1MON//
+	# test = //C699/FLOW-CHANNEL//1MON// 
+					
+end
+
+vardef deltaInflow 
+
+	include base
+
+	@c1 = //C400/FLOW-CHANNEL//1MON// 
+	@c2 = //C157/FLOW-CHANNEL//1MON// 
+	@c3 = //C504/FLOW-CHANNEL//1MON//
+	@c4 = //C644/FLOW-CHANNEL//1MON// 
+	# @ means temp variables to construct delta inflow 
+	array Delta_Inflow = c1 + C2 + c3 + 2.0*c4/2
+	delta_inflow.unit = 'cfs'
+
+end
+
+vardef release_control
+ 
+	# introduce an array, default values are zeros
+	array x, y, z
+	int array Shasta_Ctrl{min_exports, Flood, keswick_mif, ncp_mif} = 399.7
+	array arr_float{min_exports, Flood, keswick_mif, ncp_mif} = 5.6*2
+
+	D418       = //D418/FLOW-DELIVERY//1MON//
+	S4         = //S4/STORAGE//1MON//
+	S4LEVEL5DV = //S4LEVEL5DV/STORAGE-LEVEL//1MON//
+	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
+	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
+	
+	if D418-800<0.1  { 
+		shasta_ctrl.min_exports = 1  }
+		
+	if S4-S4LEVEL5DV<0.1 {
+		shasta_ctrl.flood=1 } 
+		
+	if C5_EXC<0.1 {
+		shasta_ctrl.keswick_mif =1 }
+		
+	if C129_EXC<0.1 { 
+		shasta_ctrl.ncp_mif = 1 }
+	
+end
+
+vardef test_if
+	
+	array ABC_ctrl{Aa,@Bb,Cc}
+	array @temp_ctrl{t1, t2, t3}
+	#include xyz
+	include Release_Control
+
+end
+
+vardef more
+ 
+    array test{x, y, z, beta, kk}
+	int array test_int{x, y, z, beta, kk}
+	str array test_str_result 
+	str array teststr{status, status2}='hello'
+	int array test_metadata = 40
+
+	D418       = //D418/FLOW-DELIVERY//1MON//
+	S4         = //S4/STORAGE//1MON//
+	s4.level2 = 200
+	
+	if S4 > s4.level2 { test_metadata = 5 }
+	
+	
+	S4LEVEL5DV = //S4LEVEL5DV/STORAGE-LEVEL//1MON//
+	C5_EXC     = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
+	C129_EXC   = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
+
+	
+		
+	if D418-800<0.1 or D418<3600 { 
+		test.x = 1.0
+		test_int.x = 1
+		test_str_result='x'} 
+		
+	elseif S4>2760. and s4<2780 {
+		test.y = 1. 
+		test_int.y = 1 
+		test_str_result='y'} 
+		
+	elseif C5_EXC<3200 and C5_EXC>3000.0 {
+		test.z = 1. 
+		test_int.z = 1 
+		test_str_result='z'} 
+		
+	else { 
+		test.kk = 1.0 
+		test_int.kk = 1 
+		test_str_result='kk'} 
+	
+	
+	if c5_exc<1000.0 { 
+		test.beta = 1.0 
+		test_int.beta = 1 
+		test_str_result=test_str_result+';beta' }
+
+	
+	array C129_EXC_before_mod   = C129_EXC
+	
+	if C129_EXC>999 {
+		C129_EXC = 999
+		teststr.status='modified'
+	}
+
+	if teststr.status=='modified' {
+		teststr.status2='yes' } 
+
+	
+end
+
+vardef timeOp
+	
+	include param
+	
+	str array test_timeOp1_str = 'NA'
+	int array test_timeOp2_int
+	str array test_const_op1 = ''
+	str array test_const_op2 = ''
+	
+	if month==nov {
+		test_timeOp1_str='november'
+	}
+	if month==12 {
+		test_timeOp1_str='december'
+	}	
+	if year==1922 {
+		test_timeOp2_int=1922
+	}
+	if five*2!=10 {
+		test_const_op1 = 'error in const op1'
+	}
+	int const nine=7.6+2
+	if nine*2!=18 {
+		test_const_op2 = 'error in const op2'
+	}
+
+end
+
+vardef all
+	
+	include deltaInflow
+	include release_control
+	include test_if
+	include more
+	include timeOp
+
+end

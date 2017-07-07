@@ -1,0 +1,17 @@
+
+study	calliteStudyName
+
+	data = './callite2.dss','./callite1.dss'
+	vardef = './callite.vardef'
+
+end
+
+
+study calsim2StudyName
+
+	data = './cs2.dss'
+	vardef = './calsim2.vardef'
+
+end
+
+

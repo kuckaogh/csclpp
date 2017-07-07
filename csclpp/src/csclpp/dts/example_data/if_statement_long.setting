@@ -1,0 +1,16 @@
+study	calliteStudyName
+
+	data = './callite_long.dss'
+	vardef = './callite.vardef'
+
+end
+
+
+study calsim2StudyName
+
+	data = './cs2_long.dss'
+	vardef = './calsim2.vardef'
+
+end
+
+
