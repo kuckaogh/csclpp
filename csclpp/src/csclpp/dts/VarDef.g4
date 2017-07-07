@@ -493,7 +493,7 @@ STR_L : 'str'  ;
 INT_L :   'int' ;
 FLOAT_L : 'float' ;
 CONST : 'const' ;
-SYSARRAY: 'year'|'month'|'cfs_taf'|'taf_cfs';
+SYSARRAY: 'year'|'month'|'cfs_taf'|'taf_cfs'|'daysin';
 SYSCONST: 'oct'|'nov'|'dec'|'jan'|'feb'|'mar'|'apr'|'may'|'jun'|'jul'|'aug'|'sep';
 
 //MONTH : 'month' ;

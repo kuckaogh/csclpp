@@ -1,3 +1,4 @@
+#from __future__ import division
 import sys
 import Parser as P
 from Study import Study
@@ -13,7 +14,8 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 
-debugOn = False
+debugOn = True #False
+cfs2tafd = 0.00198347107438 #86400./43560./1000
 
 
 def readReference(fs):
@@ -99,6 +101,10 @@ def evaluateDTS(studyVarTs):
         if not S.studyMap[s].ifsMap: return
         #global _ts
         es=''
+        
+        #header
+        #es=es+'cfs2tafd='+str(cfs2tafd)+'\n'
+        
         _ts = studyVarTs[s]
         #print s, '_ts.keys():', _ts.keys()
 
@@ -224,6 +230,8 @@ def readData(studyMap, time_window=None):
         varData['year']=None
         varData['month']=None
         varData['daysin']=None
+        varData['cfs_taf']=None
+        varData['taf_cfs']=None
 
         iend=0
         for dssFile in styV.data_src:
@@ -291,7 +299,7 @@ def readData(studyMap, time_window=None):
         varData[dtName]= (start_earliest.year+ np.floor((np.arange(arrayN)+start_earliest.month-1)/12).astype(np.int))
         
         dtName='month'      
-        varData[dtName]= np.mod(start_earliest.month+np.arange(arrayN)-1,12)+1            
+        varData[dtName]= (np.mod(start_earliest.month+np.arange(arrayN)-1,12)+1).astype(np.int)      
 
 
         dtName='daysin'
@@ -311,9 +319,13 @@ def readData(studyMap, time_window=None):
                 else:
                     varData[dtName][i]=29
             
+        dtName='cfs_taf'      
+        varData[dtName]= cfs2tafd*varData['daysin']    
+        styV.tempVarList.append(dtName)        
             
-            
-                  
+        dtName='taf_cfs'      
+        varData[dtName]= 1./(cfs2tafd*varData['daysin'])    
+        styV.tempVarList.append(dtName)                 
         
             
         #print 'month', varData['month']
