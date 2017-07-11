@@ -9,7 +9,6 @@ class Var:
 	const = None
 	metaData = {}; 
 	metaDataPost = []
-	expr=''
 
 
 	def __init__(self, path):
