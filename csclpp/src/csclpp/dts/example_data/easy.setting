@@ -2,7 +2,7 @@
 study	calliteStudyName
 
 	data = './callite2.dss','./callite1.dss'
-	vardef = './callite.vardef'
+	vardef = './callite.dt'
 
 end
 

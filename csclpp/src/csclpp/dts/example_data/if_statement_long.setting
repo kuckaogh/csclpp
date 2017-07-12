@@ -1,7 +1,7 @@
 study	calliteStudyName
 
 	data = './callite_long.dss'
-	vardef = './callite.vardef'
+	vardef = './callite.dt'
 
 end
 
@@ -9,7 +9,7 @@ end
 study calsim2StudyName
 
 	data = './cs2_long.dss'
-	vardef = './calsim2.vardef'
+	vardef = './calsim2.dt'
 
 end
 
