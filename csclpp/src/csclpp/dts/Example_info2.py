@@ -6,7 +6,7 @@ from vtools.datastore.dss.api import *
 from vtools.functions.api import *
 from vtools.data.api import *
 import collections
-from dts import Workflow
+import Workflow
 
 studyMap = W.readReference('./example_data/easy.setting')
 #studyMap = W.readReference('./example_data/if_statement.setting')
