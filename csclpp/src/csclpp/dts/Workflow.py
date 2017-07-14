@@ -230,8 +230,8 @@ def readData(studyMap, time_window=None):
         varData['year']=None
         varData['month']=None
         varData['daysin']=None
-        varData['cfs_taf']=None
-        varData['taf_cfs']=None
+        varData['cfs_tafm']=None
+        varData['tafm_cfs']=None
 
         iend=0
         for dssFile in styV.data_src:
@@ -319,11 +319,11 @@ def readData(studyMap, time_window=None):
                 else:
                     varData[dtName][i]=29
             
-        dtName='cfs_taf'      
+        dtName='cfs_tafm'      
         varData[dtName]= cfs2tafd*varData['daysin']    
         styV.tempVarList.append(dtName)        
             
-        dtName='taf_cfs'      
+        dtName='tafm_cfs'      
         varData[dtName]= 1./(cfs2tafd*varData['daysin'])    
         styV.tempVarList.append(dtName)                 
         

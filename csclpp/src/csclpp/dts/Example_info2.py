@@ -19,7 +19,7 @@ studyVarData = Workflow.readData(studyMap, time_window='(9/15/1921 00:00,1/15/19
 
 for k, sv in studyMap.iteritems():
     
-    print '\nstudyName:', k, ' vardef:', sv.varDef
+    print '\nstudyName:', k, ' dt:', sv.varDef
     for d in studyMap[k].data_src:
         print 'dss data src:', d
         

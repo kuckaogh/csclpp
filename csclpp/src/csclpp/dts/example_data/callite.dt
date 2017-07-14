@@ -20,7 +20,7 @@ dt base
 	array nod_storage = 0
 	nod_storage.unit = 'taf'
 	nod_storage	= s_trinity + s_shasta + s_folsom
-	array nod_storage_cfs	= nod_storage*taf_cfs
+	array nod_storage_cfs	= nod_storage*tafm_cfs
 	nod_storage_cfs.unit = 'cfs'
 	s_oroville = //S_Orovl/STORAGE//1MON//	
     cvp_sanLuis = //S_SLCVP/STORAGE//1MON//
