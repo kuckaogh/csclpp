@@ -1,15 +1,15 @@
 use all
 
-vardef param
+dt param
 
 int const five=5
 const pi = 3.1416*five/five
 
 end
 
-vardef base 
+dt base 
 
-	s_trinity = //S1/STORAGE//1MON//
+	s_trinity = /calsim/S1/STORAGE//1MON//
 	s_trinity.capacity = 2447.6
 	s_shasta  = //S4/STORAGE//1MON//
 	s_folsom  = //S8/STORAGE//1MON//, 'taf'	
@@ -23,7 +23,7 @@ vardef base
 					
 end
 
-vardef deltaInflow 
+dt deltaInflow 
 
 	include base
 
@@ -37,7 +37,7 @@ vardef deltaInflow
 
 end
 
-vardef release_control
+dt release_control
  
 	# introduce an array, default values are zeros
 	array x, y, z
@@ -64,7 +64,7 @@ vardef release_control
 	
 end
 
-vardef test_if
+dt test_if
 	
 	array ABC_ctrl{Aa,@Bb,Cc}
 	array @temp_ctrl{t1, t2, t3}
@@ -73,7 +73,7 @@ vardef test_if
 
 end
 
-vardef more
+dt more
  
     array test{x, y, z, beta, kk}
 	int array test_int{x, y, z, beta, kk}
@@ -134,7 +134,7 @@ vardef more
 	
 end
 
-vardef timeOp
+dt timeOp
 	
 	include param
 	
@@ -162,7 +162,7 @@ vardef timeOp
 
 end
 
-vardef all
+dt all
 	
 	include deltaInflow
 	include release_control

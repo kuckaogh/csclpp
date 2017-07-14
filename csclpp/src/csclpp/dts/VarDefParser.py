@@ -342,7 +342,7 @@ class VarDefParser ( Parser ):
                      u"':'", u"'('", u"')'", u"'>'", u"'>='", u"'<'", u"'<='", 
                      u"'=='", u"'!='", u"<INVALID>", u"'@'", u"<INVALID>", 
                      u"'*'", u"'/'", u"'+'", u"'-'", u"' and '", u"' or '", 
-                     u"'use'", u"'include'", u"'vardef'", u"'end'", u"'array'", 
+                     u"'use'", u"'include'", u"'dt'", u"'end'", u"'array'", 
                      u"'if'", u"'elseif'", u"'else'", u"'group'", u"'str'", 
                      u"'int'", u"'float'", u"'const'" ]
 

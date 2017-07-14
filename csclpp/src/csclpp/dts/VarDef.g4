@@ -480,7 +480,7 @@ USE:   'use' ;
 
 
 INCLUDE : 'include' ;
-VARDEF : 'vardef' ;
+VARDEF : 'dt' ;
 END    : 'end' ;
 ARRAY    : 'array' ;
 IF     : 'if' ;
