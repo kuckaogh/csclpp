@@ -2413,7 +2413,7 @@ class VarDefParser ( Parser ):
             	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
             else:
             	self.allVars.append(name)
-            if localctx.u: self.varPathMap[name].metaData['units']=str((None if localctx.u is None else localctx.u.text))[1:-1].lower();
+            if localctx.u: self.varPathMap[name].metaData['unit']=str((None if localctx.u is None else localctx.u.text))[1:-1].lower();
             if isTemp: self.tempVarList.append(name); 
             self.varPathMap[name].metaData['_partc']=str((None if localctx.p is None else localctx.p.text)).split("/")[3];	
             self.varPathMap[name].metaData['_partb']=str((None if localctx.p is None else localctx.p.text)).split("/")[2];	

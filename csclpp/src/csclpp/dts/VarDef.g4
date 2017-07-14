@@ -312,7 +312,7 @@ if name in self.allVars:
 	Err.addError(name+' is already defined.', self.vardefFile, self.vardefName)
 else:
 	self.allVars.append(name)
-if $u: self.varPathMap[name].metaData['units']=str($u.text)[1:-1].lower();
+if $u: self.varPathMap[name].metaData['unit']=str($u.text)[1:-1].lower();
 if isTemp: self.tempVarList.append(name); 
 self.varPathMap[name].metaData['_partc']=str($p.text).split("/")[3];	
 self.varPathMap[name].metaData['_partb']=str($p.text).split("/")[2];	

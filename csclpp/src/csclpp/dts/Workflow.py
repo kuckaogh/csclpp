@@ -353,6 +353,33 @@ def readData(studyMap, time_window=None):
                 if post_n>0:
                     post=np.empty(post_n); post.fill(np.nan)
                     varData[k] = np.concatenate((varData[k],post))
+                    
+        # unit conversion if necessary
+        
+        for k,v in styV.varPathMap.iteritems():
+            #print k, v.metaData['_start'], v.metaData['_end']
+            #print k, diff_month(v.metaData['_start'],styV.start_earliest), diff_month(styV.end_latest, v.metaData['_end'])
+            if v.metaData.has_key('unit'):
+            
+                unit_old = v.metaData['_unit'].lower()
+                unit_new = v.metaData['unit'].lower()
+                
+                if unit_old!=unit_new:
+                    
+                    #print '$$$', k, unit_old, unit_new   
+                
+                    if unit_old=='cfs' and unit_new=='taf':
+                        
+                        varData[k]=varData[k]*varData['cfs_tafm']
+                       
+                    elif unit_old=='taf' and unit_new=='cfs':
+                        
+                        varData[k]=varData[k]*varData['tafm_cfs']
+                        
+                    else:
+                        
+                        Err.addError('This timeseries unit conversion not supported: '+k, '', '')
+                                           
                                     
     return studyVarData   
 

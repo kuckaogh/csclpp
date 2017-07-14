@@ -26,6 +26,7 @@ dt base
     cvp_sanLuis = //S_SLCVP/STORAGE//1MON//
 
 	@c_hood = //C_Hood/FLOW-CHANNEL//1MON// 
+	@c_hood_taf = //C_Hood/FLOW-CHANNEL//1MON// , 'taf'
 	@c_yolobp = //C_YoloBP/FLOW-CHANNEL//1MON// 
 	@c_moklmnr = //C_MoklmnR/FLOW-ACCRDEPL//1MON//
 	@c_sjr = //C_SJR/FLOW-ACCRDEPL//1MON// 

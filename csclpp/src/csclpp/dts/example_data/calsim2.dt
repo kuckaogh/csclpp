@@ -13,6 +13,7 @@ dt base
 	s_trinity.capacity = 2447.6
 	s_shasta  = //S4/STORAGE//1MON//
 	s_folsom  = //S8/STORAGE//1MON//, 'taf'	
+	s_folsom_cfs  = //S8/STORAGE//1MON//, 'cfs'	
 	array nod_storage	= s_trinity + s_shasta + s_folsom
 	nod_storage.unit = 'taf'
 	Nod_storage.capacity = 8000
