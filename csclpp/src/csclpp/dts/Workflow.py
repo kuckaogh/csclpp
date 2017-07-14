@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 
-debugOn = True #False
+debugOn = False
 cfs2tafd = 0.00198347107438 #86400./43560./1000
 
 
