@@ -465,8 +465,8 @@ T : '@' ;
 PATH : '/'   ID?     
        '/'   ID 
        '/'   (ID (LETTER|DIGIT|'_'|'-')* )?
-       '//'  (INT ID)?
-       '/'   (INT ID)?
+       '//'  (INT? ID)?
+       '/'   (LETTER|DIGIT|'_'|'-')*
        '/'  ;
 
 MUL :   '*' ; 
