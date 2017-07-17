@@ -9,7 +9,7 @@ end
 
 dt base 
 
-	s_trinity = /calsim/S1/STORAGE//1MON//
+	s_trinity = /calsim/S1/STORAGE//1MON/2020D09E/
 	s_trinity.capacity = 2447.6
 	s_shasta  = //S4/STORAGE//1MON//
 	s_folsom  = //S8/STORAGE//1MON//, 'taf'	

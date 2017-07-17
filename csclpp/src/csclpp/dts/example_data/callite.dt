@@ -14,7 +14,7 @@ dt base
 	s_trinity = //S_Trnty/STORAGE//1MON//, 'taf'
 	s_trinity.level1 = {oct:100.0,  nov:110.0 , feb:20,  mar:30}
 	s_trinity.level2 = {oct:1000.0, nov:1100.0, feb:200, mar:300}
-	s_shasta  = /callite/S_Shsta/STORAGE//1MON//, 'taf'
+	s_shasta  = /callite/S_Shsta/STORAGE//1MON/2020D09E/, 'taf'
 	s_shasta_cfs  = //S_Shsta/STORAGE//1MON//, 'cfs'
 	s_folsom  = //S_Folsm/STORAGE//1MON//	
 	array nod_storage = 0

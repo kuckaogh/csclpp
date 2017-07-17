@@ -466,7 +466,7 @@ PATH : '/'   ID?
        '/'   ID 
        '/'   (ID (LETTER|DIGIT|'_'|'-')* )?
        '//'  (INT ID)?
-       '/'   ID?
+       '/'   (INT ID)?
        '/'  ;
 
 MUL :   '*' ; 
