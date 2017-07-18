@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 
-debugOn = False
+debugOn = True
 cfs2tafd = 0.00198347107438 #86400./43560./1000
 
 
@@ -100,7 +100,8 @@ def evaluateDTS(studyVarTs):
     for s in studyVarTs:
         if not S.studyMap[s].ifsMap: return
         #global _ts
-        es=''
+        es='from __future__ import division\n'
+        es=es+'from __future__ import print_function\n'
         
         #header
         #es=es+'cfs2tafd='+str(cfs2tafd)+'\n'

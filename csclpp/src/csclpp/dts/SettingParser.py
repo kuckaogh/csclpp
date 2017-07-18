@@ -13,35 +13,37 @@ import copy
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
-        buf.write(u"\22[\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write(u"\22_\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write(u"\4\b\t\b\4\t\t\t\3\2\7\2\24\n\2\f\2\16\2\27\13\2\3\2")
         buf.write(u"\6\2\32\n\2\r\2\16\2\33\3\3\3\3\3\3\6\3!\n\3\r\3\16\3")
         buf.write(u"\"\3\3\6\3&\n\3\r\3\16\3\'\3\3\3\3\6\3,\n\3\r\3\16\3")
         buf.write(u"-\3\4\3\4\3\4\3\4\5\4\64\n\4\3\4\6\4\67\n\4\r\4\16\4")
-        buf.write(u"8\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5B\n\5\f\5\16\5E\13\5")
-        buf.write(u"\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\b")
-        buf.write(u"\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\2\2\n\2\4\6\b\n\f\16")
-        buf.write(u"\20\2\2\\\2\25\3\2\2\2\4\35\3\2\2\2\6\63\3\2\2\2\b:\3")
-        buf.write(u"\2\2\2\nF\3\2\2\2\fK\3\2\2\2\16R\3\2\2\2\20V\3\2\2\2")
-        buf.write(u"\22\24\7\21\2\2\23\22\3\2\2\2\24\27\3\2\2\2\25\23\3\2")
-        buf.write(u"\2\2\25\26\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\30\32")
-        buf.write(u"\5\4\3\2\31\30\3\2\2\2\32\33\3\2\2\2\33\31\3\2\2\2\33")
-        buf.write(u"\34\3\2\2\2\34\3\3\2\2\2\35\36\7\t\2\2\36 \7\16\2\2\37")
-        buf.write(u"!\7\21\2\2 \37\3\2\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2")
-        buf.write(u"\2#%\3\2\2\2$&\5\6\4\2%$\3\2\2\2&\'\3\2\2\2\'%\3\2\2")
-        buf.write(u"\2\'(\3\2\2\2()\3\2\2\2)+\7\b\2\2*,\7\21\2\2+*\3\2\2")
-        buf.write(u"\2,-\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\5\3\2\2\2/\64\5\b\5")
-        buf.write(u"\2\60\64\5\n\6\2\61\64\5\16\b\2\62\64\5\20\t\2\63/\3")
-        buf.write(u"\2\2\2\63\60\3\2\2\2\63\61\3\2\2\2\63\62\3\2\2\2\64\66")
-        buf.write(u"\3\2\2\2\65\67\7\21\2\2\66\65\3\2\2\2\678\3\2\2\28\66")
-        buf.write(u"\3\2\2\289\3\2\2\29\7\3\2\2\2:;\7\n\2\2;<\7\3\2\2<=\7")
-        buf.write(u"\7\2\2=C\b\5\1\2>?\7\4\2\2?@\7\7\2\2@B\b\5\1\2A>\3\2")
-        buf.write(u"\2\2BE\3\2\2\2CA\3\2\2\2CD\3\2\2\2D\t\3\2\2\2EC\3\2\2")
-        buf.write(u"\2FG\7\13\2\2GH\7\3\2\2HI\7\7\2\2IJ\b\6\1\2J\13\3\2\2")
-        buf.write(u"\2KL\7\13\2\2LM\7\3\2\2MN\7\16\2\2NO\7\5\2\2OP\7\13\2")
-        buf.write(u"\2PQ\b\7\1\2Q\r\3\2\2\2RS\7\f\2\2ST\7\3\2\2TU\7\7\2\2")
-        buf.write(u"U\17\3\2\2\2VW\7\r\2\2WX\7\3\2\2XY\7\7\2\2Y\21\3\2\2")
-        buf.write(u"\2\n\25\33\"\'-\638C")
+        buf.write(u"8\3\5\3\5\5\5=\n\5\3\5\3\5\3\5\3\5\3\5\7\5D\n\5\f\5\16")
+        buf.write(u"\5G\13\5\3\6\3\6\5\6K\n\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7")
+        buf.write(u"\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\2\2")
+        buf.write(u"\n\2\4\6\b\n\f\16\20\2\2b\2\25\3\2\2\2\4\35\3\2\2\2\6")
+        buf.write(u"\63\3\2\2\2\b:\3\2\2\2\nH\3\2\2\2\fO\3\2\2\2\16V\3\2")
+        buf.write(u"\2\2\20Z\3\2\2\2\22\24\7\21\2\2\23\22\3\2\2\2\24\27\3")
+        buf.write(u"\2\2\2\25\23\3\2\2\2\25\26\3\2\2\2\26\31\3\2\2\2\27\25")
+        buf.write(u"\3\2\2\2\30\32\5\4\3\2\31\30\3\2\2\2\32\33\3\2\2\2\33")
+        buf.write(u"\31\3\2\2\2\33\34\3\2\2\2\34\3\3\2\2\2\35\36\7\t\2\2")
+        buf.write(u"\36 \7\16\2\2\37!\7\21\2\2 \37\3\2\2\2!\"\3\2\2\2\" ")
+        buf.write(u"\3\2\2\2\"#\3\2\2\2#%\3\2\2\2$&\5\6\4\2%$\3\2\2\2&\'")
+        buf.write(u"\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2()\3\2\2\2)+\7\b\2\2*,")
+        buf.write(u"\7\21\2\2+*\3\2\2\2,-\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\5")
+        buf.write(u"\3\2\2\2/\64\5\b\5\2\60\64\5\n\6\2\61\64\5\16\b\2\62")
+        buf.write(u"\64\5\20\t\2\63/\3\2\2\2\63\60\3\2\2\2\63\61\3\2\2\2")
+        buf.write(u"\63\62\3\2\2\2\64\66\3\2\2\2\65\67\7\21\2\2\66\65\3\2")
+        buf.write(u"\2\2\678\3\2\2\28\66\3\2\2\289\3\2\2\29\7\3\2\2\2:<\7")
+        buf.write(u"\n\2\2;=\7\3\2\2<;\3\2\2\2<=\3\2\2\2=>\3\2\2\2>?\7\7")
+        buf.write(u"\2\2?E\b\5\1\2@A\7\4\2\2AB\7\7\2\2BD\b\5\1\2C@\3\2\2")
+        buf.write(u"\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2F\t\3\2\2\2GE\3\2\2\2")
+        buf.write(u"HJ\7\13\2\2IK\7\3\2\2JI\3\2\2\2JK\3\2\2\2KL\3\2\2\2L")
+        buf.write(u"M\7\7\2\2MN\b\6\1\2N\13\3\2\2\2OP\7\13\2\2PQ\7\3\2\2")
+        buf.write(u"QR\7\16\2\2RS\7\5\2\2ST\7\13\2\2TU\b\7\1\2U\r\3\2\2\2")
+        buf.write(u"VW\7\f\2\2WX\7\3\2\2XY\7\7\2\2Y\17\3\2\2\2Z[\7\r\2\2")
+        buf.write(u"[\\\7\3\2\2\\]\7\7\2\2]\21\3\2\2\2\f\25\33\"\'-\638<")
+        buf.write(u"EJ")
         return buf.getvalue()
 
 
@@ -403,21 +405,27 @@ class SettingParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 56
             self.match(SettingParser.DATA)
-            self.state = 57
-            self.match(SettingParser.T__0)
             self.state = 58
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==SettingParser.T__0:
+                self.state = 57
+                self.match(SettingParser.T__0)
+
+
+            self.state = 60
             localctx.s1 = self.match(SettingParser.STRING)
             s1=(None if localctx.s1 is None else localctx.s1.text)[1:-1];self.styobj.data_src.append(str(s1))
-            self.state = 65
+            self.state = 67
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==SettingParser.T__1:
-                self.state = 60
+                self.state = 62
                 self.match(SettingParser.T__1)
-                self.state = 61
+                self.state = 63
                 localctx.s2 = self.match(SettingParser.STRING)
                 s2=(None if localctx.s2 is None else localctx.s2.text)[1:-1];self.styobj.data_src.append(str(s2))
-                self.state = 67
+                self.state = 69
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -458,13 +466,20 @@ class SettingParser ( Parser ):
 
         localctx = SettingParser.VardefContext(self, self._ctx, self.state)
         self.enterRule(localctx, 8, self.RULE_vardef)
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 68
-            self.match(SettingParser.VARDEF)
-            self.state = 69
-            self.match(SettingParser.T__0)
             self.state = 70
+            self.match(SettingParser.VARDEF)
+            self.state = 72
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==SettingParser.T__0:
+                self.state = 71
+                self.match(SettingParser.T__0)
+
+
+            self.state = 74
             localctx.s1 = self.match(SettingParser.STRING)
             s=(None if localctx.s1 is None else localctx.s1.text)[1:-1];self.styobj.varFile=s;
         except RecognitionException as re:
@@ -509,15 +524,15 @@ class SettingParser ( Parser ):
         self.enterRule(localctx, 10, self.RULE_vardef_old)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 73
-            self.match(SettingParser.VARDEF)
-            self.state = 74
-            self.match(SettingParser.T__0)
-            self.state = 75
-            localctx.f = self.match(SettingParser.ID)
-            self.state = 76
-            self.match(SettingParser.T__2)
             self.state = 77
+            self.match(SettingParser.VARDEF)
+            self.state = 78
+            self.match(SettingParser.T__0)
+            self.state = 79
+            localctx.f = self.match(SettingParser.ID)
+            self.state = 80
+            self.match(SettingParser.T__2)
+            self.state = 81
             self.match(SettingParser.VARDEF)
             f=str((None if localctx.f is None else localctx.f.text));self.styobj.varFile=f;
         except RecognitionException as re:
@@ -558,11 +573,11 @@ class SettingParser ( Parser ):
         self.enterRule(localctx, 12, self.RULE_meta)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 80
+            self.state = 84
             self.match(SettingParser.METADATA)
-            self.state = 81
+            self.state = 85
             self.match(SettingParser.T__0)
-            self.state = 82
+            self.state = 86
             self.match(SettingParser.STRING)
         except RecognitionException as re:
             localctx.exception = re
@@ -602,11 +617,11 @@ class SettingParser ( Parser ):
         self.enterRule(localctx, 14, self.RULE_wresl)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 84
+            self.state = 88
             self.match(SettingParser.WRESL)
-            self.state = 85
+            self.state = 89
             self.match(SettingParser.T__0)
-            self.state = 86
+            self.state = 90
             self.match(SettingParser.STRING)
         except RecognitionException as re:
             localctx.exception = re

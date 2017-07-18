@@ -26,11 +26,11 @@ sty
 
 field: (data | vardef | meta | wresl) NL+ ;
 
-data:  DATA '=' s1=STRING {s1=$s1.text[1:-1];self.styobj.data_src.append(str(s1))} 
+data:  DATA '='? s1=STRING {s1=$s1.text[1:-1];self.styobj.data_src.append(str(s1))} 
 (',' s2=STRING {s2=$s2.text[1:-1];self.styobj.data_src.append(str(s2))} )* ;
 
 vardef
-: VARDEF '=' s1=STRING {s=$s1.text[1:-1];self.styobj.varFile=s;} 
+: VARDEF '='? s1=STRING {s=$s1.text[1:-1];self.styobj.varFile=s;} 
 ;
 
 vardef_old

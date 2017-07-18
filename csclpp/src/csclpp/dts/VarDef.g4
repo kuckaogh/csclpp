@@ -464,7 +464,7 @@ T : '@' ;
 
 PATH : '/'   ID?     
        '/'   ID 
-       '/'   (ID (LETTER|DIGIT|'_'|'-')* )?
+       '/'   (LETTER|DIGIT|'_'|'-')* 
        '//'  (INT? ID)?
        '/'   (LETTER|DIGIT|'_'|'-')*
        '/'  ;
