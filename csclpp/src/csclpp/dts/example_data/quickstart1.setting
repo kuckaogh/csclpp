@@ -1,0 +1,9 @@
+
+study calsim2StudyName
+
+	data  './CalSim2_82Yr_Monthly_DVFile.dss' 
+	dt  './quickstart1.dt'
+
+end
+
+

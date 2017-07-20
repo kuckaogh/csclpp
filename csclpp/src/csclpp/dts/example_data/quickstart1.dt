@@ -1,0 +1,15 @@
+use base
+dt base
+	s_trinity = //S1/STORAGE//1MON//
+	s_shasta = //S4/STORAGE//1MON//, 'taf'
+	#convert to taf only if the original unit is cfs
+	s_folsom = //S8/STORAGE//1MON//
+	s_folsom_cfs = //S8/STORAGE//1MON//, 'cfs'
+	#convert to cfs only if the original unit is taf
+	array nod_storage = s_trinity + s_shasta + s_folsom
+	@c1 = //C400/FLOW-CHANNEL//1MON//
+	@c2 = //C157/FLOW-CHANNEL//1MON//
+	@c3 = //C504/FLOW-CHANNEL//1MON//
+	@c4 = //C644/FLOW-CHANNEL//1MON//
+	array Delta_Inflow = c1 + C2 + c3 + c4
+end

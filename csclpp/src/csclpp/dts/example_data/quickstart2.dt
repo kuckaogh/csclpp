@@ -1,0 +1,30 @@
+use release_control
+dt base
+	s_trinity = //S1/STORAGE//1MON//
+	s_shasta = //S4/STORAGE//1MON//
+	s_folsom = //S8/STORAGE//1MON//, 'taf'
+	s_folsom_cfs = //S8/STORAGE//1MON//, 'cfs'
+	#convert to cfs only if the original unit is taf
+	array nod_storage = s_trinity + s_shasta + s_folsom
+	@c1 = //C400/FLOW-CHANNEL//1MON//
+	@c2 = //C157/FLOW-CHANNEL//1MON//
+	@c3 = //C504/FLOW-CHANNEL//1MON//
+	@c4 = //C644/FLOW-CHANNEL//1MON//
+	array Delta_Inflow = c1 + C2 + c3 + c4
+end
+dt release_control
+	include base
+	int array Shasta_Ctrl{min_exports,Flood,keswick_mif,ncp_mif}=0
+	D418 = //D418/FLOW-DELIVERY//1MON//
+	S4LEVEL5DV = //S4LEVEL5DV/STORAGE-LEVEL//1MON//
+	C5_EXC = //C5_EXC/FLOW-EXCESS-INSTREAM//1MON//
+	C129_EXC = //C129_EXC/FLOW-EXCESS-INSTREAM//1MON//
+	if D418-800<0.1 {
+	shasta_ctrl.min_exports = 1 }
+	if s_shasta -S4LEVEL5DV<0.1 {
+	shasta_ctrl.flood=1 }
+	if C5_EXC<0.1 {
+	shasta_ctrl.keswick_mif =1 }
+	if C129_EXC<0.1 {
+	shasta_ctrl.ncp_mif = 1 }
+end
