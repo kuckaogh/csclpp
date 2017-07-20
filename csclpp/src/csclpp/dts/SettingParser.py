@@ -58,7 +58,7 @@ class SettingParser ( Parser ):
     sharedContextCache = PredictionContextCache()
 
     literalNames = [ u"<INVALID>", u"'='", u"','", u"'.'", u"<INVALID>", 
-                     u"<INVALID>", u"'end'", u"'study'", u"'data'", u"'vardef'", 
+                     u"<INVALID>", u"'end'", u"'study'", u"'data'", u"'dt'", 
                      u"'metadata'", u"'wresl'" ]
 
     symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 

@@ -53,7 +53,7 @@ STRING
 END : 'end' ;
 STUDY : 'study' ;
 DATA  : 'data' ;
-VARDEF : 'vardef' ;
+VARDEF : 'dt' ;
 METADATA : 'metadata' ;
 WRESL : 'wresl' ;
 

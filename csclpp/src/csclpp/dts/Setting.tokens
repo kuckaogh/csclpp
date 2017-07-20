@@ -20,6 +20,6 @@ WS=16
 'end'=6
 'study'=7
 'data'=8
-'vardef'=9
+'dt'=9
 'metadata'=10
 'wresl'=11
