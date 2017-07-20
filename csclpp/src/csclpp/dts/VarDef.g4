@@ -103,7 +103,7 @@ self.allVarsGroupList[groupName]=self.allVars;
 }
 :   VARDEF name=ID {groupName=str($name.text).lower();self.vardefName=groupName;} NL+ 
        field+
-       END NL+
+       END NL*
     ;
 
 field
