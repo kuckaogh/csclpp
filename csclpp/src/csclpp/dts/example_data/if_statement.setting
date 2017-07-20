@@ -2,7 +2,7 @@
 study calsim2StudyName
 
 	data  './cs2.dss' 
-	vardef  './calsim2.dt'
+	dt  './calsim2.dt'
 
 end
 

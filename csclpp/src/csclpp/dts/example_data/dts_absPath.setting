@@ -2,7 +2,7 @@
 study	calliteStudyName
 
 	data = 'z:/test/callite2.dss','z:/test/callite1.dss'
-	vardef = 'z:/test/callite.dt'
+	dt = 'z:/test/callite.dt'
 
 end
 
@@ -10,7 +10,7 @@ end
 study calsim2StudyName
 
 	data = 'z:/test/cs2.dss'
-	vardef = 'z:/test/calsim2.dt'
+	dt = 'z:/test/calsim2.dt'
 
 end
 
